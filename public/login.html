@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="ISHA.css">
+   
+  <title>Login Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+
+
+    }
+    
+    .container {
+      width: 300px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    h2 {
+      text-align: center;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+    
+    .signup-link {
+      text-align: center;
+      margin-top: 10px;
+    }
+    
+    .signup-link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  </style>
+  <script>
+     function login() {
+      
+  }
+  </script>
+  
+</head>
+<body>
+      <br><br><br>
+  <div class="container">
+    <h2>Login</h2>
+    <form action="announcements.html">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+      
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      
+        <button type="submit">Login</button>
+      
+    </form>
+    <div class="signup-link">
+      <p>If you don't have an account, <a href="signup.html">sign up here</a>.</p>
+    </div>
+  </div>
+  <script>
+    function login(){
+      window.location.href="details.html";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="ISHA.css">
+    
+  <title>Signup Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+    
+    .container {
+      width: 300px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    h2 {
+      text-align: center;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    
+    
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+    
+    .login-link {
+      text-align: center;
+      margin-top: 10px;
+    }
+    
+    .login-link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+      
+  <div class="container">
+    <br><br><br>
+    <h2>Sign Up</h2>
+    <form action="login.html">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" required> 
+
+      <label for="username">Last Name:</label>
+      <input type="text" id="username" name="username" required>
+
+      
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+
+      <label for="username">Email:</label>
+      <input type="text" id="username" name="username" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+
+      <label for="password">Confirm Password:</label>
+      <input type="password" id="password" name="password" required>
+      <br>
+      <button type="submit">Sign Up</button>
+    </form>
+    <div class="login-link">
+      <p>If you already have an account, <a href="login.html">login here</a>.</p>
+    </div>
+  </div>
+</body>
+</html>
