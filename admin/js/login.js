@@ -13,7 +13,7 @@ loginForm.addEventListener('submit', (e) => {
     });
 
 function sendDataToBackend(formDataObject) {
-    fetch('/api/login', {
+    fetch('/admin/api/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -28,8 +28,11 @@ function sendDataToBackend(formDataObject) {
             alert("Success Fully Logged In! ");
             console.log(responseData);
             sessionStorage.setItem('token', responseData.token);
-            sessionStorage.setItem('email', responseData.email);
-          //  window.location.href="announcements.html";
+            sessionStorage.setItem('username', responseData.username);
+            window.location.href="announcements.html";
+        }else{
+            console.log(responseData)
+            responseData.msg ? alert(responseData.msg) : alert(responseData.error);
         }
     })
     .catch(error => {

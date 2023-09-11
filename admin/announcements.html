@@ -30,24 +30,26 @@
 
     .announcement-item {
       margin-bottom: 30px;
-      padding: 25px;
+      padding-bottom: 25px;
       border-bottom: 1px solid #e9ecef;
     }
-
+    .announcement-content, .announcement-date , .announcement-buttons{
+      margin: 0 20px;
+    }
     .announcement-content h3 {
       margin-bottom: 10px;
+      font-size: 20px;
     }
 
     .announcement-content p {
       margin-bottom: 0;
-      font-size: 17px;
     }
 
     .announcement-date {
       text-align: right;
       margin-top: 10px;
       font-size: 14px;
-      color: #202020;
+      color: #888;
     }
 
     /* Custom buttons */
@@ -77,13 +79,91 @@
       -o-transition: all .5s ease 0s;
       transition: all .5s ease 0s;
     }
-    .heading{
-      display: flex;
-      text-align: center;
-      justify-content: center;
-      margin-top: 1rem;
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
     }
+
+    .popup-content {
+      background-color: white;
+      width: 80%;
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      position: relative;
+    }
+    .editpopup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    .editpopup-content {
+      background-color: white;
+      width: 80%;
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      position: relative;
+    }
+
+    .editclose {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 25px;
+      cursor: pointer;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 25px;
+      cursor: pointer;
+    }
+    #announcementTitle,
+    #announcementMessage,
+    #announcementDate {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
   </style>
+  <script src="js/auth.js"></script>
+  <script src="js/logout.js"></script>
 </head>
 
 <body>
@@ -108,7 +188,9 @@
                 <li><a href="#"><i class="fa fa-instagram"></i></a></li>
                 <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
               </ul>
+              
             </div>
+            
           </div>
         </div>
       </div>
@@ -120,18 +202,11 @@
             <!-- ***** Menu Start ***** -->
             <ul class="nav">
               <li class="scroll-to-section"><a href="index.html">Home</a></li>
-              <li><a href="announcements.html" class="active">Announcements</a></li>
               <li class="scroll-to-section"><a href="details.html">Horse/Rider Info</a></li>
               <li class="scroll-to-section"><a href="map.html">Maps</a></li>
-              <!--<li class="has-sub">
-                <a href="javascript:void(0)">Menu</a>
-                <ul class="sub-menu">
-                  <li><a href="login.html">Login</a></li>
-                  <li><a href="Signup.html">Sign up</a></li>
-                </ul>
-              </li>-->
               <li class="scroll-to-section"><a href="contact.html">Contact Us</a></li>
               <li class="scroll-to-section"><a href="gallery.html">Gallery</a></li>
+              <button id="logout" type="button" onclick="logout()" class="btn btn-primary">Logout</button>
             </ul>
             <a class='menu-trigger'>
               <span>Menu</span>
@@ -143,7 +218,7 @@
     </div>
   </header>
   <!-- ***** Header Area End ***** -->
-<div class="container heading">
+<div class="container">
   <div class="row">
     <div class="col-lg-12">
       <div class="section-heading">
@@ -152,7 +227,7 @@
     </div>
   </div>
 </div>
-     <!--<div class="container">
+      <div class="container">
         <div class="row">
           <div class="col-lg-12">
             <div class="text-center mt-4">
@@ -160,26 +235,26 @@
             </div>
           </div>
         </div>
-      </div>-->
-      <!-- Announcement Item 1 -->
-      <div class="row announcement-item">
-        <div class="col-lg-8">
-          <div class="announcement-content">
-            <h3>Announcement Title</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed ullamcorper dolor, non varius mauris.
-              Quisque a malesuada lectus. Curabitur eget massa fringilla, lacinia risus eget, suscipit lacus.</p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="announcement-date">May 24, 2023</div>
-          <!--<div class="announcement-buttons">
-            <button class="btn btn-primary">Edit Announcement</button>
-            <button class="btn btn-danger">Delete Announcement</button>
-          </div>-->
-        </div>
       </div>
+      <div id="announcementPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" id="closePopup">&times;</span>
+            <h5>Add Announcement</h5>
+            <form id="announcementForm">
+                <label for="announcementTitle">Title:</label>
+                <input type="text"  id="announcementTitle" required>
+                <label for="announcementMessage">Message:</label>
+                <textarea id="announcementMessage" value="" required></textarea>                 
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+    <div id="editAnnouncement"></div>
+      <!-- Announcement Item 1 -->
+      <div id="announcements"></div>
+      
 
-      <!-- Announcement Item 2 -->
+      <!-- Announcement Item 2 
       <div class="row announcement-item">
         <div class="col-lg-8">
           <div class="announcement-content">
@@ -190,12 +265,12 @@
         </div>
         <div class="col-lg-4">
           <div class="announcement-date">May 23, 2023</div>
-          <!--<div class="announcement-buttons">
+          <div class="announcement-buttons">
             <button class="btn btn-primary">Edit Announcement</button>
             <button class="btn btn-danger">Delete Announcement</button>
-          </div>-->
+          </div>
         </div>
-      </div>
+      </div>-->
     </div>
   </section>
   <!-- ***** Announcements Section End ***** -->
@@ -208,6 +283,10 @@
   <script src="assets/js/animation.js"></script>
   <script src="assets/js/imagesloaded.js"></script>
   <script src="assets/js/templatemo-custom.js"></script>
+
+  <!-- CUSTOM ANNOUNCEMENTS -->
+  <script src="js/announcements.js"></script>
+  
 </body>
 
 </html>

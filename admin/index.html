@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Login Form</title>
+  <!---Custom CSS File--->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="bg"></div>
+  <div class="container">
+  <div class="login form">
+    <header style="color: #fff; font-weight: bolder; font-size: larger; font-size: 25px;">LOGIN</header>
+    
+    <!--<form id="loginForm">
+      <input type="text" placeholder="Enter your Username">
+      <input type="password" placeholder="Enter your password">
+      <a href="#" style="color: #fff;">Forgot password?</a>
+      <button type="submit">Login</button>
+    </form>-->
+    <form id="loginForm">
+      <label for="userName"></label>
+      <input type="text" id="userName" name="userName" placeholder="Enter your Username" required>
+      
+      <label for="password"></label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required>
+      
+        <button type="submit">Login</button>
+      
+    </form>
+    <div class="signup">
+      <span class="signup" style="color: #fff;" >Don't have an account?
+      <a onmouseover="this.style.color='#fff';" onmouseout="this.style.color='#009579';" href="signup.html">Signup</a>
+      </span>
+    </div>
+  </div>
+</div>
+  <script src="js/login.js"></script>
+</body>
+</html>

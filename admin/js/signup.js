@@ -17,7 +17,7 @@ signupForm.addEventListener('submit', (e) => {
 
 function sendDataToBackend(formDataObject) {
     console.log(formDataObject);
-    fetch('/api/signup', {
+    fetch('/admin/api/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -28,9 +28,12 @@ function sendDataToBackend(formDataObject) {
     .then(responseData => {
        // console.log('Response from the backend:', responseData);
         // Handle the response from the backend here (if needed)
-        if(responseData.msg){
+        if(responseData.message){
             alert("Success Fully Registered! ");
             console.log(responseData.msg)
+        } else{
+            responseData.errorMessage ? alert(responseData.errorMessage) : alert("Error while Signup");
+            window.location.href="index.html";
         }
     })
     .catch(error => {
@@ -80,8 +83,6 @@ function verifyPassword(password1,password2) {
         document.getElementById("message").innerHTML = "Password must be 6-16 Characters Long.";
         return false
     }
-
-
     return true
    
   }  
