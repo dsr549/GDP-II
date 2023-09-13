@@ -1,4 +1,4 @@
-;const express = require("express");
+const express = require("express");
 const cors = require("cors");
 const router = require("./src/router/routes.js");
 const vhost = require('vhost');

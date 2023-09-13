@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', async function () {
           <div class="announcement-date"> ${monthNames[data.date.substr(5,2)-1]} ${data.date.substr(8,2)}, ${data.date.substr(0,4)}</div>
           <div class="announcement-buttons">
             <button class="btn btn-primary" onclick="editData('${index}')">Edit Announcement</button>
-            <button class="btn btn-danger" onclick="window.location.href='/admin/api/delete?id=${index}'">Delete Announcement</button>
+            <button class="btn btn-danger" onclick="deleteData('${index}')">Delete Announcement</button>
           </div>
         </div>
       </div>`;
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             if(responseData.message){
                 alert("Announcement added!");
                 console.log(responseData);
-
+                location.reload();
             }else{
                 console.log(responseData)
                 responseData.errorMessage ?  alert(responseData.errorMessage) : alert("Something gone wrong :) ");
@@ -134,5 +134,20 @@ async function editData(index){
     editclosePopup.addEventListener('click', function () {
         editannouncementPopup.style.display = 'none';
     });
+    }
+}
+
+
+async function deleteData(index){
+    console.log(index);
+    const result = await fetch(`/admin/api/delete?id=${index}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json'
+        } 
+    }).then((res) => res.json())
+    console.log(result);
+    if(result.message){
+        location.reload();
     }
 }
