@@ -14,5 +14,7 @@ router.get("/test", (req,res) => {
 router.post("/signup", controller.signUp);
 router.post("/login", controller.login);
 router.post("/addAnnouncements", controller.addAnnouncements);
+router.post("/saveAnnouncement",controller.saveAnnouncement);
+router.post("/")
 
 module.exports = router;

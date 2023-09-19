@@ -117,12 +117,12 @@ async function editData(index){
         <div class="editpopup-content">
             <span class="editclose" id="editclosePopup">&times;</span>
             <h5>Edit Announcement</h5>
-            <form id="announcementForm">
+            <form id="editAnnouncementForm">
                 <label for="announcementTitle">Title:</label>
-                <input type="text" id="announcementTitle" value="${result.idAnnouncement.title}" required>
+                <input type="text" id="editannouncementTitle" value="${result.idAnnouncement.title}" required>
                 <label for="announcementMessage">Message:</label>
-                <textarea id="announcementMessage"  required>${result.idAnnouncement.message}</textarea>              
-                <input type="submit" value="Submit">
+                <textarea id="editannouncementMessage"  required>${result.idAnnouncement.message}</textarea>              
+                <input type="submit" value="Save">
             </form>
         </div>
     </div>`;
@@ -134,6 +134,50 @@ async function editData(index){
     editclosePopup.addEventListener('click', function () {
         editannouncementPopup.style.display = 'none';
     });
+
+    document.getElementById('editAnnouncementForm').addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        const title = editannouncementTitle.value;
+        const message = editannouncementMessage.value;
+        const currentDate = new Date();
+        const formattedDate = currentDate.toISOString().toString().substring(0,10);
+        const username = sessionStorage.getItem("username");
+
+        console.log('previousTitle:',  result.idAnnouncement.title);
+        console.log('Message:', message);
+        console.log('Date:', formattedDate);
+        console.log("username: ", username);
+
+        const saveResult = await fetch('/admin/api/saveAnnouncement', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                previousTitle : result.idAnnouncement.title,
+                title: title,
+                message: message,
+                date: formattedDate,
+                username: username
+            }),
+        })
+        .then(response => response.json())
+        .then(responseData => {
+     
+            if(responseData.message){
+                alert("Announcement added!");
+                console.log(responseData);
+                location.reload();
+            }else{
+                console.log(responseData)
+                responseData.errorMessage ?  alert(responseData.errorMessage) : alert("Something gone wrong :) ");
+            }
+        })
+        .catch(error => {
+            console.error('Error sending data to the backend:', error);
+            // Handle errors here (if needed)
+        });
+    })
     }
 }
 

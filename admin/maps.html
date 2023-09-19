@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>IHSA MAPS</title>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIWbUh6hK1P_ARYXLVwqm2B_IOeACS8is&libraries=geometry"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300&display=swap');
+
+        .nav {
+            height: 7vh;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav li {
+            list-style-type: none;
+            padding: 0px 14px;
+        }
+
+        .list-group {
+            display: flex;
+            align-items: center;
+        }
+
+        #map {
+            height: 93vh;
+            width: 60%;
+            position: relative;
+
+        }
+
+        .sub-form {
+            width: 40%;
+            background-color: rgb(229, 226, 208);
+        }
+
+        .inputs {
+            position: absolute;
+            top: 7vh;
+            left: 45%;
+
+        }
+
+
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-size: 10.5px;
+            font-family: 'Montserrat', sans-serif;
+
+        }
+
+        .parent {
+            display: flex;
+            position: relative;
+        }
+
+        .form-container {
+            display: flex;
+            flex-wrap: wrap;
+            column-gap: 38px;
+            row-gap: 20px;
+            margin-left: 25px;
+            justify-content: start;
+            padding: 40px 0px;
+
+        }
+
+        .form-item {
+            flex: 1 7 calc(50% - 20px);
+            display: flex;
+        }
+
+        label {
+            display: block;
+
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        input[type="checkbox"] {
+
+
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .first-table {
+            border: 1px solid black;
+            background-color: rgb(167, 167, 134);
+        }
+
+
+        .first-table td {
+            padding: 20px 30px;
+            width: 100%;
+            border-right: 1px solid black;
+        }
+
+        .first-table td:last-child {
+            border-right: 1px solid transparent;
+
+        }
+
+        #json-table thead th {
+            width: 100%;
+            padding: 20px 30px;
+            background-color: aliceblue;
+        }
+
+        .myresult {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            background-color: gray;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav">
+
+
+        <div class="list-group">
+            <li>Home</li>
+            <li>Map</li>
+            <li>Announcement</li>
+        </div>
+
+        <div class="list-group">
+            <li>Menu</li>
+
+        </div>
+
+    </div>
+    <div class="parent">
+        <div id="map"></div>
+        <div class="sub-form">
+            <div class="form-container">
+                <div class="form-item">
+                    <label for="school-name">School Name</label>
+                    <input type="text" id="school-name" name="school-name" placeholder="Saint Mary-of-the-Wood">
+                </div>
+
+                <div class="form-item">
+                    <label for="anchor-school">Is Anchor School</label>
+                    <input type="checkbox" id="anchor-school" name="anchor-school">
+                </div>
+                <div class="form-item">
+                    <label for="number-input">Number of riders</label>
+                    <input type="number" id="number-input" name="number-input">
+                </div>
+                <div class="form-item">
+                    <label for="region">Region</label>
+                    <select id="regionone" name="region">
+                        <option value="1"> 1</option>
+                        <option value="2"> 2</option>
+                        <option value="3"> 3</option>
+                        <option value="4"> 4</option>
+                        <option value="5"> 5</option>
+                    </select>
+                </div>
+
+
+            </div>
+            <table class="first-table">
+                <tr>
+                    <td>
+                        <div class="form-item">
+                            <label for="region">Region</label>
+                            <select id="region" name="region">
+                                <option value="1" selected>1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td>oihioh</td>
+                    <td>efewfewf</td>
+                    <td>efewfwe</td>
+                    <td>ewgewgdf</td>
+                </tr>
+            </table>
+            <table id="json-table">
+                <thead>
+                    <tr>
+                        <th>School </th>
+                        <th>Riders</th>
+                        <th>Anchoor School</th>
+                        <th>Average Distance</th>
+                        <th>Maxiumum Distance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="myresult">
+            <p id="result"></p>
+        </div>
+    </div>
+
+
+    <div class="inputs">
+
+        <input type="text" id="location1" placeholder="loc 1">
+        <br>
+        <input type="text" id="location2" placeholder="loc 2">
+        <br>
+        <button onclick="calculateDistanceAndRoute()">Calculate Distance and Route</button>
+
+    </div>
+
+
+    <script>
+        var map;
+        var directionsService;
+        var directionsRenderer;
+        var lexington = { lat: 38.0406, lng: -84.5037 };
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: lexington,
+                zoom: 5
+            });
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer();
+            directionsRenderer.setMap(map);
+
+
+            addCustomMarker(40.2022, -85.4089, 'Ball State University', "./images/green.png");
+            addCustomMarker(39.4829, -88.1748, 'Eastern Illinois University', "./images/red.png");
+            addCustomMarker(39.1653, -86.5234, 'Indiana University', "./images/pink.png");
+
+
+
+        }
+
+
+
+
+        function addCustomMarker(lat, lng, title, iconUrl) {
+            var customMarkerIcon = iconUrl;
+            var marker = new google.maps.Marker({
+                position: { lat: lat, lng: lng },
+                map: map,
+                title: title,
+                icon: customMarkerIcon
+            });
+
+            marker.addListener('click', function () {
+                handleMarkerClick(marker);
+            });
+
+
+
+
+
+
+
+
+
+        }
+
+
+
+        function handleMarkerClick(marker) {
+            var firstLocation = marker.getPosition();
+            var firstTitle = marker.getTitle()
+            var secondLocation = { lat: 39.1653, lng: -86.5234 };
+            var secondTitle = "Indiana University"
+            var request = {
+                origin: firstLocation,
+                destination: secondLocation,
+                travelMode: 'DRIVING'
+            };
+
+
+            if (firstTitle !== secondTitle) {
+                directionsService.route(request, function (response, status) {
+                    if (status === 'OK') {
+                        directionsRenderer.setDirections(response);
+
+                        var distanceInMeters = response.routes[0].legs[0].distance.value;
+                        var distanceInKilometers = (distanceInMeters / 1000).toFixed(2);
+
+                        document.getElementById("result").textContent = "Distance from " + marker.getTitle() + " to Indiana University: " + distanceInKilometers + " km";
+                    } else {
+                        alert("Directions request failed: " + status);
+                    }
+                });
+            }
+
+        }
+
+
+        function calculateDistanceAndRoute() {
+            const location1 = document.getElementById("location1").value;
+            const location2 = document.getElementById("location2").value;
+
+            if (!location1 || !location2) {
+                alert("Please enter both locations.");
+                return;
+            }
+
+            const geocoder = new google.maps.Geocoder();
+
+            geocoder.geocode({ address: location1 }, function (results1, status1) {
+                if (status1 === "OK") {
+                    const latLng1 = results1[0].geometry.location;
+
+                    geocoder.geocode({ address: location2 }, function (results2, status2) {
+                        if (status2 === "OK") {
+                            const latLng2 = results2[0].geometry.location;
+
+                            const request = {
+                                origin: latLng1,
+                                destination: latLng2,
+                                travelMode: 'DRIVING'
+                            };
+
+                            directionsService.route(request, function (response, status) {
+                                if (status === 'OK') {
+                                    const distanceInMeters = response.routes[0].legs[0].distance.value;
+                                    const distanceInKilometers = (distanceInMeters / 1000).toFixed(2);
+                                    document.getElementById("result").textContent = "Distance: " + distanceInKilometers + " km";
+                                    directionsRenderer.setDirections(response);
+                                } else {
+                                    alert("Directions request failed: " + status);
+                                }
+                            });
+
+                            map.setCenter(latLng1);
+                        } else {
+                            alert("Location 2 not found: " + status2);
+                        }
+                    });
+                } else {
+                    alert("Location 1 not found: " + status1);
+                }
+            });
+        }
+
+
+        const jsonData = {
+            1: [
+                { key: " nam1", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+                { key: " nam1", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+                { key: " nam1", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+            ],
+            2: [
+                { key: "nam 2", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+                { key: "nam 2", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+                { key: "nam 2", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+            ],
+            3: [
+                { key: "nam 3", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+                { key: "nam 3", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+                { key: "nam 3", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+            ],
+            4: [
+                { key: "name 4", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+                { key: "name 4", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+                { key: "name 4", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+            ],
+            5: [
+                { key: "name 5", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+                { key: "name 5", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+                { key: "name 5", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+            ],
+
+        };
+
+        const regionSelect = document.getElementById("region");
+        const jsonTable = document.getElementById("json-table");
+
+        function populateJsonTable(selectedRegion) {
+            const jsonRegionData = jsonData[selectedRegion];
+
+            if (jsonRegionData) {
+                jsonTable.querySelector("tbody").innerHTML = "";
+
+                jsonRegionData.forEach((item) => {
+                    const row = document.createElement("tr");
+                    row.style.backgroundColor = "gray";
+                    const keyCell = document.createElement("td");
+                    keyCell.style.padding = "10px 3px"
+                    keyCell.textContent = item.key;
+                    keyCell.style.textAlign = "center";
+                    const valueCell = document.createElement("td");
+                    valueCell.textContent = item.value;
+                    valueCell.style.textAlign = "center";
+                    const valuenew = document.createElement("td");
+                    valuenew.style.textAlign = "center";
+
+                    valuenew.textContent = item.range;
+                    const valuenew1 = document.createElement("td");
+                    valuenew1.textContent = item.type;
+                    valuenew1.style.textAlign = "center";
+                    valuenew1.style.border = "1px solid gray";
+
+                    const valuenew2 = document.createElement("td");
+                    valuenew2.textContent = item.type;
+                    valuenew2.textContent = item.speed;
+                    row.appendChild(keyCell);
+                    row.appendChild(valueCell);
+                    row.appendChild(valuenew);
+                    row.appendChild(valuenew1);
+                    row.appendChild(valuenew2);
+                    jsonTable.querySelector("tbody").appendChild(row);
+                });
+
+                jsonTable.style.display = "table";
+            } else {
+                jsonTable.style.display = "none";
+            }
+        }
+
+        populateJsonTable("1");
+
+        regionSelect.addEventListener("change", () => {
+            const selectedRegion = regionSelect.value;
+            populateJsonTable(selectedRegion);
+        });
+
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIWbUh6hK1P_ARYXLVwqm2B_IOeACS8is&libraries=geometry&callback=initMap">
+        </script>
+</body>
+
+</html>

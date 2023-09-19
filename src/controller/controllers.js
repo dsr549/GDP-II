@@ -147,11 +147,31 @@ const deleteAnnouncement = async (req,res) => {
   }
 }
 
+const saveAnnouncement = async (req,res) =>{
+
+  const { title,message,username,date, previousTitle} = req.body;
+  try{
+    if(previousTitle){
+
+    const query = `UPDATE announcements SET title = \'${title}\', message = \'${message}\', date = \'${date}\' WHERE username = \'${username}\' AND title = \'${previousTitle}\';`
+    const result = await pool.execute(query);
+    console.log(result);
+    res.status(201).json({message : "Edited Successfully"});
+  } else {
+    res.status(201).json({message : "No previous title"});
+  }
+  } catch(err){
+    console.log(err);
+    res.status(500).json({ errorMessage: err });
+  }
+  
+}
 module.exports = {
   login,
   signUp,
   addAnnouncements,
   fetchAnnouncements,
   editAnnouncement,
-  deleteAnnouncement
+  deleteAnnouncement,
+  saveAnnouncement
 };

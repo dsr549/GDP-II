@@ -144,38 +144,70 @@
     background: blue;
     margin-right: 10px;
   }
+   /* footer */
+   .footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        height: 150px;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .footer .social a{
+
+        margin-right: 20px;
+        color: #4CBB17;
+    }
+
+    .footer .social a:hover{
+        color: #fff;
+        background-image: linear-gradient(45deg, #32be8f 0%, #38d39f 510%, #32be8f 100%);
+    }
   </style>
 
+<script src="https://kit.fontawesome.com/f52c3b31f3.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
+  <!-- Sub Header -->
 
-  <header class="announcement-header-area">
-    <div class="sub-header">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-sm-8">
-            <div class="left-content">
-            </div>
+
+ <!-- ***** Header Area Start ***** -->
+ <header class="announcement-header-area" style="background-color: #444; height: 150px;">
+  <!--<div class="sub-header">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-sm-8">
+          <div class="left-content">
           </div>
-          <div class="col-lg-4 col-sm-4">
-            <div class="right-icons">
-              <ul>
-                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-              </ul>
-            </div>
+        </div>
+        <div class="col-lg-4 col-sm-4">
+          <div class="right-icons">
+            <ul>
+              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+              <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+            </ul>
+            
           </div>
+          
         </div>
       </div>
     </div>
+  </div>-->
     <div class="container">
       <div class="row">
         <div class="col-12">
           <nav class="main-nav">
+            <a href="index.html" class="logo">
+              InterCollegiate Horse Shows Association
+            </a>
            <!-- ***** Menu Start ***** -->
            <ul class="nav">
             <li class="scroll-to-section"><a href="index.html" >Home</a></li>
@@ -422,7 +454,7 @@
           {
             featureType: "road",
             elementType: "geometry",
-            stylers: [{ visibility: "off" }] // Turn off road visibility
+            stylers: [{ visibility: "on" }] // Turn off road visibility
           },
           {
             featureType: "landscape",
@@ -432,7 +464,7 @@
           {
             featureType: "poi",
             elementType: "labels",
-            stylers: [{ visibility: "off" }] // Turn off points of interest (POI) labels
+            stylers: [{ visibility: "on" }] // Turn off points of interest (POI) labels
           },
           {
             featureType: "transit",
@@ -763,7 +795,15 @@
   
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJXp97wm3VGOlHVqZSTzN2XoccrIe0ZHU&callback=sample"></script>
   
-
+      <footer class="footer bg-dark" id="footer" style="bottom: 0 !important; background:#444;">
+        <div class="social">
+          <a href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook fa-2x"></i></a>
+              <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter fa-2x"></i></a>
+              <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube fa-2x"></i></a>
+              <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a>
+        </div>
+        <p>copyright &copy 2023 - IHSA</p>
+    </footer>
 </body>
 
 </html>
