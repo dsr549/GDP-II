@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 title: title,
                 message: message,
                 date: formattedDate,
-                userName: username
+                userName: username,
             }),
         })
         .then(response => response.json())

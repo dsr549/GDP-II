@@ -7,6 +7,7 @@ const controller = require("../controller/controllers");
 router.get("/fetchAnnouncements", controller.fetchAnnouncements);
 router.get("/edit", controller.editAnnouncement);
 router.get("/delete", controller.deleteAnnouncement);
+router.get("/getData", controller.getData);
 router.get("/test", (req,res) => {
     res.status(200).json({message : "Success"});
 })
@@ -15,6 +16,6 @@ router.post("/signup", controller.signUp);
 router.post("/login", controller.login);
 router.post("/addAnnouncements", controller.addAnnouncements);
 router.post("/saveAnnouncement",controller.saveAnnouncement);
-router.post("/")
-
+router.post("/adddata", controller.addData);
+router.post("/saveRandomizer", controller.saveCombination)
 module.exports = router;

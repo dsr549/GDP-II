@@ -153,7 +153,7 @@ const saveAnnouncement = async (req,res) =>{
   try{
     if(previousTitle){
 
-    const query = `UPDATE announcements SET title = \'${title}\', message = \'${message}\', date = \'${date}\' WHERE username = \'${username}\' AND title = \'${previousTitle}\';`
+    const query = `UPDATE announcements SET title = \'${title}\', message = \'${message}\', date = \'${date}\' WHERE date = \'${date}\' AND title = \'${previousTitle}\';`
     const result = await pool.execute(query);
     console.log(result);
     res.status(201).json({message : "Edited Successfully"});
@@ -166,6 +166,54 @@ const saveAnnouncement = async (req,res) =>{
   }
   
 }
+
+const addData = async (req,res) => {
+  const { classname,riderid,ridername,school,horsename,provider } = req.body;
+  try{
+    if(classname && riderid,ridername && school && horsename && provider){
+
+    const query = `INSERT INTO data (classname,riderid,ridername,school,horsename,provider) VALUES (?,?,?,?,?,?);`;
+    const result = await pool.execute(query, [classname,riderid,ridername,school,horsename,provider]);
+    console.log(result);
+    res.status(201).json({message : "Added Successfully"});
+  } else {
+    res.status(201).json({error : "Error Adding Data to database"});
+  }
+  } catch(err){
+    console.log(err);
+    res.status(500).json({ errorMessage: err });
+  }
+}
+
+const getData = async (req,res) => {
+  try{
+    const query = `SELECT * FROM data`;
+    const list = await pool.execute(query);
+    if(list[0].length ===0 ){
+      res.status(404).json({errorMessage : "No Data to show"});
+    } else {
+      res.status(201).json({list:list[0]});
+    }
+  }  catch(err){
+    console.log(err);
+    res.status(500).json({ errorMessage: err });
+  }
+}
+
+const saveCombination = async (req,res) => {
+  try{
+    const { classname, horses,riders } = req.body;
+    const query = `INSERT INTO randomizer(classname,riderName,horsename) VALUES(?,?,?);`;
+    const leng = horses.length
+    for(let i=0; i< leng;i++){
+      let list = await pool.execute(query,[classname,riders[i],horses[i]]);
+    }
+    res.status(200).json({success: "Uploaded Successfully"});
+  } catch (err){
+    console.log(err);
+    res.status(500).json({ errorMessage: err });
+  }
+}
 module.exports = {
   login,
   signUp,
@@ -173,5 +221,8 @@ module.exports = {
   fetchAnnouncements,
   editAnnouncement,
   deleteAnnouncement,
-  saveAnnouncement
+  saveAnnouncement,
+  addData,
+  getData,
+  saveCombination
 };

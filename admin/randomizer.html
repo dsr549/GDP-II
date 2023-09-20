@@ -79,23 +79,6 @@
       transition: all .5s ease 0s;
     }
 
-    /* Custom styling for table */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    th,
-    td {
-      padding: 8px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-
-    th {
-      background-color: #f2f2f2;
-    }
  
  /* footer */
  .footer {
@@ -119,6 +102,100 @@
 .footer .social a:hover{
  color: #fff;
  background-image: linear-gradient(45deg, #32be8f 0%, #38d39f 510%, #32be8f 100%);
+}
+.horse-list,
+      .rider-list {
+        padding: 20px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        margin: 50px;
+        flex: 1;
+        width: 300px;
+      }
+
+      .horse-list ul,
+      .rider-list ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .btn-container {
+        text-align: center;
+        margin-bottom: 20px;
+        flex: 2;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #4CBA17;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      .btn:hover {
+        background-color: #4CBB17;
+      }
+
+      .random-combinations {
+        font-weight: bold;
+        width: 100%;
+        margin-top: 20px;
+      }
+
+      table {
+        width: 100%;
+        max-width: 200px;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+.content {
+      flex: 1;
+      padding-bottom: 50px; /* Adjust the padding to leave space for the footer */
+      margin-top: 220px; /* Create space for the dropdown */ /* Create space for the dropdown */
+    }
+      .dropdown {
+      left: 20px;
+      background-color: #f0f0f0;
+      border-right: 1px solid #ddd;
+      margin-top: 40px;
+      margin-bottom: 40px;
+      padding: 10px;
+      width: 250px;
+    }
+    .opposite{
+        display: flex;
+        justify-content: center;
+    }
+/* Add these styles to your CSS file */
+
+.flex-container {
+  display: flex;
+  justify-content: space-between; /* To evenly space the three elements */
+  align-items: center; /* To vertically align the content */
+  flex-wrap: wrap; /* Allow wrapping to a new line if the content overflows */
+}
+
+/* Adjust the width of the individual elements as needed */
+.horse-list,
+.btn-container,
+.rider-list {
+  flex: 1; /* Each element takes an equal portion of available space */
+  max-width: calc(33.33% - 10px); /* Adjust the width to your preference, subtracting some margin */
+  margin: 5px; /* Add some margin between the elements */
 }
 
 </style>
@@ -164,20 +241,14 @@
               InterCollegiate Horse Shows Association
             </a>
             <!-- ***** Menu Start ***** -->
-            <ul class="nav">
-              <li class="scroll-to-section"><a href="index.html">Home</a></li>
-              <li><a href="announcements.html" >Announcements</a></li>
-              <li class="scroll-to-section"><a href="details.html">Horse/Rider Info</a></li>
-              <li class="scroll-to-section"><a href="map.html">Maps</a></li>
-              <!--<li class="has-sub">
-                <a href="javascript:void(0)">Menu</a>
-                <ul class="sub-menu">
-                  <li><a href="login.html">Login</a></li>
-                  <li><a href="Signup.html">Sign up</a></li>
-                </ul>
-              </li>-->
-              <li class="scroll-to-section"><a href="contact.html">Contact Us</a></li>
-              <li class="scroll-to-section"><a href="gallery.html" class="active">Gallery</a></li>
+            <ul class="nav" style="margin-top: 40px !important;">
+              <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
+              <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
+              <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
+              <li class="scroll-to-section"><a href="maps.html">Maps</a></li>
+              <li class="scroll-to-section"><a href="contactuspage.html">Contact Us</a></li>
+              <li class="scroll-to-section"><a href="gallerypage.html">Gallery</a></li>
+              <button id="logout" style="margin-right: 0px !important; background-color: #0b5ed7 !important; margin-left: 60px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
             </ul>
             <a class='menu-trigger'>
               <span>Menu</span>
@@ -193,14 +264,51 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="section-heading">
-          <h2>Images Gallery</h2>
+          <h2>Randomizer</h2>
         </div>
       </div>
     </div>
   </div>
 
-  
-  <footer class="footer bg-dark" id="footer" style="bottom: 0 !important; background:#444;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="flex-container">
+        <div class="dropdown">
+            <h5>Class Selection</h5>
+            <select id="classSelection" class="form-control" onchange="updateRandomizer()">
+                <option hidden selected>Selct a  Class</option>
+            </select>
+          </div>
+          <div class="btn-container">
+            <button class="btn" onclick="generateRandomCombinations()">
+              Generate Random Combinations
+            </button>
+          </div></div>
+</div>
+</div>
+</div>
+
+<div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="flex-container">
+          <div class="horse-list">
+            <h5>Horse Names</h5>
+            <ul id="horseNames"></ul>
+          </div>
+          
+          <div class="rider-list">
+            <h5>Rider Names</h5>
+            <ul id="riderNames"></ul>
+          </div>
+        </div>
+        <button style="margin-left: 45%;" class="btn" id="combinations" onclick="saveCombinations()">Save Generated</button>
+      </div>
+      
+    </div>
+  </div>
+  <footer class="footer bg-dark" id="footer" style="margin-top: 300px; bottom: 0 !important; background:#444;">
     <div class="social">
       <a href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook fa-2x"></i></a>
           <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter fa-2x"></i></a>
@@ -209,6 +317,7 @@
     </div>
     <p>copyright &copy 2023 - IHSA</p>
 </footer>
+<script src="js/randomizer.js"></script>
 </body>
 
 </html>

@@ -203,59 +203,14 @@
         <div class="table-responsive">
           <table>
             <tr>
-              <th>Placing</th>
-              <th>Order</th>
+              <th>Class</th>
               <th>Rider ID</th>
               <th>Rider Name</th>
               <th>Rider School</th>
               <th>Horse Name</th>
               <th>Horse Provider</th>
             </tr>
-            <tr>
-              <td>-</td>
-              <td>1</td>
-              <td>760</td>
-              <td>Josie Spratt</td>
-              <td>Black Hawk College</td>
-              <td>Rey</td>
-              <td>UWP</td>
-            </tr>
-            <tr>
-              <td>-</td>
-              <td>2</td>
-              <td>763</td>
-              <td>Anna Wilhelm</td>
-              <td>Black Hawk College</td>
-              <td>Sierra</td>
-              <td>BHC</td>
-            </tr>
-            <tr>
-              <td>-</td>
-              <td>3</td>
-              <td>279</td>
-              <td>Brayden Gruben</td>
-              <td>Missouri State University</td>
-              <td>Henry</td>
-              <td>BHC</td>
-            </tr>
-            <tr>
-              <td>-</td>
-              <td>4</td>
-              <td>795</td>
-              <td>Morgan DeBuhr</td>
-              <td>Iowa State University</td>
-              <td>Sierra</td>
-              <td>BHC</td>
-            </tr>
-            <tr>
-              <td>-</td>
-              <td>5</td>
-              <td>754</td>
-              <td>Lily Zomparelli</td>
-              <td>Black Hawk College</td>
-              <td>Henry</td>
-              <td>BHC</td>
-            </tr>
+            <tbody id="tabletr"></tbody>
           </table>
         </div>
       </div>
@@ -270,6 +225,30 @@
     </div>
     <p>copyright &copy 2023 - IHSA</p>
 </footer>
+<script>
+  document.addEventListener("DOMContentLoaded", async function () {
+    const result1 = await fetch('/admin/api/getData', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then((res) => res.json());
+    if(result1.list){
+        result1.list.forEach((data,index) => {
+            var temp =`<tr>
+            <td>${data.classname}</td>
+            <td>${data.riderid}</td>
+            <td>${data.ridername}</td>
+            <td>${data.school}</td>
+            <td>${data.horsename}</td>
+            <td>${data.provider}</td>
+          </tr>`;
+          document.getElementById('tabletr').innerHTML += temp;
+        });
+    }
+});
+</script>
 </body>
 
 </html>

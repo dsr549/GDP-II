@@ -25,7 +25,7 @@ function sendDataToBackend(formDataObject) {
        // console.log('Response from the backend:', responseData);
         // Handle the response from the backend here (if needed)
         if(responseData.message){
-            alert("Success Fully Logged In! ");
+            alert("Successfully Logged In! ");
             console.log(responseData);
             sessionStorage.setItem('token', responseData.token);
             sessionStorage.setItem('username', responseData.username);

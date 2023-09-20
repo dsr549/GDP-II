@@ -168,6 +168,8 @@
   </style>
 
 <script src="https://kit.fontawesome.com/f52c3b31f3.js" crossorigin="anonymous"></script>
+<script src="js/auth.js"></script>
+<script src="js/logout.js"></script>
 </head>
 
 <body>
@@ -221,6 +223,7 @@
               </li>-->
               <li class="scroll-to-section"><a href="contact.html">Contact Us</a></li>
               <li class="scroll-to-section"><a href="gallery.html">Gallery</a></li>
+              <button id="logout" style="margin-right: 0px !important; margin-left: 60px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
             </ul>
             <a class='menu-trigger'>
               <span>Menu</span>
@@ -236,7 +239,7 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="section-heading">
-          <h2>Horse and Riders Data</h2>
+          <!--<h2>Horse and Riders Data</h2>-->
         </div>
       </div>
     </div>
@@ -246,7 +249,7 @@
         <div class="col-lg-12">
             <div class="upload">
                 <div class="container1">
-                        <header >Data Upload Form</header>
+                        <header >Riders & Horses Upload Form</header>
                 <form id="formData">
                     <div><input type="text" id="class" placeholder="Enter Class Name" required/></div>
                     <div><input type="number" id="riderid" placeholder="Enter Rider ID" required /></div>
@@ -254,8 +257,9 @@
                     <div><input type="text" id="school" placeholder="Enter School name"  required/></div>
                     <div><input type="text" id="horsename" placeholder="Enter Horse name" required /></div>
                     <div><input type="text" id="provider" placeholder="Enter Horse provider"  required/></div>
-                    <button type="submit">upload</button>
+                    <button type="submit" id="uploadbtn">upload</button>
                 </form>
+                <div id="successMessage" style="display: none;">Uploaded successfully!</div>
                 </div>
             </div>
         </div>
@@ -266,62 +270,17 @@
       <div class="col-lg-12">
         <div class="table-responsive" id="tabledata">
 
-          <!--<table>
+        <table>
             <tr>
-              <th>Placing</th>
-              <th>Order</th>
+                <th>Class</th>
               <th>Rider ID</th>
               <th>Rider Name</th>
               <th>Rider School</th>
               <th>Horse Name</th>
               <th>Horse Provider</th>
             </tr>
-            <tr>
-              <td>-</td>
-              <td>1</td>
-              <td>760</td>
-              <td>Josie Spratt</td>
-              <td>Black Hawk College</td>
-              <td>Rey</td>
-              <td>UWP</td>
-            </tr>
-            <tr>
-              <td>-</td>
-              <td>2</td>
-              <td>763</td>
-              <td>Anna Wilhelm</td>
-              <td>Black Hawk College</td>
-              <td>Sierra</td>
-              <td>BHC</td>
-            </tr>
-            <tr>
-              <td>-</td>
-              <td>3</td>
-              <td>279</td>
-              <td>Brayden Gruben</td>
-              <td>Missouri State University</td>
-              <td>Henry</td>
-              <td>BHC</td>
-            </tr>
-            <tr>
-              <td>-</td>
-              <td>4</td>
-              <td>795</td>
-              <td>Morgan DeBuhr</td>
-              <td>Iowa State University</td>
-              <td>Sierra</td>
-              <td>BHC</td>
-            </tr>
-            <tr>
-              <td>-</td>
-              <td>5</td>
-              <td>754</td>
-              <td>Lily Zomparelli</td>
-              <td>Black Hawk College</td>
-              <td>Henry</td>
-              <td>BHC</td>
-            </tr>
-        </table-->
+            <tbody id="tabletr"></tbody>
+        </table>
         </div>
       </div>
     </div>
