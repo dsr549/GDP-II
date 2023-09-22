@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="assets/css/templatemo-edu-meeting.css">
   <link rel="stylesheet" href="assets/css/owl.css">
   <link rel="stylesheet" href="assets/css/lightbox.css">
+
   <style>
     /* Custom section for announcements */
     .announcements {
@@ -78,55 +79,24 @@
       -o-transition: all .5s ease 0s;
       transition: all .5s ease 0s;
     }
+    /* Custom styling for table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
 
- 
- /* footer */
- .footer {
- display: flex;
- flex-direction: column;
- align-items: center;
- justify-content: center;
- text-align: center;
- height: 150px;
- position: relative;
- bottom: 0;
- width: 100%;
-}
+    th,
+    td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
 
-.footer .social a{
-
- margin-right: 20px;
- color: #4CBB17;
-}
-
-.footer .social a:hover{
- color: #fff;
- background-image: linear-gradient(45deg, #32be8f 0%, #38d39f 510%, #32be8f 100%);
-}
-.horse-list,
-      .rider-list {
-        padding: 20px;
-        background-color: #f0f0f0;
-        border-radius: 5px;
-        margin: 50px;
-        flex: 1;
-        width: 300px;
-      }
-
-      .horse-list ul,
-      .rider-list ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-
-      .btn-container {
-        text-align: center;
-        margin-bottom: 20px;
-        flex: 2;
-      }
-
-      .btn {
+    th {
+      background-color: #f2f2f2;
+    }
+   .btn {
         display: inline-block;
         padding: 10px 20px;
         background-color: #4CBA17;
@@ -140,64 +110,30 @@
         background-color: #4CBB17;
       }
 
-      .random-combinations {
-        font-weight: bold;
-        width: 100%;
-        margin-top: 20px;
-      }
 
-      table {
-        width: 100%;
-        max-width: 200px;
-        border-collapse: collapse;
-      }
-
-      th,
-      td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-      }
-
-      th {
-        background-color: #f2f2f2;
-      }
-.content {
-      flex: 1;
-      padding-bottom: 50px; /* Adjust the padding to leave space for the footer */
-      margin-top: 220px; /* Create space for the dropdown */ /* Create space for the dropdown */
-    }
-      .dropdown {
-      left: 20px;
-      background-color: #f0f0f0;
-      border-right: 1px solid #ddd;
-      margin-top: 40px;
-      margin-bottom: 40px;
-      padding: 10px;
-      width: 250px;
-    }
-    .opposite{
+/* footer */
+.footer {
         display: flex;
+        flex-direction: column;
+        align-items: center;
         justify-content: center;
+        text-align: center;
+        height: 150px;
+        position: relative;
+        bottom: 0;
+        width: 100%;
     }
-/* Add these styles to your CSS file */
 
-.flex-container {
-  display: flex;
-  justify-content: space-between; /* To evenly space the three elements */
-  align-items: center; /* To vertically align the content */
-  flex-wrap: wrap; /* Allow wrapping to a new line if the content overflows */
-}
+    .footer .social a{
 
-/* Adjust the width of the individual elements as needed */
-.horse-list,
-.btn-container,
-.rider-list {
-  flex: 1; /* Each element takes an equal portion of available space */
-  max-width: calc(33.33% - 10px); /* Adjust the width to your preference, subtracting some margin */
-  margin: 5px; /* Add some margin between the elements */
-}
+        margin-right: 20px;
+        color: #4CBB17;
+    }
 
+    .footer .social a:hover{
+        color: #fff;
+        background-image: linear-gradient(45deg, #32be8f 0%, #38d39f 510%, #32be8f 100%);
+    }
 </style>
 <script src="https://kit.fontawesome.com/f52c3b31f3.js" crossorigin="anonymous"></script>
 <script src="js/auth.js"></script>
@@ -269,46 +205,163 @@
       </div>
     </div>
   </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+  
+        <div class="section-heading">
+          <button type="submit">Randomize</button>
+          <select>
+            <option>None</option>
+            <option>Level-I</option>
+            <option>Level-II</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
-        <div class="flex-container">
-        <div class="dropdown">
-            <h5>Class Selection</h5>
-            <select id="classSelection" class="form-control" onchange="updateRandomizer()">
-                <option hidden selected>Selct a  Class</option>
-            </select>
-          </div>
-          <div class="btn-container">
-            <button class="btn" onclick="generateRandomCombinations()">
-              Generate Random Combinations
-            </button>
-          </div></div>
-</div>
-</div>
-</div>
+        <div class="table-responsive">
+          <table>
+            <tr>
+              <th>Placing</th>
+              <th>Order</th>
+              <th>Rider ID</th>
+              <th>Rider Name</th>
+              <th>Rider School</th>
+              <th>Horse Name</th>
+              <th>Horse Provider</th>
+            </tr>
+            <tr>
+              <td>-</td>
+              <td>1</td>
+              <td>760</td>
+              <td>Josie Spratt</td>
+              <td>Black Hawk College</td>
+              <td>Rey</td>
+              <td>UWP</td>
+            </tr>
+            <tr>
+              <td>-</td>
+              <td>2</td>
+              <td>763</td>
+              <td>Anna Wilhelm</td>
+              <td>Black Hawk College</td>
+              <td>Sierra</td>
+              <td>BHC</td>
+            </tr>
+            <tr>
+              <td>-</td>
+              <td>3</td>
+              <td>279</td>
+              <td>Brayden Gruben</td>
+              <td>Missouri State University</td>
+              <td>Henry</td>
+              <td>BHC</td>
+            </tr>
+            <tr>
+              <td>-</td>
+              <td>4</td>
+              <td>795</td>
+              <td>Morgan DeBuhr</td>
+              <td>Iowa State University</td>
+              <td>Sierra</td>
+              <td>BHC</td>
+            </tr>
+            <tr>
+              <td>-</td>
+              <td>5</td>
+              <td>754</td>
+              <td>Lily Zomparelli</td>
+              <td>Black Hawk College</td>
+              <td>Henry</td>
+              <td>BHC</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="table-responsive">
+          <table>
+            <tr>
+              <th>Placing</th>
+              <th>Order</th>
+              <th>Rider ID</th>
+              <th>Rider Name</th>
+              <th>Rider School</th>
+              <th>Horse Name</th>
+              <th>Horse Provider</th>
+            </tr>
+            <tr>
+              <td>-</td>
+              <td>1</td>
+              <td>760</td>
+              <td>Josie Spratt</td>
+              <td>Black Hawk College</td>
+              <td>Rey</td>
+              <td>UWP</td>
+            </tr>
+            <tr>
+              <td>-</td>
+              <td>2</td>
+              <td>763</td>
+              <td>Anna Wilhelm</td>
+              <td>Black Hawk College</td>
+              <td>Sierra</td>
+              <td>BHC</td>
+            </tr>
+            <tr>
+              <td>-</td>
+              <td>3</td>
+              <td>279</td>
+              <td>Brayden Gruben</td>
+              <td>Missouri State University</td>
+              <td>Henry</td>
+              <td>BHC</td>
+            </tr>
+            <tr>
+              <td>-</td>
+              <td>4</td>
+              <td>795</td>
+              <td>Morgan DeBuhr</td>
+              <td>Iowa State University</td>
+              <td>Sierra</td>
+              <td>BHC</td>
+            </tr>
+            <tr>
+              <td>-</td>
+              <td>5</td>
+              <td>754</td>
+              <td>Lily Zomparelli</td>
+              <td>Black Hawk College</td>
+              <td>Henry</td>
+              <td>BHC</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 <div class="container">
     <div class="row">
       <div class="col-lg-12">
-        <div class="flex-container">
-          <div class="horse-list">
-            <h5>Horse Names</h5>
-            <ul id="horseNames"></ul>
-          </div>
-          
-          <div class="rider-list">
-            <h5>Rider Names</h5>
-            <ul id="riderNames"></ul>
-          </div>
-        </div>
         <button style="margin-left: 45%;" class="btn" id="combinations" onclick="saveCombinations()">Save Generated</button>
       </div>
-      
     </div>
-  </div>
-  <footer class="footer bg-dark" id="footer" style="margin-top: 300px; bottom: 0 !important; background:#444;">
+</div>
+  <footer class="footer bg-dark" id="footer" style="bottom: 0 !important; background:#444;">
     <div class="social">
       <a href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook fa-2x"></i></a>
           <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter fa-2x"></i></a>

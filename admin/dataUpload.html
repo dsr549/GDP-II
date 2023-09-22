@@ -96,30 +96,31 @@
     th {
       background-color: #f2f2f2;
     }
-     /* footer */
-     .footer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        height: 150px;
-        margin-top: 250px;
-        position: relative;
-        bottom: 0;
-        width: 100%;
-    }
+  /* Footer */
+.footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 150px; /* Minimum height for the footer */
+    background: #444;
+    color: #fff; /* Text color */
+    width: 100%;
+    position: relative;
+    bottom: 0;
+}
 
-    .footer .social a{
+.footer .social a {
+    margin-right: 20px;
+    color: #4CBB17;
+}
 
-        margin-right: 20px;
-        color: #4CBB17;
-    }
+.footer .social a:hover {
+    color: #fff;
+    background-image: linear-gradient(45deg, #32be8f 0%, #38d39f 510%, #32be8f 100%);
+}
 
-    .footer .social a:hover{
-        color: #fff;
-        background-image: linear-gradient(45deg, #32be8f 0%, #38d39f 510%, #32be8f 100%);
-    }
     .upload{
         margin-left: 50px;
     }
@@ -165,9 +166,32 @@
   text-align: center;
   margin-bottom: 30px;
 }
+#rider-drop-area,#horse-drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    margin: 20px;
+    cursor: pointer;
+    min-height: 250px;
+    max-width: 600px;
+}
+
+#rider-drop-area.dragover,#horse-drop-area.dragover {
+    background-color: #f0f0f0;
+}
+
+#rider-file-input,#horse-file-input {
+    display: none;
+}
+
+#status {
+    margin-top: 10px;
+}
   </style>
 
 <script src="https://kit.fontawesome.com/f52c3b31f3.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/logout.js"></script>
 </head>
@@ -209,20 +233,13 @@
               InterCollegiate Horse Shows Association
             </a>
             <!-- ***** Menu Start ***** -->
-            <ul class="nav">
-              <li class="scroll-to-section"><a href="index.html">Home</a></li>
-              <li><a href="announcements.html" >Announcements</a></li>
-              <li class="scroll-to-section"><a href="details.html" class="active">Horse/Rider Info</a></li>
-              <li class="scroll-to-section"><a href="map.html">Maps</a></li>
-              <!--<li class="has-sub">
-                <a href="javascript:void(0)">Menu</a>
-                <ul class="sub-menu">
-                  <li><a href="login.html">Login</a></li>
-                  <li><a href="Signup.html">Sign up</a></li>
-                </ul>
-              </li>-->
-              <li class="scroll-to-section"><a href="contact.html">Contact Us</a></li>
-              <li class="scroll-to-section"><a href="gallery.html">Gallery</a></li>
+            <ul class="nav" style="margin-top: 40px !important;">
+              <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
+              <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
+              <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
+              <li class="scroll-to-section"><a href="maps.html">Maps</a></li>
+              <li class="scroll-to-section"><a href="contactuspage.html">Contact Us</a></li>
+              <li class="scroll-to-section"><a href="gallerypage.html">Gallery</a></li>
               <button id="logout" style="margin-right: 0px !important; margin-left: 60px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
             </ul>
             <a class='menu-trigger'>
@@ -247,22 +264,77 @@
   <div class="form-container">
     <div class="row">
         <div class="col-lg-12">
-            <div class="upload">
-                <div class="container1">
-                        <header >Riders & Horses Upload Form</header>
-                <form id="formData">
-                    <div><input type="text" id="class" placeholder="Enter Class Name" required/></div>
-                    <div><input type="number" id="riderid" placeholder="Enter Rider ID" required /></div>
-                    <div><input type="text" id="ridername" placeholder="Enter Rider name" required /></div>
-                    <div><input type="text" id="school" placeholder="Enter School name"  required/></div>
-                    <div><input type="text" id="horsename" placeholder="Enter Horse name" required /></div>
-                    <div><input type="text" id="provider" placeholder="Enter Horse provider"  required/></div>
-                    <button type="submit" id="uploadbtn">upload</button>
-                </form>
-                <div id="successMessage" style="display: none;">Uploaded successfully!</div>
-                </div>
+            <div id="rider-drop-area">
+                <h1>Drag and Drop Riders Excel Files Here</h1>
+                <p onclick="selectRiderFiles()">Or click to select files</p>
+                <input type="file" id="rider-file-input" accept=".xlsx, .xls" multiple>
             </div>
+            <div id="horse-drop-area">
+                <h1>Drag and Drop Horses Excel Files Here</h1>
+                <p onclick="selectHorseFiles()">Or click to select files</p>
+                <input type="file" id="horse-file-input" accept=".xlsx, .xls" multiple>
+            </div>
+            <div id="status"></div>
         </div>
+    </div>
+</div>
+<div class="container">
+  <h2>Riders</h2>
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="section-heading">
+        <!--<button type="button">Show all classes</button>-->
+        <select class="classes" id="classes" onchange="showclass()">
+          <option hidden>Select Class</option>
+        </select>
+        <button type="button">Add Details</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+   <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="table-responsive" id="tabledata">
+
+        <table>
+            <tr>
+              <th>Rider ID</th>
+              <th>Rider Name</th>
+              <th>Rider School</th>
+              <th>Height</th>
+              <th>Weight</th>
+              <th>Experience</th>
+              <th>Remarks</th>
+              <th>Placing</th>
+            </tr>
+            <tbody id="tabletr"></tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br>
+  <br>
+  <br>
+
+  <!--Horses data-->
+  <div class="container">
+    <h2>Horses</h2>
+    <div class="row">
+      <div class="col-lg-12">
+  
+        <div class="section-heading">
+          <select class="classes" id="h-classes" onchange="showhorseclass()">
+            <option hidden>Select Class</option>
+          </select>
+          <button type="button">Add Details</button>
+        </div>
+      </div>
     </div>
   </div>
   <div class="container">
@@ -272,19 +344,19 @@
 
         <table>
             <tr>
-                <th>Class</th>
-              <th>Rider ID</th>
-              <th>Rider Name</th>
-              <th>Rider School</th>
               <th>Horse Name</th>
-              <th>Horse Provider</th>
+              <th>Provider</th>
+              <th>Spur</th>
+              <th>Rein Hold</th>
+              <th>Remarks</th>
             </tr>
-            <tbody id="tabletr"></tbody>
+            <tbody id="tableth"></tbody>
         </table>
         </div>
       </div>
     </div>
   </div>
+
   <footer class="footer bg-dark" id="footer" style="bottom: 0 !important; background:#444;">
     <div class="social">
       <a href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook fa-2x"></i></a>

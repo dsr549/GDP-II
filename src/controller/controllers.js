@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const pool = require("../pool");
 const config = require("../config");
+const readXlsxFile = require('read-excel-file/node');
+const path = require('path');
 
 const login = async (req, res) => {
   const { userName, password } = req.body;
@@ -92,7 +94,7 @@ const fetchAnnouncements = async (req,res) => {
     if (announcements.length == 0) {
       res.status(401).json({ errorMessage: "Empty announcements" });
     } else {
-      console.log(announcements)
+     // console.log(announcements)
       res.status(201).json({announcements : announcements});
     }
 
@@ -187,12 +189,31 @@ const addData = async (req,res) => {
 
 const getData = async (req,res) => {
   try{
-    const query = `SELECT * FROM data`;
-    const list = await pool.execute(query);
-    if(list[0].length ===0 ){
+
+    const Rquery = `SELECT r.*
+    FROM (
+        SELECT MAX(f.file_id) AS latest_rider_id
+        FROM files AS f
+        WHERE f.filename LIKE '%-riders%'
+    ) AS latest_rider
+    LEFT JOIN riders AS r ON r.file_id = latest_rider.latest_rider_id;`;
+
+    const Hquery = `
+      SELECT h.*
+      FROM (
+          SELECT MAX(f.file_id) AS latest_horse_id
+          FROM files AS f
+          WHERE f.filename LIKE '%-horses%'
+      ) AS latest_horse
+      LEFT JOIN horses AS h ON h.file_id = latest_horse.latest_horse_id;
+    `;
+    
+    const Rlist = await pool.execute(Rquery);
+    const Hlist = await pool.execute(Hquery);
+    if(Rlist[0].length === 0 || Hlist[0].length === 0 ){
       res.status(404).json({errorMessage : "No Data to show"});
     } else {
-      res.status(201).json({list:list[0]});
+      res.status(201).json({success: "Successfully fetched",Rlist:Rlist[0],Hlist:Hlist[0]});
     }
   }  catch(err){
     console.log(err);
@@ -214,6 +235,72 @@ const saveCombination = async (req,res) => {
     res.status(500).json({ errorMessage: err });
   }
 }
+
+const uploadRider = async (req,res) => {
+ // console.log(req,res);
+try{
+  const rows = await readXlsxFile(path.join(__dirname,`../router/files/${req.file.filename}`)).then((data) => {
+    data.shift();
+    if (data) {
+      return data;
+    }
+  })
+   // console.log(rows);
+   if(rows.length > 0 ){
+    const fileQuery = `INSERT INTO files (filename) VALUES(?);`;
+    const [result] = await pool.query(fileQuery,[req.file.filename]);
+    console.log(result.insertId);
+    if(result.affectedRows == 1){
+
+         const query = `INSERT INTO riders (file_id, riderid, name, height, weight, experience, school,placing, class, remarks) VALUES (?,?,?,?,?,?,?,?,?,?);`
+         for(let i=0; i<rows.length;i++){
+      
+         await pool.query(query,[result.insertId,rows[i][0],rows[i][1],rows[i][2],rows[i][3],rows[i][4],rows[i][5],rows[i][6],rows[i][7],rows[i][8]]);
+     
+        };
+
+    }
+    res.status(200).json({success: "Uploaded Successfully"});
+   }
+  
+} catch (err){
+  console.log(err);
+  res.status(500).json({ errorMessage: err });
+}
+}
+
+const uploadHorse = async (req,res) => {
+  // console.log(req,res);
+ try{
+   const rows = await readXlsxFile(path.join(__dirname,`../router/files/${req.file.filename}`)).then((data) => {
+     data.shift();
+     if (data) {
+       return data;
+     }
+   })
+    // console.log(rows);
+    if(rows.length > 0 ){
+     const fileQuery = `INSERT INTO files (filename) VALUES(?);`;
+     const [result] = await pool.query(fileQuery,[req.file.filename]);
+     console.log(result.insertId);
+     if(result.affectedRows == 1){
+ 
+          const query = `INSERT INTO horses (file_id, draw_order, name, provider, spur, rein_hold, remarks,class) VALUES (?,?,?,?,?,?,?,?);`
+          for(let i=0; i<rows.length;i++){
+       
+          await pool.query(query,[result.insertId,rows[i][0],rows[i][1],rows[i][2],rows[i][3],rows[i][4],rows[i][5],rows[i][6]]);
+      
+         };
+ 
+     }
+     res.status(200).json({success: "Uploaded Successfully"});
+    }
+   
+ } catch (err){
+   console.log(err);
+   res.status(500).json({ errorMessage: err });
+ }
+ }
 module.exports = {
   login,
   signUp,
@@ -224,5 +311,7 @@ module.exports = {
   saveAnnouncement,
   addData,
   getData,
-  saveCombination
+  saveCombination,
+  uploadRider,
+  uploadHorse
 };

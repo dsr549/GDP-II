@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             var temp = `<option value="${data}">
             ${data}
           </option>`
-          document.getElementById('classSelection').innerHTML += temp
+          document.getElementById('class').innerHTML += temp
         });
     
     }

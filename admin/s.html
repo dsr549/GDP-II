@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Riders and Horses</title>
+</head>
+<body>
+    <label for="class">Select Class:</label>
+    <select id="class"></select>
+    <button id="randomize">Randomize</button>
+    
+    <!-- Container to hold the tables for each class -->
+    <div id="table-container"></div>
+
+    <script>
+document.addEventListener("DOMContentLoaded", async function () {
+var result = await fetch('/admin/api/getData', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    .then((res) => res.json());
+   
+
+    const classSelect = document.getElementById("class");
+        const uniqueClasses = [...new Set(result.Rlist.map(item => item.class))];
+        uniqueClasses.forEach(className => {
+            const option = document.createElement("option");
+            option.value = className;
+            option.text = className;
+            classSelect.appendChild(option);
+        });
+
+        // Function to populate a table based on selected class
+        function populateTable(selectedClass) {
+            const tableContainer = document.getElementById("table-container");
+            tableContainer.innerHTML = "";
+
+            const filteredRiders = result.Rlist.filter(item => item.class === selectedClass);
+            const horseDataForClass = result.Hlist.filter(item => item.class === selectedClass);
+
+            // Shuffle horse data for the selected class
+            const shuffledHorseData = [...horseDataForClass];
+            for (let i = shuffledHorseData.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffledHorseData[i], shuffledHorseData[j]] = [shuffledHorseData[j], shuffledHorseData[i]];
+            }
+
+            const table = document.createElement("table");
+            table.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Rider ID</th>
+                        <th>Rider Name</th>
+                        <th>Rider School</th>
+                        <th>Horse Name</th>
+                        <th>Horse Provider</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${filteredRiders.map((rider, index) => `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${rider.riderid}</td>
+                            <td>${rider.name}</td>
+                            <td>${rider.school}</td>
+                            <td>${shuffledHorseData[index].name}</td>
+                            <td>${shuffledHorseData[index].provider}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+            tableContainer.appendChild(table);
+        }
+
+        // Populate the initial table with the first class
+        populateTable(uniqueClasses[0]);
+
+        // Event listener for class selection
+        classSelect.addEventListener("change", () => {
+            const selectedClass = classSelect.value;
+            populateTable(selectedClass);
+        });
+
+        // Event listener for randomize button
+        document.getElementById("randomize").addEventListener("click", () => {
+            const selectedClass = classSelect.value;
+            populateTable(selectedClass); // Randomize the table for the selected class
+        });
+
+        // Event listener for randomize button
+        const randomizeButton = document.getElementById("randomize");
+        randomizeButton.addEventListener("click", function () {
+            const selectedClass = classSelect.value;
+            // No need to shuffle horse data if it's the same for the entire class
+            // Just refresh the table
+            populateTable(selectedClass);
+        });
+
+        // Initially populate the table with the first class in the select
+        populateTable(uniqueClasses[0]);
+});
+    </script>
+</body>
+</html>
