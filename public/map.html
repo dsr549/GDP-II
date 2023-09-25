@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>IHSA MAPS</title>
+    <title>Ebin check</title>
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIWbUh6hK1P_ARYXLVwqm2B_IOeACS8is&libraries=geometry"></script>
     <style>
@@ -121,34 +121,10 @@
             background-color: gray;
             border-radius: 4px;
         }
-         /* footer */
-    .footer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        height: 150px;
-        position: relative;
-        bottom: 0;
-        width: 100%;
-    }
-
-    .footer .social a{
-
-        margin-right: 20px;
-        color: #4CBB17;
-    }
-
-    .footer .social a:hover{
-        color: #fff;
-        background-image: linear-gradient(45deg, #32be8f 0%, #38d39f 510%, #32be8f 100%);
-    }
     </style>
 </head>
 
 <body>
-
     <div class="nav">
 
 
@@ -260,24 +236,26 @@
             directionsRenderer.setMap(map);
 
 
-            addCustomMarker(40.2022, -85.4089, 'Ball State University', "/assets/images/green.png");
-            addCustomMarker(39.4801, -88.1759, 'Eastern Illinois University', "/assets/images/green.png");
-            addCustomMarker(39.1666, -86.5265, 'Indiana University', "/assets/images/pink.png");
-            addCustomMarker(40.1106, -88.2284, 'University of Illinois Urbana-Champaign', "/assets/images/red.png");
-            addCustomMarker(41.3625, -87.3451, 'Lakeland College', "/assets/images/green.png");
-            addCustomMarker(40.4237, -86.9212, 'Purdue University', "/assets/images/pink.png");
-
-
+            addCustomMarker(40.2022, -85.4089, 'Ball State University', "./images/red.png", 1 , "Indiana University"); //sub clg 1
+            addCustomMarker(39.4829, -88.1748, 'Eastern Illinois University', "./images/red.png", 2 , "Indiana University"); // sub clg 1
+            addCustomMarker(39.1653, -86.5234, 'Indiana University', "./images/pink.png", 3 , ""); // A1 clg will be ""
+            addCustomMarker(41.3625, -87.3451, 'Lakeland College', "./images/pink.png", 4 , "");  // A2 clg will be ""  and all A clg will be ""
+            addCustomMarker(40.4237, -86.9212, 'Purdue University', "./images/green.png", 4 , "Lakeland College");  // sub clg 2
 
         }
 
-        function addCustomMarker(lat, lng, title, iconUrl) {
+
+
+
+        function addCustomMarker(lat, lng, title, iconUrl, myid , baseloation) {
             var customMarkerIcon = iconUrl;
             var marker = new google.maps.Marker({
                 position: { lat: lat, lng: lng },
                 map: map,
                 title: title,
-                icon: customMarkerIcon
+                icon: customMarkerIcon,
+                id: myid,
+                base: baseloation
             });
 
             marker.addListener('click', function () {
@@ -288,27 +266,101 @@
 
 
 
-
-
-
-
         }
 
+        const jsonData = {
+            1: [
+                { key: " nam1", value: " hoigoi 1", range: "ewijigeb 1", type: "kjgjkh1", speed: "wjikh1" },
+                { key: " nam1", value: " hoigoi 1", range: "ewijigeb 1", type: "kjgjkh1", speed: "wjikh1" },
+                { key: " nam1", value: " hoigoi 1", range: "ewijigeb 1", type: "kjgjkh1", speed: "wjikh1" },
+            ],
+            2: [
+                { key: "nam 2", value: "hhioh 2", range: "igilk 2", type: "2", speed: "igtu 2" },
+                { key: "nam 2", value: "hhioh 2", range: "igilk 2", type: "2", speed: "igtu 2" },
+                { key: "nam 2", value: "hhioh 2", range: "igilk 2", type: "2", speed: "igtu 2" },
+            ],
+            3: [
+                { key: "nam 3", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+                { key: "nam 3", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+                { key: "nam 3", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+            ],
+            4: [
+                { key: "name 4", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+                { key: "name 4", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+                { key: "name 4", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+            ],
+            5: [
+                { key: "name 5", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+                { key: "name 5", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+                { key: "name 5", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
+            ],
+
+        };
 
 
         function handleMarkerClick(marker) {
+
             var firstLocation = marker.getPosition();
             var firstTitle = marker.getTitle()
-            var secondLocation = { lat: 39.1653, lng: -86.5234 };
-            var secondTitle = "Indiana University"
-            var request = {
-                origin: firstLocation,
-                destination: secondLocation,
-                travelMode: 'DRIVING'
-            };
+            var getid = marker.id
+            var basedetail = marker.base
+            console.log(getid, "ohoih")
+            document.getElementById("school-name").value = firstTitle;
+            let value = document.getElementById("number-input").value = firstTitle == "Ball State University" ? 1 : 2;
+
+            const regionData = jsonData[getid];
+
+            if (regionData) {
+                jsonTable.querySelector("tbody").innerHTML = "";
+
+                regionData.forEach((item) => {
+                    const row = document.createElement("tr");
+                    row.style.backgroundColor = "gray";
+                    const keyCell = document.createElement("td");
+                    keyCell.style.padding = "10px 3px"
+                    keyCell.textContent = item.key;
+                    keyCell.style.textAlign = "center";
+                    const valueCell = document.createElement("td");
+                    valueCell.textContent = item.value;
+                    valueCell.style.textAlign = "center";
+                    const valuenew = document.createElement("td");
+                    valuenew.style.textAlign = "center";
+                    valuenew.textContent = item.range;
+                    const valuenew1 = document.createElement("td");
+                    valuenew1.textContent = item.type;
+                    valuenew1.style.textAlign = "center";
+                    valuenew1.style.border = "1px solid gray";
+
+                    const valuenew2 = document.createElement("td");
+                    valuenew2.textContent = item.speed;
+                    row.appendChild(keyCell);
+                    row.appendChild(valueCell);
+                    row.appendChild(valuenew);
+                    row.appendChild(valuenew1);
+                    row.appendChild(valuenew2);
+                    jsonTable.querySelector("tbody").appendChild(row);
+                });
+
+                jsonTable.style.display = "table";
+            } else {
+                jsonTable.style.display = "none";
+            }
+
+            var AnchorCollegeOneLocation = { lat: 39.1653, lng: -86.5234 };
+            var AnchorCollegeTwoLocation = { lat: 41.3625, lng: -87.3451 };
+
+            var AnchorCollegeOne = "Indiana University";
+            var AnchorCollegeTwo = "Lakeland College";
+        // add anchor college here
 
 
-            if (firstTitle !== secondTitle) {
+            if ( basedetail == AnchorCollegeOne ) {  // if getting base clg from addCustomMarker == AnchorCollegeOne this works
+                var request = {
+                    origin: firstLocation,
+                    destination: AnchorCollegeOneLocation,
+                    travelMode: 'DRIVING'
+                };
+
                 directionsService.route(request, function (response, status) {
                     if (status === 'OK') {
                         directionsRenderer.setDirections(response);
@@ -321,10 +373,39 @@
                         alert("Directions request failed: " + status);
                     }
                 });
-            }
 
+
+            } 
+
+           else if ( basedetail == AnchorCollegeTwo ) { // if getting base clg from addCustomMarker == AnchorCollegeTwo this works
+                var request = {
+                    origin: firstLocation,
+                    destination: AnchorCollegeTwoLocation,
+                    travelMode: 'DRIVING'
+                };
+
+                directionsService.route(request, function (response, status) {
+                    if (status === 'OK') {
+                        directionsRenderer.setDirections(response);
+
+                        var distanceInMeters = response.routes[0].legs[0].distance.value;
+                        var distanceInKilometers = (distanceInMeters / 1000).toFixed(2);
+
+                        document.getElementById("result").textContent = "Distance from " + marker.getTitle() + " to Lakeland University: " + distanceInKilometers + " km";
+                    } else {
+                        alert("Directions request failed: " + status);
+                    }
+                });
+
+
+            } 
+// copy paste Same logic
+
+          
         }
 
+
+        
 
         function calculateDistanceAndRoute() {
             const location1 = document.getElementById("location1").value;
@@ -374,34 +455,6 @@
         }
 
 
-        const jsonData = {
-            1: [
-                { key: " nam1", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: " nam1", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: " nam1", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-            ],
-            2: [
-                { key: "nam 2", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: "nam 2", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: "nam 2", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-            ],
-            3: [
-                { key: "nam 3", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: "nam 3", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: "nam 3", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-            ],
-            4: [
-                { key: "name 4", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: "name 4", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: "name 4", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-            ],
-            5: [
-                { key: "name 5", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: "name 5", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: "name 5", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-            ],
-
-        };
 
         const regionSelect = document.getElementById("region");
         const jsonTable = document.getElementById("json-table");
