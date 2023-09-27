@@ -155,7 +155,7 @@ const saveAnnouncement = async (req,res) =>{
   try{
     if(previousTitle){
 
-    const query = `UPDATE announcements SET title = \'${title}\', message = \'${message}\', date = \'${date}\' WHERE date = \'${date}\' AND title = \'${previousTitle}\';`
+    const query = `UPDATE announcements SET title = \'${title}\', message = \'${message}\', date = \'${date}\' WHERE title = \'${previousTitle}\';`
     const result = await pool.execute(query);
     console.log(result);
     res.status(201).json({message : "Edited Successfully"});
