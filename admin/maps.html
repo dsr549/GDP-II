@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>IHSA MAPS</title>
+    <title>IHSA @2023</title>
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIWbUh6hK1P_ARYXLVwqm2B_IOeACS8is&libraries=geometry"></script>
     <style>
@@ -121,29 +121,40 @@
             background-color: gray;
             border-radius: 4px;
         }
-         /* footer */
-    .footer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        height: 150px;
-        position: relative;
-        bottom: 0;
-        width: 100%;
-    }
-
-    .footer .social a{
-
-        margin-right: 20px;
-        color: #4CBB17;
-    }
-
-    .footer .social a:hover{
-        color: #fff;
-        background-image: linear-gradient(45deg, #32be8f 0%, #38d39f 510%, #32be8f 100%);
-    }
+        .colors{
+            position: absolute;
+            background-color: antiquewhite;
+            top: 51px;
+        padding: 10px;
+        }
+        .clor{
+            width: 30px;
+            height: 30px;
+        }
+        .clor.one{
+            background-color: #4CBB17;
+           
+        }
+        .clor.two{
+            background-color: yellow;
+        }
+        .clor.three{
+            background-color: orangered;
+        }
+        .clor.four{
+            background-color: lightblue;
+        }
+        .clor.five{
+            background-color: palevioletred;
+        }
+        .colr-wrap{
+            display: flex;
+            justify-content: center;
+        }
+        .colr-wrap p{
+            margin-left: 20px;
+            font-weight: 800;
+        }
     </style>
 </head>
 
@@ -174,7 +185,7 @@
 
                 <div class="form-item">
                     <label for="anchor-school">Is Anchor School</label>
-                    <input type="checkbox" id="anchor-school" name="anchor-school">
+                    <input type="checkbox" id="anchor-school" name="anchor-schooll">
                 </div>
                 <div class="form-item">
                     <label for="number-input">Number of riders</label>
@@ -243,7 +254,28 @@
 
     </div>
 
-
+<div class="colors">
+<div class="colr-wrap">
+    <div class="clor one"></div>
+    <p>Region 1</p>
+</div>
+<div class="colr-wrap">
+    <div class="clor two"></div>
+    <p>Region 2</p>
+</div>
+<div class="colr-wrap">
+    <div class="clor three"></div>
+    <p>Region 3</p>
+</div>
+<div class="colr-wrap">
+    <div class="clor four"></div>
+    <p>Region 4</p>
+</div>
+<div class="colr-wrap">
+    <div class="clor five"></div>
+    <p>Region 5</p>
+</div>
+</div>
     <script>
         var map;
         var directionsService;
@@ -259,24 +291,30 @@
             directionsRenderer.setMap(map);
 
 
-            addCustomMarker(40.2022, -85.4089, 'Ball State University', "./images/green.png");
-            addCustomMarker(39.4829, -88.1748, 'Eastern Illinois University', "./images/red.png");
-            addCustomMarker(39.1653, -86.5234, 'Indiana University', "./images/pink.png");
-
-
+            addCustomMarker(40.2022, -85.4089, 'Ball State University', "./images/green.png", 1 , "University of Illinois Urbana-Champaign"); //sub clg 1
+            addCustomMarker(39.4801, -88.1759, 'Eastern Illinois University', "./images/green.png", 2 , "University of Illinois Urbana-Champaign"); // sub clg 1 // A2 clg will be ""  and all A clg will be ""
+            addCustomMarker(40.4237, -86.9212, 'Purdue University', "./images/green.png", 3 , "University of Illinois Urbana-Champaign");
+            addCustomMarker(40.1106, -88.2284, 'University of Illinois Urbana-Champaign', "./images/marina.png", 4 , ""); //
+            addCustomMarker(39.1666, -86.5265, 'Indiana University', "./images/green.png", 5 , "University of Illinois Urbana-Champaign"); // sub clg 1 // A2 clg will be ""  and all A clg will be ""
+            addCustomMarker(39.7729, -86.1752, 'IUPUI', "./images/green.png", 6 , "University of Illinois Urbana-Champaign");
+            addCustomMarker(41.3625, -87.3451, 'Lakeland College', "./images/green.png", 7 , "University of Illinois Urbana-Champaign");
+            addCustomMarker(39.5212, -87.4074, 'St. Mary of the Woods College', "./images/green.png", 8 , "University of Illinois Urbana-Champaign");
+            addCustomMarker(40.4527, -85.5023, 'Taylor University', "./images/green.png", 9 , "University of Illinois Urbana-Champaign");
 
         }
 
 
 
 
-        function addCustomMarker(lat, lng, title, iconUrl) {
+        function addCustomMarker(lat, lng, title, iconUrl, myid, baseloation) {
             var customMarkerIcon = iconUrl;
             var marker = new google.maps.Marker({
                 position: { lat: lat, lng: lng },
                 map: map,
                 title: title,
-                icon: customMarkerIcon
+                icon: customMarkerIcon,
+                id: myid,
+                base: baseloation
             });
 
             marker.addListener('click', function () {
@@ -287,27 +325,189 @@
 
 
 
-
-
-
-
         }
 
+        const jsonData = {
+            1: [
+            { key: "Ball State University", value: "8", range: "false", type: "156 km", speed: "160 km" },
+                 { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
+                { key: "Eastern Illinois University", value: "8", range: "false",type: "77.52 km", speed: "77.52 km" },
+                { key: " Indiana University", value: "4", range:"false", type: "269.1 km", speed: "280 km" },
+                { key: "IUPUI", value: "6", range:"false",  type: "190 km", speed: "200 km"  },
+                { key: "Lakeland College", value: "5", range: "false", type: "187.33 km", speed: "195 km" },
+                { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
+                { key: "St. Mary of the Woods College", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
+                { key: "Taylor University", value: "4", range: "false", type: "298.05 km", speed: "310 km" },
+        ],
+            2: [
+            { key: "Eastern Illinois University", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
+                { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
+               
+                { key: "Ball State University", value: "8", range: "false",  type: "156 km", speed: "160 km"  },
+                { key: " Indiana University", value: "4", range:"false",type: "269.1 km", speed: "280 km"},
+                { key: "IUPUI", value: "6", range:"false", type: "190 km", speed: "200 km" },
+                { key: "Lakeland College", value: "5", range: "false",  type: "187.33 km", speed: "195 km" },
+                { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
+                { key: "St. Mary of the Woods College", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
+                { key: "Taylor University", value: "4", range: "false",  type: "298.05 km", speed: "310 km" },
+            ],
+            3: [
+            { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
+            { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
+                { key: "Eastern Illinois University", value: "8", range: "false",type: "77.52 km", speed: "77.52 km" },
+                { key: "Ball State University", value: "8", range: "false",  type: "156 km", speed: "160 km"  },
+                { key: " Indiana University", value: "4", range:"false", type: "269.1 km", speed: "280 km" },
+                { key: "IUPUI", value: "6", range:"false",  type: "190 km", speed: "200 km"  },
+                { key: "Lakeland College", value: "5", range: "false",  type: "187.33 km", speed: "195 km" },
+        
+                { key: "St. Mary of the Woods College", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
+                { key: "Taylor University", value: "4", range: "false",  type: "298.05 km", speed: "310 km" },
+            ],
+            4: [
+            { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
+                { key: "Eastern Illinois University", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
+                { key: "Ball State University", value: "8", range: "false",  type: "156 km", speed: "160 km"  },
+                { key: " Indiana University", value: "4", range:"false", type: "269.1 km", speed: "280 km" },
+                { key: "IUPUI", value: "6", range:"false",  type: "190 km", speed: "200 km"  },
+                { key: "Lakeland College", value: "5", range: "false",  type: "187.33 km", speed: "195 km" },
+                { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
+                { key: "St. Mary of the Woods College", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
+                { key: "Taylor University", value: "4", range: "false",  type: "298.05 km", speed: "310 km" },
+            ],
+            5: [
+            { key: " Indiana University", value: "4", range:"false", type: "269.1 km", speed: "280 km"},
+            { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
+                { key: "Eastern Illinois University", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
+                { key: "Ball State University", value: "8", range: "false",  type: "156 km", speed: "160 km"  },
+           
+                { key: "IUPUI", value: "6", range:"false",  type: "190 km", speed: "200 km"  },
+                { key: "Lakeland College", value: "5", range: "false",  type: "187.33 km", speed: "195 km" },
+                { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
+                { key: "St. Mary of the Woods College", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
+                { key: "Taylor University", value: "4", range: "false",  type: "298.05 km", speed: "310 km" },
+            ],
+            6: [
+            { key: "IUPUI", value: "6", range:"false",  type: "190 km", speed: "200 km"  },
+            { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
+                { key: "Eastern Illinois University", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
+                { key: "Ball State University", value: "8", range: "false",  type: "156 km", speed: "160 km"  },
+                { key: " Indiana University", value: "4", range:"false", type: "269.1 km", speed: "280 km" },
+        
+                { key: "Lakeland College", value: "5", range: "false",  type: "187.33 km", speed: "195 km" },
+                { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
+                { key: "St. Mary of the Woods College", value: "6", range: "false",type: "144.05 km", speed: "150 km" },
+                { key: "Taylor University", value: "4", range: "false",  type: "298.05 km", speed: "310 km" },
+            ],
+            7: [
+            { key: "Lakeland College", value: "5", range: "false",  type: "187.33 km", speed: "195 km" },
+            { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
+                { key: "Eastern Illinois University", value: "8", range: "false",type: "77.52 km", speed: "77.52 km" },
+                { key: "Ball State University", value: "8", range: "false",  type: "156 km", speed: "160 km"  },
+                { key: " Indiana University", value: "4", range:"false", type: "269.1 km", speed: "280 km" },
+                { key: "IUPUI", value: "6", range:"false",  type: "190 km", speed: "200 km"  },
+       
+                { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
+                { key: "St. Mary of the Woods College", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
+                { key: "Taylor University", value: "4", range: "false",  type: "298.05 km", speed: "310 km" },
+            ],
+            8: [
+            { key: "St. Mary of the Woods College", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
+            { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
+                { key: "Eastern Illinois University", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
+                { key: "Ball State University", value: "8", range: "false",  type: "156 km", speed: "160 km"  },
+                { key: " Indiana University", value: "4", range:"false", type: "269.1 km", speed: "280 km" },
+                { key: "IUPUI", value: "6", range:"false",  type: "190 km", speed: "200 km"  },
+                { key: "Lakeland College", value: "5", range: "false",  type: "187.33 km", speed: "195 km" },
+                { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
+               
+                { key: "Taylor University", value: "4", range: "false", type: "298.05 km", speed: "310 km" },
+            ],
+            9: [
+            { key: "Taylor University", value: "4", range: "false", type: "298.05 km", speed: "310 km" },
+            { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
+                { key: "Eastern Illinois University", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
+                { key: "Ball State University", value: "8", range: "false",  type: "156 km", speed: "160 km"  },
+                { key: " Indiana University", value: "4", range:"false", type: "269.1 km", speed: "280 km" },
+                { key: "IUPUI", value: "6", range:"false", type: "190 km", speed: "200 km"  },
+                { key: "Lakeland College", value: "5", range: "false",  type: "187.33 km", speed: "195 km" },
+                { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
+                { key: "St. Mary of the Woods College", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
+              
+            ],
+
+
+        };
 
 
         function handleMarkerClick(marker) {
+
             var firstLocation = marker.getPosition();
             var firstTitle = marker.getTitle()
-            var secondLocation = { lat: 39.1653, lng: -86.5234 };
-            var secondTitle = "Indiana University"
-            var request = {
-                origin: firstLocation,
-                destination: secondLocation,
-                travelMode: 'DRIVING'
-            };
+            var getid = marker.id
+            var basedetail = marker.base
+            console.log(getid, "ohoih")
+            document.getElementById("school-name").value = firstTitle;
 
 
-            if (firstTitle !== secondTitle) {
+            const regionData = jsonData[getid];
+
+            if (regionData) {
+                jsonTable.querySelector("tbody").innerHTML = "";
+
+                regionData.forEach((item) => {
+                    const row = document.createElement("tr");
+                    row.style.backgroundColor = "gray";
+                    const keyCell = document.createElement("td");
+                    keyCell.style.padding = "10px 3px"
+                    keyCell.textContent = item.key;
+                    keyCell.style.textAlign = "center";
+                    const valueCell = document.createElement("td");
+                    valueCell.textContent = item.value;
+                    valueCell.style.textAlign = "center";
+                    const valuenew = document.createElement("td");
+                    valuenew.style.textAlign = "center";
+                    valuenew.textContent = item.range;
+                    const valuenew1 = document.createElement("td");
+                    valuenew1.textContent = item.type;
+                    valuenew1.style.textAlign = "center";
+                    valuenew1.style.border = "1px solid gray";
+
+                    const valuenew2 = document.createElement("td");
+                    valuenew2.textContent = item.speed;
+                    row.appendChild(keyCell);
+                    row.appendChild(valueCell);
+                    row.appendChild(valuenew);
+                    row.appendChild(valuenew1);
+                    row.appendChild(valuenew2);
+                    jsonTable.querySelector("tbody").appendChild(row);
+                });
+
+                jsonTable.style.display = "table";
+            } else {
+                jsonTable.style.display = "none";
+            }
+
+            var AnchorCollegeOneLocation = { lat: 40.1106, lng: -88.2284 };
+
+            var AnchorCollegeOne = "University of Illinois Urbana-Champaign";
+      
+            var checkbox = document.getElementById("anchor-school");
+
+            // add anchor college here
+            if (basedetail === true) {
+                checkbox.checked = true;
+            }
+            else{
+                checkbox.checked = false; 
+            }
+
+            if (basedetail == AnchorCollegeOne) {  // if getting base clg from addCustomMarker == AnchorCollegeOne this works
+                var request = {
+                    origin: firstLocation,
+                    destination: AnchorCollegeOneLocation,
+                    travelMode: 'DRIVING'
+                };
+
                 directionsService.route(request, function (response, status) {
                     if (status === 'OK') {
                         directionsRenderer.setDirections(response);
@@ -315,14 +515,21 @@
                         var distanceInMeters = response.routes[0].legs[0].distance.value;
                         var distanceInKilometers = (distanceInMeters / 1000).toFixed(2);
 
-                        document.getElementById("result").textContent = "Distance from " + marker.getTitle() + " to Indiana University: " + distanceInKilometers + " km";
+                        document.getElementById("result").textContent = "Distance from " + marker.getTitle() + " to University of Illinois Urbana-Champaign: " + distanceInKilometers + " km";
                     } else {
                         alert("Directions request failed: " + status);
                     }
                 });
+
+
             }
 
+            // copy paste Same logic
+
+
         }
+
+
 
 
         function calculateDistanceAndRoute() {
@@ -373,34 +580,6 @@
         }
 
 
-        const jsonData = {
-            1: [
-                { key: " nam1", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: " nam1", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: " nam1", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-            ],
-            2: [
-                { key: "nam 2", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: "nam 2", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: "nam 2", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-            ],
-            3: [
-                { key: "nam 3", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: "nam 3", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: "nam 3", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-            ],
-            4: [
-                { key: "name 4", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: "name 4", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: "name 4", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-            ],
-            5: [
-                { key: "name 5", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: "name 5", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-                { key: "name 5", value: "John", range: "pihio", type: "oihgoih", speed: "pihoih" },
-            ],
-
-        };
 
         const regionSelect = document.getElementById("region");
         const jsonTable = document.getElementById("json-table");
