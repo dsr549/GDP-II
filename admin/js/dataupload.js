@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     .then((res) => res.json());
     console.log(result1)
     if(result1.success){
-        let classesList;
-        let classList = []
+        let classesList,hclassesList;
+        let classList = [] , hclassList = [];
         result1.Rlist.forEach((data,index)=>{
             classList.push(data.class)
            // classesList += `<option value="${data.class}">${data.class}</option>`;
@@ -21,9 +21,23 @@ document.addEventListener("DOMContentLoaded", async function () {
         classes.forEach((data,index)=>{
             classesList += `<option value="${data}">${data}</option>`;
         });
-        
+
+        // Horses class
+        result1.Hlist.forEach((data,index)=>{
+            if(data.class != null){
+
+            
+            hclassList.push(data.class)
+            }
+           // classesList += `<option value="${data.class}">${data.class}</option>`;
+        });
+        var hclasses = [...new Set(hclassList)];
+        hclasses.forEach((data,index)=>{
+            hclassesList += `<option value="${data}">${data}</option>`;
+        });
+
         document.getElementById("classes").innerHTML = `<option hidden>Select Class</option>`+classesList
-        document.getElementById("h-classes").innerHTML = `<option hidden>Select Class</option>`+classesList
+        document.getElementById("h-classes").innerHTML = `<option hidden>Select Class</option>`+hclassesList
         result1.Rlist.forEach((data,index) => {
             const rideridCell = data.riderid !== null ? data.riderid : '-';
             const nameCell = data.name !== null ? data.name : '-';
@@ -225,11 +239,10 @@ horseFileInput.addEventListener('change', () => {
 async function handleRiderFiles(files) {
     for (const file of files) {
         if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.type === 'application/vnd.ms-excel') {
-            // Send the file to the backend
-          //  uploadFileToBackend(file);
+
             const formData = new FormData();
             formData.append("riders", file);
-            // Send the formData to the Node.js backend using fetch or AJAX
+
             const result = await axios.post('/admin/api/uploadRider', formData, {
                   headers: {
                       'Content-Type': 'multipart/form-data'
@@ -245,11 +258,10 @@ async function handleRiderFiles(files) {
 async function handleHorseFiles(files) {
     for (const file of files) {
         if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.type === 'application/vnd.ms-excel') {
-            // Send the file to the backend
-           // uploadFileToBackend(file);
+
             const formData = new FormData();
             formData.append("horses", file);
-            // Send the formData to the Node.js backend using fetch or AJAX
+    
             const result = await axios.post('/admin/api/uploadHorse', formData, {
                   headers: {
                       'Content-Type': 'multipart/form-data'
@@ -268,26 +280,12 @@ async function handleHorseFiles(files) {
 }
 
 async function uploadFileToBackend(file) {
-    // Use XMLHttpRequest or fetch to send the file to your backend server.
-    // You'll need to implement the backend server to handle file uploads.
-    // Example:
-    // const formData = new FormData();
-    // formData.append('excelFile', file);
-    // fetch('/upload', {
-    //     method: 'POST',
-    //     body: formData,
-    // })
-    // .then(response => {
-    //     // Handle the response from the server
-    // })
-    // .catch(error => {
-    //     console.error('Error uploading file:', error);
-    // });
+
     console.log(file)
 
     const formData = new FormData();
             formData.append("riders", file);
-            // Send the formData to the Node.js backend using fetch or AJAX
+ 
             const result = await axios.post('/riderUpload', formData, {
                   headers: {
                       'Content-Type': 'multipart/form-data'

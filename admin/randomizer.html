@@ -224,7 +224,6 @@
           <button id="show-all">Show All Classes</button>
           <button id="randomize" style="display: none;">Randomize</button>
           <button id="randomizeAll">Randomize All</button>
-          <button id="save-combinations">Save Combinations</button>
         </div>
       </div>
     </div>
@@ -311,7 +310,7 @@
 <div class="container">
     <div class="row">
       <div class="col-lg-12">
-        <button style="margin-left: 45%;" class="btn" id="combinations" onclick="saveCombinations()">Save Generated</button>
+        <button style="margin-left: 45%; margin-top: 30px;" class="btn" id="save-combinations">Save Generated</button>
       </div>
     </div>
 </div>
@@ -325,7 +324,7 @@
     <p>copyright &copy 2023 - IHSA</p>
 </footer>
 <script>
-  document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", async function () {
   var result = await fetch('/admin/api/getData', {
           method: 'GET',
           headers: {
@@ -334,8 +333,6 @@
       })
       .then((res) => res.json());
      console.log(result);
-  
-    // Initialize the select element with unique classes
     const classSelect = document.getElementById("class");
       const uniqueClasses = [...new Set(result.Rlist.map(item => item.class))];
       uniqueClasses.forEach(className => {
@@ -344,33 +341,22 @@
           option.text = className;
           classSelect.appendChild(option);
       });
-  
-      // Object to store randomized horse data for each class
       const randomizedData = {};
-  
-      // Function to shuffle an array randomly
       function shuffleArray(array) {
           for (let i = array.length - 1; i > 0; i--) {
               const j = Math.floor(Math.random() * (i + 1));
               [array[i], array[j]] = [array[j], array[i]];
           }
       }
-  
- // ...
 
-// Function to populate a table based on selected class
 function populateTable(selectedClass) {
     const tableContainer = document.getElementById("table-container");
     const filteredRiders = result.Rlist.filter(item => item.class === selectedClass);
-    const horseDataForClass = result.Hlist.filter(item => item.class === selectedClass);
-
-    // Shuffle horse data for the selected class
+    const horseDataForClass = result.Hlist.filter(item => item.class && selectedClass.includes(item.class));
+   // console.log(horseDataForClass , selectedClass)
     const shuffledHorseData = [...horseDataForClass];
     shuffleArray(shuffledHorseData);
-
-    // Create an array of horse names for reuse
     const horseNames = shuffledHorseData.map(horse => horse.name);
-
     const table = document.createElement("table");
     table.className = `class-table ${selectedClass}-table active-table`; // Initially set as active-table
     table.innerHTML = `
@@ -391,7 +377,6 @@ function populateTable(selectedClass) {
             ${filteredRiders.map((rider, index) => {
                 const riderWithHorse = shuffledHorseData[index];
                 if (riderWithHorse) {
-                    // If a horse is available for this rider
                     return `
                         <tr>
                             <td>${index + 1}</td>
@@ -403,7 +388,6 @@ function populateTable(selectedClass) {
                         </tr>
                     `;
                 } else {
-                    // If no horse is available for this rider
                     return `
                         <tr>
                             <td>${index + 1}</td>
@@ -420,78 +404,104 @@ function populateTable(selectedClass) {
     `;
     tableContainer.appendChild(table);
 }
-  
-      // Function to clear all tables
+
       function clearAllTables() {
           const tableContainer = document.getElementById("table-container");
-          tableContainer.innerHTML = ""; // Clear all tables
+          tableContainer.innerHTML = ""; 
       }
-  
-      // Populate the tables for all classes initially
       uniqueClasses.forEach(className => {
           populateTable(className);
       });
   
-   // Event listener for class selection
   classSelect.addEventListener("change", () => {
       const selectedClass = classSelect.value;
-  
-      // Clear all tables
       clearAllTables();
-  
       if (selectedClass !== "Select a Class") {
-          // Re-populate the selected class table
           populateTable(selectedClass);
-  
-          // Show the "Randomize" button and hide the "Randomize All" button
           document.getElementById("randomize").style.display = "block";
           document.getElementById("randomizeAll").style.display = "none";
-          document.getElementById("save-combinations").style.display = "none";
+        //  document.getElementById("save-combinations").style.display = "none";
       } else {
-          // Hide the "Randomize" button and show the "Randomize All" button
           document.getElementById("randomize").style.display = "none";
           document.getElementById("randomizeAll").style.display = "block";
           document.getElementById("save-combinations").style.display = "block";
       }
   });
   
-  // Event listener for "Show All Classes" button
   document.getElementById("show-all").addEventListener("click", () => {
-      clearAllTables(); // Clear all tables
+      clearAllTables(); 
       uniqueClasses.forEach(className => {
-          populateTable(className); // Re-populate all tables
+          populateTable(className); 
       });
-  
-      // Show the "Randomize All" button and hide the "Randomize" button
       document.getElementById("randomizeAll").style.display = "block";
       document.getElementById("save-combinations").style.display = "block";
       document.getElementById("randomize").style.display = "none";
+      classSelect.value = "Select a Class";
   });
-  
-  // Event listener for randomize button (all classes)
 document.getElementById("randomizeAll").addEventListener("click", () => {
-    clearAllTables(); // Clear all tables
-
-    // Create a copy of the horse data that can be modified
+    clearAllTables(); 
     const horseDataCopy = [...result.Hlist];
     uniqueClasses.forEach(className => {
-        populateTable(className, horseDataCopy); // Re-populate all tables
+        populateTable(className, horseDataCopy); 
     });
 });
-
-// Event listener for randomize button (selected class)
 document.getElementById("randomize").addEventListener("click", () => {
     const selectedClass = classSelect.value;
-    clearAllTables(); // Clear all tables
-
-    // Create a copy of the horse data that can be modified
+    clearAllTables(); 
     const horseDataCopy = [...result.Hlist];
-    populateTable(selectedClass, horseDataCopy); // Re-populate the selected class table
+    populateTable(selectedClass, horseDataCopy); 
 });
   
-  
+
+document.getElementById("save-combinations").addEventListener("click", () => {
+        const allTables = document.querySelectorAll(".class-table");
+        tablesToExcel(Array.from(allTables).map(table => table.outerHTML), "ihsa-randomizer-data");
+    }); 
   });
-  </script>
+
+function tablesToExcel(tables, sheetName) {
+    const uri = 'data:application/vnd.ms-excel;base64,';
+    const template = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel">
+        <head>
+            <!--[if gte mso 9]>
+            <xml>
+                <x:ExcelWorkbook>
+                    <x:ExcelWorksheets>
+                        <x:ExcelWorksheet>
+                            <x:Name>{worksheet}</x:Name>
+                            <x:WorksheetOptions>
+                                <x:DisplayGridlines/>
+                            </x:WorksheetOptions>
+                        </x:ExcelWorksheet>
+                    </x:ExcelWorksheets>
+                </x:ExcelWorkbook>
+            </xml>
+            <![endif]-->
+        </head>
+        <body>
+            {tables}
+        </body>
+        </html>`;
+    const base64 = function(s) {
+        return window.btoa(unescape(encodeURIComponent(s)));
+    };
+    const format = function(s, c) {
+        return s.replace(/{(\w+)}/g, function(m, p) {
+            return c[p];
+        });
+    };
+    const ctx = {
+        worksheet: sheetName,
+        tables: tables
+    };
+    const blob = new Blob([format(template, ctx)], { type: 'application/vnd.ms-excel' });
+    const link = document.createElement('a');
+    link.href = uri + base64(format(template, ctx));
+    link.download = `${sheetName}.xls`;
+    link.click();
+}
+ </script>
 </body>
 
 </html>

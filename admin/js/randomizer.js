@@ -40,6 +40,7 @@ async function updateRandomizer(){
     if(result2.list){
 
         for(let i=0; i<result2.list.length; i++){
+            console.log(result2.list[i].classname == classSelcted)
             if(result2.list[i].classname == classSelcted){
                 horses.push(result2.list[i].horsename);
                 riders.push(result2.list[i].ridername)
