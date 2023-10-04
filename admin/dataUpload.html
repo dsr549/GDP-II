@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="ISHA.css">
+ 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -188,6 +188,125 @@
 #status {
     margin-top: 10px;
 }
+.popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    .popup-content {
+      background-color: white;
+      width: 80%;
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      position: relative;
+    }
+    .editpopup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    .editpopup-content {
+      background-color: white;
+      width: 80%;
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      position: relative;
+    }
+
+    .editclose {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 25px;
+      cursor: pointer;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 25px;
+      cursor: pointer;
+    }
+    #riderid,
+    #ridername,
+    #horsename,
+    #school,
+    #height,
+    #weight,
+    #remarks,
+    #placing,
+    #oh_ow,
+    #spur,
+    #rein_hold,
+    #isStrong,
+    #experience {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin-left: 35%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+      /* Add CSS styling for side-by-side form inputs */
+  #riderForm label,
+  #riderForm input,
+  #riderForm select,
+  #horseForm label,
+  #horseForm input,
+  #horseForm select {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  #riderForm label, #horseForm label {
+    width: 100px; /* Adjust the width of the labels as needed */
+    display: inline-block;
+  }
+
+  #riderForm input,
+  #riderForm select,#horseForm input,
+  #horseForm select {
+    width: 200px; /* Adjust the width of the input/select fields as needed */
+    display: inline-block;
+  }
+
+  /* Additional styling for the submit button */
+  #riderForm input[type="submit"], #horseForm input[type="submit"] {
+    margin-top: 10px;
+  }
   </style>
 
 <script src="https://kit.fontawesome.com/f52c3b31f3.js" crossorigin="anonymous"></script>
@@ -288,12 +407,45 @@
         <select class="classes" id="classes" onchange="showclass()">
           <option hidden>Select Class</option>
         </select>
-        <button type="button">Add Details</button>
+        <button type="button" id="addRiderBtn">Add Rider</button>
       </div>
     </div>
   </div>
 </div>
-
+<div id="riderPopup" class="popup">
+  <div class="popup-content">
+    <span class="close" id="closePopup">&times;</span>
+    <h5>Add Rider Data</h5>
+    <form id="riderForm">
+      <label for="riderclass">Select Class:</label>
+      <select name="riderclass" id="add-class-options">
+      </select>
+      <label for="riderid">Rider Id:</label>
+      <input type="number" name="riderid" id="riderid" required>
+      <label for="ridername">Name:</label>
+      <input type="text" name="ridername" id="ridername" required>
+      <label for="school">School:</label>
+      <input type="text" name="school" id="school" required>
+      <label for="height">Height:</label>
+      <input type="text" name="height" id="height" required>
+      <label for="weight">Weight:</label>
+      <input type="text" name="weight" id="weight" required>
+      <label for="experience">Experience:</label>
+      <input type="text" name="experience" id="experience" required>
+      <label for="remarks">Remarks:</label>
+      <input type="text" name="remarks" id="remarks" required>
+      <label for="placing">Placing:</label>
+      <input type="number" name="placing" id="placing" required>
+      <label for="oh_ow">OH / OW:</label>
+      <select name="oh_ow" id="oh_ow">
+        <option value="1">True</option>
+        <option value="0">False</option>
+      </select>
+      <input style="left: 20px;" type="submit" value="Submit">
+    </form>
+  </div>
+</div>
+<div id="editrider"></div>
 
    <div class="container">
     <div class="row">
@@ -310,6 +462,10 @@
               <th>Experience</th>
               <th>Remarks</th>
               <th>Placing</th>
+              <th>OH&OW</th>
+              <th>Class</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
             <tbody id="tabletr"></tbody>
         </table>
@@ -332,9 +488,36 @@
           <select class="classes" id="h-classes" onchange="showhorseclass()">
             <option hidden>Select Class</option>
           </select>
-          <button type="button">Add Details</button>
+          <button type="button" id="addHorseBtn">Add Horse</button>
         </div>
       </div>
+    </div>
+  </div>
+  <div id="horsePopup" class="popup">
+    <div class="popup-content">
+      <span class="close" id="closehPopup">&times;</span>
+      <h5>Add Horse</h5>
+      <form id="horseForm">
+        <label for="horseclass">Select Class:</label>
+        <select name="horseclass" id="add-hclass-options">
+        </select>
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="horsename" required>
+        <label for="provider">Provider:</label>
+        <input type="text" name="provider" id="provider" required>
+        <label for="spur">Spur:</label>
+        <input type="text" name="spur" id="spur" required>
+        <label for="rein_hold">Rein hold:</label>
+        <input type="text" name="rein_hold" id="rein_hold" required>
+        <label for="remarks">Remarks:</label>
+        <input type="text" name="remarks" id="remarks" required>
+        <label for="isStrong">Strong:</label>
+        <select name="isStrong" id="isStrong">
+          <option value="1">True</option>
+          <option value="0">False</option>
+        </select>
+        <input style="left: 20px;" type="submit" value="Submit">
+      </form>
     </div>
   </div>
   <div class="container">
@@ -349,6 +532,10 @@
               <th>Spur</th>
               <th>Rein Hold</th>
               <th>Remarks</th>
+              <th>isStrong</th>
+              <th>Class</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
             <tbody id="tableth"></tbody>
         </table>

@@ -175,7 +175,6 @@ async function editData(index){
         })
         .catch(error => {
             console.error('Error sending data to the backend:', error);
-            // Handle errors here (if needed)
         });
     })
     }

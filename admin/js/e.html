@@ -284,106 +284,74 @@ document.addEventListener("DOMContentLoaded", async function () {
           }
       }
 
-      function populateTable(selectedClass) {
-  const tableContainer = document.getElementById("table-container");
-  const filteredRiders = result.Rlist.filter((item) => item.class === selectedClass);
-  const horseDataForClass = result.Hlist.filter(item => item.class && selectedClass.includes(item.class));
-
-
-  const ohOwRiders = filteredRiders.filter((rider) => rider.oh_ow === 1);
-  const regularRiders = filteredRiders.filter((rider) => rider.oh_ow === 0);
-
- 
-  const strongHorses = horseDataForClass.filter((horse) => horse.isStrong === 1);
-  const regularHorses = horseDataForClass.filter((horse) => horse.isStrong === 0 || horse.isStrong === 1);
-
-  const shuffledStrongHorses = [...strongHorses];
-  shuffleArray(shuffledStrongHorses);
-
-  const shuffledRegularHorses = [...regularHorses];
-  shuffleArray(shuffledRegularHorses);
-
-  const table = document.createElement("table");
-  table.className = `class-table ${selectedClass}-table active-table`;
-  let order = 1;
-  table.innerHTML = `
-    <thead>
-      <tr>
-        <th colspan="6">${selectedClass}</th>
-      </tr>
-      <tr>
-        <th>Order</th>
-        <th>Rider ID</th>
-        <th>Rider Name</th>
-        <th>Rider School</th>
-        <th>Horse Name</th>
-        <th>Provider</th>
-      </tr>
-    </thead>
-    <tbody>
-      ${ohOwRiders.map((rider, index) => {
-        if (index < shuffledStrongHorses.length) {
-          const horse = shuffledStrongHorses[index];
-          
-          const horseIndex = shuffledRegularHorses.findIndex((h) =>  h.ID === horse.ID );
-          if (horseIndex !== -1) {
-            shuffledRegularHorses.splice(horseIndex, 1);
-          }
-          return `
+function populateTable(selectedClass) {
+    const tableContainer = document.getElementById("table-container");
+    const filteredRiders = result.Rlist.filter(item => item.class === selectedClass);
+    const horseDataForClass = result.Hlist.filter(item => item.class && selectedClass.includes(item.class));
+   // console.log(horseDataForClass , selectedClass)
+    const shuffledHorseData = [...horseDataForClass];
+    shuffleArray(shuffledHorseData);
+    const horseNames = shuffledHorseData.map(horse => horse.name);
+    const table = document.createElement("table");
+    table.className = `class-table ${selectedClass}-table active-table`; // Initially set as active-table
+    table.innerHTML = `
+        <thead>
             <tr>
-              <td>${order++}</td>
-              <td>${rider.riderid}</td>
-              <td>${rider.name}</td>
-              <td>${rider.school}</td>
-              <td>${horse.name}</td>
-              <td>${horse.provider}</td>
+                <th colspan="6">${selectedClass}</th>
             </tr>
-          `;
-        }
-        return `
-          <tr>
-            <td>${order++}</td>
-            <td>${rider.riderid}</td>
-            <td>${rider.name}</td>
-            <td>${rider.school}</td>
-            <td>-</td>
-            <td>-</td>
-          </tr>
-        `;
-      }).join('')}
-      ${regularRiders.map((rider, index) => {
-        if (index < shuffledRegularHorses.length) {
-          const horse = shuffledRegularHorses[index];
-          return `
             <tr>
-              <td>${order++}</td>
-              <td>${rider.riderid}</td>
-              <td>${rider.name}</td>
-              <td>${rider.school}</td>
-              <td>${horse.name}</td>
-              <td>${horse.provider}</td>
+                <th>Order</th>
+                <th>Rider ID</th>
+                <th>Rider Name</th>
+                <th>Rider School</th>
+                <th>Horse Name</th>
+                <th>Provider</th>
             </tr>
-          `;
-        }
-        return `
-          <tr>
-            <td>${order++}</td>
-            <td>${rider.riderid}</td>
-            <td>${rider.name}</td>
-            <td>${rider.school}</td>
-            <td>-</td>
-            <td>-</td>
-          </tr>
-        `;
-      }).join('')}
-    </tbody>
-  `;
-
-  tableContainer.appendChild(table);
+        </thead>
+        <tbody>
+            ${filteredRiders.map((rider, index) => {
+                const riderWithHorse = shuffledHorseData[index];
+                if (riderWithHorse) {
+                  if(riderWithHorse.isStrong == 1 && rider.oh_ow == 1){
+                    return `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${rider.riderid}</td>
+                            <td>${rider.name}</td>
+                            <td>${rider.school}</td>
+                            <td>${riderWithHorse.name}</td>
+                            <td>${riderWithHorse.provider}</td>
+                        </tr>
+                    `;
+                  } else if(rider.oh_ow == 0) {
+                    return `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${rider.riderid}</td>
+                            <td>${rider.name}</td>
+                            <td>${rider.school}</td>
+                            <td>${riderWithHorse.name}</td>
+                            <td>${riderWithHorse.provider}</td>
+                        </tr>
+                    `;
+                      }
+                } else {
+                    return `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${rider.riderid}</td>
+                            <td>${rider.name}</td>
+                            <td>${rider.school}</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    `;
+                }
+            }).join('')}
+        </tbody>
+    `;
+    tableContainer.appendChild(table);
 }
-
-
-
 
       function clearAllTables() {
           const tableContainer = document.getElementById("table-container");
@@ -480,6 +448,19 @@ function tablesToExcel(tables, sheetName) {
     link.href = uri + base64(format(template, ctx));
     link.download = `${sheetName}.xls`;
     link.click();
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
  </script>
 </body>

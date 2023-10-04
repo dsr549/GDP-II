@@ -172,7 +172,7 @@ const saveAnnouncement = async (req,res) =>{
 const addData = async (req,res) => {
   const { classname,riderid,ridername,school,horsename,provider } = req.body;
   try{
-    if(classname && riderid,ridername && school && horsename && provider){
+    if(classname && riderid && ridername && school && horsename && provider){
 
     const query = `INSERT INTO data (classname,riderid,ridername,school,horsename,provider) VALUES (?,?,?,?,?,?);`;
     const result = await pool.execute(query, [classname,riderid,ridername,school,horsename,provider]);
@@ -252,10 +252,10 @@ try{
     console.log(result.insertId);
     if(result.affectedRows == 1){
 
-         const query = `INSERT INTO riders (file_id, riderid, name, height, weight, experience, school,placing, class, remarks) VALUES (?,?,?,?,?,?,?,?,?,?);`
+         const query = `INSERT INTO riders (file_id, riderid, name, height, weight, experience, school,placing, class, remarks,oh_ow) VALUES (?,?,?,?,?,?,?,?,?,?,?);`
          for(let i=0; i<rows.length;i++){
       
-         await pool.query(query,[result.insertId,rows[i][0],rows[i][1],rows[i][2],rows[i][3],rows[i][4],rows[i][5],rows[i][6],rows[i][7],rows[i][8]]);
+         await pool.query(query,[result.insertId,rows[i][0],rows[i][1],rows[i][2],rows[i][3],rows[i][4],rows[i][5],rows[i][6],rows[i][7],rows[i][8],rows[i][9]]);
      
         };
 
@@ -285,10 +285,10 @@ const uploadHorse = async (req,res) => {
      console.log(result.insertId);
      if(result.affectedRows == 1){
  
-          const query = `INSERT INTO horses (file_id, draw_order, name, provider, spur, rein_hold, remarks,class) VALUES (?,?,?,?,?,?,?,?);`
+          const query = `INSERT INTO horses (file_id, draw_order, name, provider, spur, rein_hold, remarks,class,isStrong) VALUES (?,?,?,?,?,?,?,?,?);`
           for(let i=0; i<rows.length;i++){
        
-          await pool.query(query,[result.insertId,rows[i][0],rows[i][1],rows[i][2],rows[i][3],rows[i][4],rows[i][5],rows[i][6]]);
+          await pool.query(query,[result.insertId,rows[i][0],rows[i][1],rows[i][2],rows[i][3],rows[i][4],rows[i][5],rows[i][6],rows[i][7]]);
       
          };
  
@@ -301,6 +301,115 @@ const uploadHorse = async (req,res) => {
    res.status(500).json({ errorMessage: err });
  }
  }
+
+ const addRider = async (req,res) =>{
+
+  try{
+    const { riderclass,experience,height,oh_ow,placing,remarks,riderid,ridername,school,weight,file_id } = req.body;
+    const query = `INSERT INTO riders(file_id,class,riderid,name,school,height,weight,experience,remarks,placing,oh_ow) VALUES(?,?,?,?,?,?,?,?,?,?,?);`;
+    const insert = await pool.execute(query,[file_id,riderclass,riderid,ridername,school,height,weight,experience,remarks,placing,oh_ow]);
+    res.status(200).json({success: "Added Successfully"});
+  } catch (err){
+    console.log(err);
+    res.status(500).json({ errorMessage: err });
+  }
+  
+}
+
+const addHorse = async (req,res) =>{
+
+  try{
+    const { horseclass,remarks,spur,rein_hold,name,provider,file_id,isStrong } = req.body;
+    const query = `INSERT INTO horses(class,remarks,spur,rein_hold,name,provider,file_id,isStrong) VALUES(?,?,?,?,?,?,?,?);`;
+    const insert = await pool.execute(query,[horseclass,remarks,spur,rein_hold,name,provider,file_id,isStrong]);
+    res.status(200).json({success: "Added Successfully"});
+  } catch (err){
+    console.log(err);
+    res.status(500).json({ errorMessage: err });
+  }
+  
+}
+
+const editRider = async (req,res) =>{
+
+  const {riderid,name,school,height,classname, weight,experience,remarks,placing,oh_ow,primary_key} = req.body;
+  try{
+    if(primary_key){
+
+    const query = `UPDATE riders SET riderid = ${riderid}, class=\'${classname}\', name = \'${name}\',school = \'${school}\', height = \'${height}\',weight = \'${weight}\', experience = \'${experience}\', remarks = \'${remarks}\',placing = \'${placing}\', oh_ow = \'${oh_ow}\'  WHERE ID = ${primary_key};`
+    const result = await pool.execute(query);
+    console.log(result);
+    res.status(201).json({message : "Edited Successfully"});
+  } else {
+    res.status(201).json({message : "No primary key"});
+  }
+  } catch(err){
+    console.log(err);
+    res.status(500).json({ errorMessage: err });
+  }
+  
+}
+
+const editHorse = async (req,res) =>{
+
+  const {  classname,remarks,spur,rein_hold,name,provider,primary_key,isStrong} = req.body;
+  try{
+    if(primary_key){
+
+      const query = `UPDATE horses SET class = \'${classname}\', remarks=\'${remarks}\', spur = \'${spur}\',rein_hold = \'${rein_hold}\', name = \'${name}\',provider = \'${provider}\', isStrong = ${isStrong}  WHERE ID = ${primary_key};`
+      const result = await pool.execute(query);
+    console.log(result);
+    res.status(201).json({message : "Edited Successfully"});
+  } else {
+    res.status(201).json({message : "No primary key"});
+  }
+  } catch(err){
+    console.log(err);
+    res.status(500).json({ errorMessage: err });
+  }
+  
+}
+
+const deleteRider = async (req,res) =>{
+
+  const { ID } = req.body;
+  try{
+    if(ID){
+
+      const deleteQuery = "DELETE FROM riders WHERE ID = ? ";
+      const result = await pool.execute(deleteQuery, [ID]);
+    console.log(result);
+    res.status(201).json({message : "Deleted Successfully"});
+  } else {
+    res.status(201).json({message : "Failed to delete"});
+  }
+  } catch(err){
+    console.log(err);
+    res.status(500).json({ errorMessage: err });
+  }
+  
+}
+
+const deleteHorse = async (req,res) =>{
+
+  const { ID } = req.body;
+  try{
+    if(ID){
+
+      const deleteQuery = "DELETE FROM horses WHERE ID = ? ";
+      const result = await pool.execute(deleteQuery, [ID]);
+    console.log(result);
+    res.status(201).json({message : "Deleted Successfully"});
+  } else {
+    res.status(201).json({message : "Failed to delete"});
+  }
+  } catch(err){
+    console.log(err);
+    res.status(500).json({ errorMessage: err });
+  }
+  
+}
+
 module.exports = {
   login,
   signUp,
@@ -313,5 +422,11 @@ module.exports = {
   getData,
   saveCombination,
   uploadRider,
-  uploadHorse
+  uploadHorse,
+  addRider,
+  addHorse,
+  editRider,
+  editHorse,
+  deleteRider,
+  deleteHorse
 };

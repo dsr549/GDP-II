@@ -294,7 +294,7 @@
             addCustomMarker(40.2022, -85.4089, 'Ball State University', "./images/green.png", 1 , "University of Illinois Urbana-Champaign"); //sub clg 1
             addCustomMarker(39.4801, -88.1759, 'Eastern Illinois University', "./images/green.png", 2 , "University of Illinois Urbana-Champaign"); // sub clg 1 // A2 clg will be ""  and all A clg will be ""
             addCustomMarker(40.4237, -86.9212, 'Purdue University', "./images/green.png", 3 , "University of Illinois Urbana-Champaign");
-            addCustomMarker(40.1106, -88.2284, 'University of Illinois Urbana-Champaign', "./images/marina.png", 4 , ""); //
+            addCustomMarker(40.1106, -88.2284, 'University of Illinois Urbana-Champaign', "./images/marina.png", 4 , "AnchorCollegeOne"); //
             addCustomMarker(39.1666, -86.5265, 'Indiana University', "./images/green.png", 5 , "University of Illinois Urbana-Champaign"); // sub clg 1 // A2 clg will be ""  and all A clg will be ""
             addCustomMarker(39.7729, -86.1752, 'IUPUI', "./images/green.png", 6 , "University of Illinois Urbana-Champaign");
             addCustomMarker(41.3625, -87.3451, 'Lakeland College', "./images/green.png", 7 , "University of Illinois Urbana-Champaign");
@@ -445,6 +445,7 @@
             var firstTitle = marker.getTitle()
             var getid = marker.id
             var basedetail = marker.base
+            console.log(basedetail)
             console.log(getid, "ohoih")
             document.getElementById("school-name").value = firstTitle;
 
@@ -492,16 +493,20 @@
             var AnchorCollegeOne = "University of Illinois Urbana-Champaign";
       
             var checkbox = document.getElementById("anchor-school");
-
+            var dropbox1 = document.getElementById("region").value;
+            console.log("-->>>>>>",dropbox1);
             // add anchor college here
-            if (basedetail === true) {
+            if (basedetail === "AnchorCollegeOne") {
                 checkbox.checked = true;
+                dropbox1.value = "2";
             }
             else{
                 checkbox.checked = false; 
             }
 
             if (basedetail == AnchorCollegeOne) {  // if getting base clg from addCustomMarker == AnchorCollegeOne this works
+                var dropbox1 = document.getElementById("region");
+                dropbox1.value = "2";
                 var request = {
                     origin: firstLocation,
                     destination: AnchorCollegeOneLocation,
@@ -520,7 +525,7 @@
                         alert("Directions request failed: " + status);
                     }
                 });
-
+                
 
             }
 
