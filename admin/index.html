@@ -22,7 +22,7 @@
     </form>-->
     <form id="loginForm">
       <label for="userName"></label>
-      <input type="text" id="userName" name="userName" placeholder="Enter your Username" required>
+      <input type="text" id="userName"  onkeydown="return /[a-zA-Z0-9]/i.test(event.key)" name="userName" placeholder="Enter your Username" required>
       
       <label for="password"></label>
       <input type="password" id="password" name="password" placeholder="Enter your password" required>

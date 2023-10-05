@@ -32,7 +32,7 @@ const login = async (req, res) => {
       }
     }
   } catch (err) {
-    res.status(500).json({ message: err.message});
+    res.status(500).json({ error: "Internal server error, please try again later."});
   }
 };
 
@@ -246,9 +246,9 @@ try{
     }
   })
   console.log("No.of rider rows = ",rows.length);
-  //res.status(200).json({success: rows.length});
+ // res.status(200).json({success: rows.length});
    if(rows.length > 0 ){
-    const fileQuery = `INSERT INTO files (filename) VALUES(?);`;
+   const fileQuery = `INSERT INTO files (filename) VALUES(?);`;
     const [result] = await pool.query(fileQuery,[req.file.filename]);
     console.log(result.insertId);
     if(result.affectedRows == 1){
@@ -260,7 +260,7 @@ try{
      
         };
 
-    }
+    } 
     res.status(200).json({success: "Uploaded Successfully"});
    }
   // res.status(200).json({success: "Uploaded"});
@@ -294,10 +294,10 @@ const uploadHorse = async (req,res) => {
       
          };
  
-     }
+     } 
      res.status(200).json({success: "Uploaded Successfully"});
     }
-  //  res.status(200).json({success: "Uploaded"});
+   // res.status(200).json({success: "Uploaded"});
    
  } catch (err){
    console.log(err);
@@ -323,8 +323,14 @@ const addHorse = async (req,res) =>{
 
   try{
     const { horseclass,remarks,spur,rein_hold,name,provider,file_id,isStrong } = req.body;
+    const remarksValue = remarks !== undefined ? remarks : null;
+    const spurValue = spur !== undefined ? spur : null;
+    const rein_holdValue = rein_hold !== undefined ? rein_hold : null;
     const query = `INSERT INTO horses(class,remarks,spur,rein_hold,name,provider,file_id,isStrong) VALUES(?,?,?,?,?,?,?,?);`;
-    const insert = await pool.execute(query,[horseclass,remarks,spur,rein_hold,name,provider,file_id,isStrong]);
+    for(let i=0; i< horseclass.length; i++){
+      //console.log(horseclass[i]);
+      const insert = await pool.execute(query,[horseclass[i],remarksValue,spurValue,rein_holdValue,name,provider,file_id,isStrong]);
+    }
     res.status(200).json({success: "Added Successfully"});
   } catch (err){
     console.log(err);

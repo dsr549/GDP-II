@@ -12,6 +12,8 @@ signupForm.addEventListener('submit', (e) => {
       console.log(formDataObject);
       if(verifyPassword(formDataObject.password,formDataObject.password2)){
           sendDataToBackend(formDataObject);
+      } else {
+        setTimeout(() => { document.getElementById('message').innerHTML = ''},5000)
       }
     });
 

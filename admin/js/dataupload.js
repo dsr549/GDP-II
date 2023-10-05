@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             classesList += `<option value="${data}">${data}</option>`;
         });
 
-        // Horses class
+        
         result1.Hlist.forEach((data,index)=>{
             if(data.class != null){
 
@@ -38,6 +38,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.getElementById("h-classes").innerHTML = `<option hidden>Select Class</option>`+hclassesList
         document.getElementById("add-class-options").innerHTML = `<option hidden>Select Class</option>`+classesList
         document.getElementById("add-hclass-options").innerHTML = `<option hidden>Select Class</option>`+hclassesList
+        var selectElement = document.getElementById('add-hclass-options');
+        var selectize = $(selectElement).selectize({
+            maxItems: 20,
+            plugins: ['remove_button']
+        });
         result1.Rlist.forEach((data,index) => {
             const rideridCell = data.riderid !== null ? data.riderid : '-';
             const nameCell = data.name !== null ? data.name : '-';
@@ -94,7 +99,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    // Add data functionality
+    
     const addRiderBtn = document.getElementById('addRiderBtn');
     const addHorseBtn = document.getElementById('addHorseBtn');
     const riderPopup = document.getElementById('riderPopup');
@@ -113,7 +118,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     riderForm.addEventListener('submit',async function (e) {
         e.preventDefault();
-        // Get form data
         const formData = new FormData(e.target);
         formData.append("file_id", result1.Rlist[0].file_id)
         const formDataObject = {};
@@ -148,16 +152,21 @@ document.addEventListener("DOMContentLoaded", async function () {
         horsePopup.style.display = 'none';
     });
 
-    horseForm.addEventListener('submit', async function (e) {
+    horseForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-        // Get form data
         const formData = new FormData(e.target);
         formData.append("file_id", result1.Hlist[0].file_id)
         const formDataObject = {};
-        formData.forEach((value, key) => {
-            formDataObject[key] = value;
-        });
-      console.log(formDataObject);
+        for (let [key, value] of formData.entries()) {
+            if (key === 'horseclass') {
+                const selectElement = document.getElementById('add-hclass-options');
+                const selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
+                formDataObject[key] = selectedOptions;
+            } else {
+                formDataObject[key] = value;
+            }
+        }
+        console.log(formDataObject);
       const addHorse = await fetch('/admin/api/addHorse', {
         method: 'POST',
         headers: {
@@ -383,6 +392,8 @@ function editRow(ID) {
   
     
     console.log('Updated data:', updatedData);
+    const confirmEdit=confirm("Are you sure want to save?");
+    if(confirmEdit){
     const updateRider = await fetch('/admin/api/editRider', {
         method: 'POST',
         headers: {
@@ -396,6 +407,9 @@ function editRow(ID) {
         location.reload();
     } else {
         alert(updateRider.errorMessage);
+        location.reload();
+    }
+    } else {
         location.reload();
     }
   }
@@ -426,6 +440,8 @@ function editRow(ID) {
       primary_key: ID,
     };
     console.log('Updated data:', updatedData);
+    const confirmEdit=confirm("Are you sure want to save changes?");
+    if(confirmEdit){
     const updateHorse = await fetch('/admin/api/editHorse', {
         method: 'POST',
         headers: {
@@ -441,33 +457,38 @@ function editRow(ID) {
         alert(updateHorse.errorMessage);
         location.reload();
     }
+    } else {
+        location.reload();
+    }
   }
   
 async function deleteRow(ID) {
+    const confirmEdit=confirm("Are you sure you want to delete?");
+    if(confirmEdit){
+        console.log('Delete button clicked for riderid: ' , ID);
 
-console.log('Delete button clicked for riderid: ' , ID);
-
-const deleteRider = await fetch('/admin/api/deleteRider', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ID : ID})
-}).then((res) => res.json())
-console.log(deleteRider);
-if(deleteRider.message){
-    alert(deleteRider.message);
-    location.reload();
-} else {
-    alert(deleteRider.errorMessage);
-    location.reload();
-}
-
+        const deleteRider = await fetch('/admin/api/deleteRider', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ID : ID})
+        }).then((res) => res.json())
+        console.log(deleteRider);
+        if(deleteRider.message){
+            alert(deleteRider.message);
+            location.reload();
+        } else {
+            alert(deleteRider.errorMessage);
+            location.reload();
+        }
+    }
 
 }
 
 async function deletehRow(ID) {
-
+    const confirmEdit=confirm("Are you sure you want to delete?");
+        if(confirmEdit){
     console.log('Delete button clicked for horseid: ' , ID);
     
     const deleteRider = await fetch('/admin/api/deleteHorse', {
@@ -485,13 +506,13 @@ async function deletehRow(ID) {
         alert(deleteRider.errorMessage);
         location.reload();
     }
-    
+    }
     
     }
 
 
 
-    async function handleRiderFiles(files) {
+async function handleRiderFiles(files) {
         for (const file of files) {
             if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.type === 'application/vnd.ms-excel') {
                 riderUploadDetails.textContent = `Uploading ${file.name} (${file.size} bytes)...`;
@@ -503,20 +524,38 @@ async function deletehRow(ID) {
                           'Content-Type': 'multipart/form-data'
                       },
                       onUploadProgress: function(progressEvent) {
-                        var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total) - 10;
                         riderUploadProgress.style.width = percentCompleted + '%';
                         riderUploadProgress.textContent = percentCompleted + '%';
                     }
                 });
                   console.log(result);
                   if(result.data.success){
+                    riderUploadProgress.style.backgroundColor = 'green';
+                    riderUploadProgress.style.width = '100%';
+                    riderUploadProgress.textContent = '100%';
                     riderUploadDetails.textContent = ' Upload successful!';
-                    setTimeout(() => window.location.reload(true), 5000);
+                    setTimeout(() => {
+                        alert("Uploaded Successfully");
+                        window.location.reload(true);
+                        
+                    }, 5000);
+                    
                     //alert("Uploaded Successfully");
                   }else{
-                    riderUploadDetails.textContent = ' Upload failed: ' + result.errorMessage;
-                    setTimeout(() => window.location.reload(true), 8000);
+                    riderUploadProgress.style.backgroundColor = 'red';
+                    riderUploadProgress.style.width = '90%';
+                    riderUploadProgress.textContent = '90%';
+                    riderUploadDetails.textContent = ' Upload failed: ' + result.data.errorMessage;
+                    setTimeout(() =>{
+                        riderUploadProgress.style.width = '0%';
+                        riderUploadProgress.textContent = '0%';
+                    }, 4000);
                    // alert(result.errorMessage);
+                   setTimeout(() => {
+                   // alert("Uploaded Successfully");
+                    window.location.reload(true);  
+                }, 6000);
                   }
             } else {
                 riderUploadDetails.textContent = `${file.name} is not a valid Excel file.`;
@@ -536,7 +575,7 @@ async function deletehRow(ID) {
                           'Content-Type': 'multipart/form-data'
                       },
                       onUploadProgress: function(progressEvent) {
-                        var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total) -10;
                         horseUploadProgress.style.width = percentCompleted + '%';
                         horseUploadProgress.textContent = percentCompleted + '%';
                     }
@@ -544,14 +583,29 @@ async function deletehRow(ID) {
     
                   console.log(result);
                   if(result.data.success){
+                    horseUploadProgress.style.backgroundColor = 'green';
+                    horseUploadProgress.style.width = '100%';
+                    horseUploadProgress.textContent = '100%';
                     horseUploadDetails.textContent = ' Upload successful!';
-                    setTimeout(() => window.location.reload(true), 5000);
-                   // alert("Uploaded Successfully");
+                    setTimeout(() => {
+                        alert("Uploaded Successfully");
+                        window.location.reload(true);
+                        
+                    }, 5000);
                   }else{
-                    horseUploadDetails.textContent = ' Upload failed: ' + result.errorMessage;
-                    setTimeout(() => window.location.reload(true), 5000);
-
+                    horseUploadProgress.style.backgroundColor = 'red';
+                    horseUploadProgress.style.width = '90%';
+                    horseUploadProgress.textContent = '90%';
+                    horseUploadDetails.textContent = ' Upload failed: ' + result.data.errorMessage;
+                    setTimeout(() =>{
+                        horseUploadProgress.style.width = '0%';
+                        horseUploadProgress.textContent = '0%';
+                    }, 4000);
                    // alert(result.errorMessage);
+                   setTimeout(() => {
+                   // alert("Uploaded Successfully");
+                    window.location.reload(true);  
+                }, 6000);
                   }
             } else {
                 horseUploadDetails.textContent = `${file.name} is not a valid Excel file.`;

@@ -40,7 +40,7 @@
       margin-top: 40px;
     }
     #announcements{
-      margin: 0 20px 0 30px;
+      margin: 50px 20px 0 30px;
       font-size: 16px;
     }
     .announcement-item {
@@ -111,8 +111,8 @@
       background-color: white;
       width: 80%;
       max-width: 400px;
-      margin: 100px auto;
-      padding: 20px;
+      margin: 200px auto;
+      padding: 50px;
       border: 1px solid #ccc;
       border-radius: 5px;
       position: relative;
@@ -132,8 +132,8 @@
       background-color: white;
       width: 80%;
       max-width: 400px;
-      margin: 100px auto;
-      padding: 20px;
+      margin: 200px auto;
+      padding: 50px;
       border: 1px solid #ccc;
       border-radius: 5px;
       position: relative;
@@ -202,6 +202,9 @@
         color: #fff;
         background-image: linear-gradient(45deg, #32be8f 0%, #38d39f 510%, #32be8f 100%);
     }
+    .active{
+      color: #4CBB17 !important;
+    }
   </style>
   <script src="https://kit.fontawesome.com/f52c3b31f3.js" crossorigin="anonymous"></script>
   <script src="js/auth.js"></script>
@@ -224,10 +227,10 @@
             </a>
             <!-- ***** Menu Start ***** -->
             <ul class="nav" style="margin-top: 40px !important;">
-              <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
+              <li class="scroll-to-section"><a class="active" href="announcements.html">Announcement</a></li>
               <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
               <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
-              <li class="scroll-to-section"><a target="_blank" href="maps.html">Maps</a></li>
+              <li class="scroll-to-section"><a href="maps.html">Maps</a></li>
               <li class="scroll-to-section"><a href="contactuspage.html">Contact Us</a></li>
               <li class="scroll-to-section"><a href="gallerypage.html">Gallery</a></li>
               <button id="logout" style="margin-right: 0px !important; margin-left: 60px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
@@ -315,7 +318,7 @@
     <div class="social">
       <a href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook fa-2x"></i></a>
           <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter fa-2x"></i></a>
-          <a href="https://www.youtube.com/@IHSAArchives" target="_blank"><i class="fab fa-youtube fa-2x"></i></a>
+          <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube fa-2x"></i></a>
           <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a>
     </div>
     <p>copyright &copy 2023 - IHSA</p>
