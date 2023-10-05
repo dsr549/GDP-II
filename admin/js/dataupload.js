@@ -204,7 +204,7 @@ async function showclass(){
                 const editButton = `<button  class="edit-button" onclick="editRow('${data.ID}')">Edit</button>`;
                 const deleteButton = `<button class="delete-button" onclick="deleteRow('${data.ID}')">Delete</button>`;
                 const saveButton = `<button class="save-button" style="display: none;" onclick="saveRow('${data.ID}')">Save</button>`;
-                const temp = `<tr>
+                const temp = `<tr id="${data.ID}">
                     <td>${rideridCell}</td>
                     <td>${nameCell}</td>
                     <td>${schoolCell}</td>
@@ -269,6 +269,10 @@ const horseDropArea = document.getElementById('horse-drop-area');
 const riderFileInput = document.getElementById('rider-file-input');
 const horseFileInput = document.getElementById('horse-file-input');
 const fileStatus = document.getElementById('status');
+const riderUploadProgress = document.getElementById('rider-upload-progress');
+const horseUploadProgress = document.getElementById('horse-upload-progress');
+const riderUploadDetails = document.getElementById('rider-upload-details');
+const horseUploadDetails = document.getElementById('horse-upload-details');
 
 riderDropArea.addEventListener('dragover', (e) => {
     e.preventDefault();
@@ -352,27 +356,17 @@ function editRow(ID) {
     const editButton = row.querySelector('.edit-button');
     const saveButton = row.querySelector('.save-button');
     const deleteButton = row.querySelector('.delete-button');
-    const tdElements = row.querySelectorAll('td'); // Select all td elements in the row
-  
-    // Exclude buttons with specific classes from being edited
+    const tdElements = row.querySelectorAll('td'); 
     const editableTdElements = Array.from(tdElements).filter((td) => {
       const isButton = td.querySelector('.edit-button') || td.querySelector('.save-button') || td.querySelector('.delete-button');
       return !isButton;
     });
-  
-    // Disable editing for td elements
     editableTdElements.forEach((td) => {
       td.contentEditable = false;
     });
-  
-    // Enable the "Delete" button
     deleteButton.removeAttribute('disabled');
-  
-    // Show the "Edit" button and hide the "Save" button
     editButton.style.display = 'inline-block';
     saveButton.style.display = 'none';
-  
-    // Extract and collect the updated data from td elements
     const updatedData = {
       riderid: tdElements[0].textContent,
       name: tdElements[1].textContent,
@@ -387,8 +381,7 @@ function editRow(ID) {
       primary_key: ID,
     };
   
-    // You can now send the updated data to the backend here
-    // You may need to make an API request with the updatedData object
+    
     console.log('Updated data:', updatedData);
     const updateRider = await fetch('/admin/api/editRider', {
         method: 'POST',
@@ -498,53 +491,73 @@ async function deletehRow(ID) {
 
 
 
-async function handleRiderFiles(files) {
-    for (const file of files) {
-        if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.type === 'application/vnd.ms-excel') {
-
-            const formData = new FormData();
-            formData.append("riders", file);
-
-            const result = await axios.post('/admin/api/uploadRider', formData, {
-                  headers: {
-                      'Content-Type': 'multipart/form-data'
-                  }
-              });
-              console.log(result);
-              if(result.data.success){
-                alert("Uploaded Successfully");
-              }else{
-                alert(result.errorMessage);
-              }
-        } else {
-            fileStatus.textContent = `${file.name} is not a valid Excel file.`;
-        }
-    }
-}
-
-async function handleHorseFiles(files) {
-    for (const file of files) {
-        if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.type === 'application/vnd.ms-excel') {
-
-            const formData = new FormData();
-            formData.append("horses", file);
+    async function handleRiderFiles(files) {
+        for (const file of files) {
+            if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.type === 'application/vnd.ms-excel') {
+                riderUploadDetails.textContent = `Uploading ${file.name} (${file.size} bytes)...`;
+                const formData = new FormData();
+                formData.append("riders", file);
     
-            const result = await axios.post('/admin/api/uploadHorse', formData, {
-                  headers: {
-                      'Content-Type': 'multipart/form-data'
+                const result = await axios.post('/admin/api/uploadRider', formData, {
+                      headers: {
+                          'Content-Type': 'multipart/form-data'
+                      },
+                      onUploadProgress: function(progressEvent) {
+                        var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        riderUploadProgress.style.width = percentCompleted + '%';
+                        riderUploadProgress.textContent = percentCompleted + '%';
+                    }
+                });
+                  console.log(result);
+                  if(result.data.success){
+                    riderUploadDetails.textContent = ' Upload successful!';
+                    setTimeout(() => window.location.reload(true), 5000);
+                    //alert("Uploaded Successfully");
+                  }else{
+                    riderUploadDetails.textContent = ' Upload failed: ' + result.errorMessage;
+                    setTimeout(() => window.location.reload(true), 8000);
+                   // alert(result.errorMessage);
                   }
-              });
-              console.log(result);
-              if(result.data.success){
-                alert("Uploaded Successfully");
-              }else{
-                alert(result.errorMessage);
-              }
-        } else {
-            fileStatus.textContent = `${file.name} is not a valid Excel file.`;
+            } else {
+                riderUploadDetails.textContent = `${file.name} is not a valid Excel file.`;
+            }
         }
     }
-}
+    
+    async function handleHorseFiles(files) {
+        for (const file of files) {
+            if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.type === 'application/vnd.ms-excel') {
+                horseUploadDetails.textContent = `Uploading ${file.name} (${file.size} bytes)...`;
+                const formData = new FormData();
+                formData.append("horses", file);
+    
+                const result = await axios.post('/admin/api/uploadHorse', formData, {
+                      headers: {
+                          'Content-Type': 'multipart/form-data'
+                      },
+                      onUploadProgress: function(progressEvent) {
+                        var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        horseUploadProgress.style.width = percentCompleted + '%';
+                        horseUploadProgress.textContent = percentCompleted + '%';
+                    }
+                  });
+    
+                  console.log(result);
+                  if(result.data.success){
+                    horseUploadDetails.textContent = ' Upload successful!';
+                    setTimeout(() => window.location.reload(true), 5000);
+                   // alert("Uploaded Successfully");
+                  }else{
+                    horseUploadDetails.textContent = ' Upload failed: ' + result.errorMessage;
+                    setTimeout(() => window.location.reload(true), 5000);
+
+                   // alert(result.errorMessage);
+                  }
+            } else {
+                horseUploadDetails.textContent = `${file.name} is not a valid Excel file.`;
+            }
+        }
+    }
 
 async function uploadFileToBackend(file) {
 

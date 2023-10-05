@@ -13,7 +13,7 @@ loginForm.addEventListener('submit', (e) => {
     });
 
 function sendDataToBackend(formDataObject) {
-    fetch('/admin/api/login', {
+    fetch('/api/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -22,27 +22,18 @@ function sendDataToBackend(formDataObject) {
     })
     .then(response => response.json())
     .then(responseData => {
+       // console.log('Response from the backend:', responseData);
+        // Handle the response from the backend here (if needed)
         if(responseData.message){
-           // alert("Successfully Logged In! ");
-           document.getElementById("tick").innerText = "";
-           document.getElementById("color-change").style.backgroundColor = "#444";
-           document.getElementById("verifiedIcon").style.display = "block";
+            alert("Success Fully Logged In! ");
             console.log(responseData);
             sessionStorage.setItem('token', responseData.token);
-            sessionStorage.setItem('username', responseData.username);
-            setTimeout(() => window.location.href="announcements.html", 2000);
-        }else{
-            console.log(responseData)
-            responseData.msg ? alert(responseData.msg) : alert(responseData.error);
+            sessionStorage.setItem('email', responseData.email);
+          //  window.location.href="announcements.html";
         }
     })
     .catch(error => {
         console.error('Error sending data to the backend:', error);
+        // Handle errors here (if needed)
     });  
-}
-
-
-if((sessionStorage.getItem('token'))){
-    //location.href="../index.html";
-   window.location.href="announcements.html";
 }

@@ -165,7 +165,7 @@ async function editData(index){
         .then(responseData => {
      
             if(responseData.message){
-                alert("Announcement added!");
+                alert("Announcement edited successfully!");
                 console.log(responseData);
                 location.reload();
             }else{

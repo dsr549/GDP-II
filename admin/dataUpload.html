@@ -16,6 +16,8 @@
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Add Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 
   <!-- Additional CSS Files -->
@@ -247,6 +249,8 @@
     }
     #riderid,
     #ridername,
+    #add-class-options,
+    #add-hclass-options,
     #horsename,
     #school,
     #height,
@@ -255,6 +259,7 @@
     #placing,
     #oh_ow,
     #spur,
+    #provider,
     #rein_hold,
     #isStrong,
     #experience {
@@ -271,7 +276,7 @@
       border: none;
       padding: 10px 20px;
       border-radius: 5px;
-      margin-left: 35%;
+      margin-left: 25%;
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
@@ -310,6 +315,7 @@
   </style>
 
 <script src="https://kit.fontawesome.com/f52c3b31f3.js" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/logout.js"></script>
@@ -383,16 +389,27 @@
   <div class="form-container">
     <div class="row">
         <div class="col-lg-12">
-            <div id="rider-drop-area">
-                <h1>Drag and Drop Riders Excel Files Here</h1>
-                <p onclick="selectRiderFiles()">Or click to select files</p>
-                <input type="file" id="rider-file-input" accept=".xlsx, .xls" multiple>
-            </div>
-            <div id="horse-drop-area">
-                <h1>Drag and Drop Horses Excel Files Here</h1>
-                <p onclick="selectHorseFiles()">Or click to select files</p>
-                <input type="file" id="horse-file-input" accept=".xlsx, .xls" multiple>
-            </div>
+          <div id="rider-drop-area">
+            <h1>Drag and Drop Riders Excel Files Here</h1>
+            <p onclick="selectRiderFiles()">Or click to select files</p>
+            <input type="file" id="rider-file-input" accept=".xlsx, .xls" multiple>
+            <div class="progress mt-3">
+              <div id="rider-upload-progress" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+          </div>
+          <div class="mt-2" id="rider-upload-details"></div>
+            <!--<progress id="rider-upload-progress" value="0" max="100"></progress>-->
+        </div>
+        
+        <div id="horse-drop-area">
+            <h1>Drag and Drop Horses Excel Files Here</h1>
+            <p onclick="selectHorseFiles()">Or click to select files</p>
+            <input type="file" id="horse-file-input" accept=".xlsx, .xls" multiple>
+            <div class="progress mt-3">
+              <div id="horse-upload-progress" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+          </div>
+          <div class="mt-2" id="horse-upload-details"></div>
+            <!--<progress id="horse-upload-progress" value="0" max="100"></progress>-->
+        </div>
             <div id="status"></div>
         </div>
     </div>
@@ -427,15 +444,15 @@
       <label for="school">School:</label>
       <input type="text" name="school" id="school" required>
       <label for="height">Height:</label>
-      <input type="text" name="height" id="height" required>
+      <input type="text" name="height" id="height" >
       <label for="weight">Weight:</label>
-      <input type="text" name="weight" id="weight" required>
+      <input type="text" name="weight" id="weight" >
       <label for="experience">Experience:</label>
-      <input type="text" name="experience" id="experience" required>
+      <input type="text" name="experience" id="experience" >
       <label for="remarks">Remarks:</label>
-      <input type="text" name="remarks" id="remarks" required>
+      <input type="text" name="remarks" id="remarks" >
       <label for="placing">Placing:</label>
-      <input type="number" name="placing" id="placing" required>
+      <input type="number" name="placing" id="placing">
       <label for="oh_ow">OH / OW:</label>
       <select name="oh_ow" id="oh_ow">
         <option value="1">True</option>
@@ -506,11 +523,11 @@
         <label for="provider">Provider:</label>
         <input type="text" name="provider" id="provider" required>
         <label for="spur">Spur:</label>
-        <input type="text" name="spur" id="spur" required>
+        <input type="text" name="spur" id="spur">
         <label for="rein_hold">Rein hold:</label>
-        <input type="text" name="rein_hold" id="rein_hold" required>
+        <input type="text" name="rein_hold" id="rein_hold">
         <label for="remarks">Remarks:</label>
-        <input type="text" name="remarks" id="remarks" required>
+        <input type="text" name="remarks" id="remarks">
         <label for="isStrong">Strong:</label>
         <select name="isStrong" id="isStrong">
           <option value="1">True</option>
@@ -548,7 +565,7 @@
     <div class="social">
       <a href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook fa-2x"></i></a>
           <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter fa-2x"></i></a>
-          <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube fa-2x"></i></a>
+          <a href="https://www.youtube.com/@IHSAArchives" target="_blank"><i class="fab fa-youtube fa-2x"></i></a>
           <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a>
     </div>
     <p>copyright &copy 2023 - IHSA</p>

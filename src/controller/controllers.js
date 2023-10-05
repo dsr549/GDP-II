@@ -245,7 +245,8 @@ try{
       return data;
     }
   })
-   // console.log(rows);
+  console.log("No.of rider rows = ",rows.length);
+  //res.status(200).json({success: rows.length});
    if(rows.length > 0 ){
     const fileQuery = `INSERT INTO files (filename) VALUES(?);`;
     const [result] = await pool.query(fileQuery,[req.file.filename]);
@@ -262,6 +263,7 @@ try{
     }
     res.status(200).json({success: "Uploaded Successfully"});
    }
+  // res.status(200).json({success: "Uploaded"});
   
 } catch (err){
   console.log(err);
@@ -278,7 +280,7 @@ const uploadHorse = async (req,res) => {
        return data;
      }
    })
-    // console.log(rows);
+     console.log("No.of horse rows = ",rows.length);
     if(rows.length > 0 ){
      const fileQuery = `INSERT INTO files (filename) VALUES(?);`;
      const [result] = await pool.query(fileQuery,[req.file.filename]);
@@ -295,6 +297,7 @@ const uploadHorse = async (req,res) => {
      }
      res.status(200).json({success: "Uploaded Successfully"});
     }
+  //  res.status(200).json({success: "Uploaded"});
    
  } catch (err){
    console.log(err);
