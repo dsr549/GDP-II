@@ -10,6 +10,9 @@ const port = 3000;
 const app = express();
 const adminApp = express();
 
+// Serve files from the current directory
+app.use(express.static(__dirname));
+
 // Set up middleware for admin subdomain
 const adminDirectoryPath = path.join(__dirname, 'admin');
 adminApp.use(express.static(adminDirectoryPath));

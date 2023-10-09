@@ -108,15 +108,12 @@ const editAnnouncement = async (req,res) => {
   try{
     const { id } = req.query;
     console.log(id);
-    const fetchQuery = "SELECT * FROM announcements";
+    const fetchQuery = `SELECT * FROM announcements WHERE ID = ${id}`;
     const [announcements] = await pool.execute(fetchQuery);
     if (announcements.length == 0) {
       res.status(401).json({ errorMessage: "Empty announcements" });
     } else {
-      console.log(announcements[id]);
-      if(announcements[id]){
-        res.status(201).json({idAnnouncement : announcements[id]});
-      }
+        res.status(201).json({idAnnouncement : announcements[0]});     
     }
   } catch (err) {
     console.log(err);
@@ -128,20 +125,10 @@ const deleteAnnouncement = async (req,res) => {
   try{
     const { id } = req.query;
     console.log(id);
-    const fetchQuery = "SELECT * FROM announcements";
-    const [announcements] = await pool.execute(fetchQuery);
-    if (announcements.length == 0) {
-      res.status(401).json({ errorMessage: "Empty announcements" });
-    } else {
-      console.log(announcements[id]);
-      const deleteTitle = announcements[id].title;
-      const deleteQuery = "DELETE FROM announcements WHERE title = ? ";
-      const result = await pool.execute(deleteQuery, [deleteTitle]);
-      console.log(result);
-      if(result){
-        res.status(201).json({message: "Deleted Successfully"});
-      }
-    }
+    const fetchQuery = "DELETE FROM announcements WHERE ID = ? ";
+    const announcements = await pool.execute(fetchQuery, [id]);
+    console.log(announcements);
+    res.status(201).json({message: "Deleted Successfully"});
 
   } catch (err) {
     console.log(err);
@@ -151,11 +138,11 @@ const deleteAnnouncement = async (req,res) => {
 
 const saveAnnouncement = async (req,res) =>{
 
-  const { title,message,username,date, previousTitle} = req.body;
+  const { title,message,username,date, previousTitle,ID} = req.body;
   try{
-    if(previousTitle){
+    if(ID){
 
-    const query = `UPDATE announcements SET title = \'${title}\', message = \'${message}\', date = \'${date}\' WHERE title = \'${previousTitle}\';`
+    const query = `UPDATE announcements SET title = \'${title}\', message = \'${message}\', date = \'${date}\' WHERE ID = \'${ID}\';`
     const result = await pool.execute(query);
     console.log(result);
     res.status(201).json({message : "Edited Successfully"});
@@ -190,24 +177,27 @@ const addData = async (req,res) => {
 const getData = async (req,res) => {
   try{
 
-    const Rquery = `SELECT r.*
+    const Rquery = `SELECT r.*, f.filename
     FROM (
         SELECT MAX(f.file_id) AS latest_rider_id
         FROM files AS f
         WHERE f.filename LIKE '%-riders%'
     ) AS latest_rider
-    LEFT JOIN riders AS r ON r.file_id = latest_rider.latest_rider_id;`;
+    LEFT JOIN riders AS r ON r.file_id = latest_rider.latest_rider_id
+    LEFT JOIN files AS f ON r.file_id = f.file_id;
+    `;
 
     const Hquery = `
-      SELECT h.*
-      FROM (
-          SELECT MAX(f.file_id) AS latest_horse_id
-          FROM files AS f
-          WHERE f.filename LIKE '%-horses%'
-      ) AS latest_horse
-      LEFT JOIN horses AS h ON h.file_id = latest_horse.latest_horse_id;
-    `;
+    SELECT h.*, f.filename
+    FROM (
+        SELECT MAX(f.file_id) AS latest_horse_id
+        FROM files AS f
+        WHERE f.filename LIKE '%-horses%'
+    ) AS latest_horse
+    LEFT JOIN horses AS h ON h.file_id = latest_horse.latest_horse_id
+    LEFT JOIN files AS f ON h.file_id = f.file_id;
     
+    `;
     const Rlist = await pool.execute(Rquery);
     const Hlist = await pool.execute(Hquery);
     if(Rlist[0].length === 0 || Hlist[0].length === 0 ){
@@ -239,12 +229,13 @@ const saveCombination = async (req,res) => {
 const uploadRider = async (req,res) => {
  // console.log(req,res);
 try{
-  const rows = await readXlsxFile(path.join(__dirname,`../router/files/${req.file.filename}`)).then((data) => {
-    data.shift();
-    if (data) {
-      return data;
-    }
-  })
+  const filePath = path.join(__dirname, '..', '..', 'files', req.file.filename);
+  const rows = await readXlsxFile(filePath).then((data) => {
+      data.shift();
+      if (data) {
+        return data;
+      }
+    })
   console.log("No.of rider rows = ",rows.length);
  // res.status(200).json({success: rows.length});
    if(rows.length > 0 ){
@@ -274,7 +265,8 @@ try{
 const uploadHorse = async (req,res) => {
   // console.log(req,res);
  try{
-   const rows = await readXlsxFile(path.join(__dirname,`../router/files/${req.file.filename}`)).then((data) => {
+  const filePath = path.join(__dirname, '..', '..', 'files', req.file.filename);
+  const rows = await readXlsxFile(filePath).then((data) => {
      data.shift();
      if (data) {
        return data;

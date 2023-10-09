@@ -15,27 +15,29 @@ document.addEventListener('DOMContentLoaded', async function () {
     ];
     if(announcementsList.announcements){
 
-  // Calculate the current date in JavaScript
+  
 const currentDate = new Date();
 
-announcementsList.announcements.sort((a, b) => new Date(b.date) - new Date(a.date));
+//announcementsList.announcements.sort((a, b) => new Date(b.date) - new Date(a.date));
+announcementsList.announcements.reverse()
+console.log(announcementsList)
 announcementsList.announcements.forEach((data, index) => {
-    // Split the date string into components
+    
     const dateComponents = data.date.split('-');
     const year = parseInt(dateComponents[0]);
-    const month = parseInt(dateComponents[1]) - 1; // JavaScript months are 0-based
+    const month = parseInt(dateComponents[1]) - 1; 
     const day = parseInt(dateComponents[2]);
 
-    // Create a Date object from the components
+    
     const dateAdded = new Date(year, month, day);
 
-    // Calculate the time difference in milliseconds
+    
     const timeDifference = currentDate - dateAdded;
 
-    // Define a threshold (e.g., announcements added within the last 7 days are considered "new")
-    const newAnnouncementThreshold = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+    
+    const newAnnouncementThreshold = 1 * 24 * 60 * 60 * 1000; 
 
-    // Check if the announcement is "new" based on the threshold
+    
     const isNewAnnouncement = timeDifference <= newAnnouncementThreshold;
 
     var announcement = `<div class="row announcement-item">
@@ -48,8 +50,8 @@ announcementsList.announcements.forEach((data, index) => {
         <div class="col-lg-4">
           <div class="announcement-date"> ${monthNames[month]} ${day}, ${year}</div>
           <div class="announcement-buttons">
-            <button class="btn btn-primary" onclick="editData('${index}')">Edit Announcement</button>
-            <button class="btn btn-danger" onclick="deleteData('${index}')">Delete Announcement</button>
+            <button class="btn btn-primary" onclick="editData('${data.ID}')">Edit Announcement</button>
+            <button class="btn btn-danger" onclick="deleteData('${data.ID}')">Delete Announcement</button>
           </div>
         </div>
       </div>`;
@@ -167,7 +169,7 @@ async function editData(index){
         const formattedDate = currentDate.toISOString().toString().substring(0,10);
         const username = sessionStorage.getItem("username");
 
-        console.log('previousTitle:',  result.idAnnouncement.title);
+        console.log('ID:',  result.idAnnouncement.ID);
         console.log('Message:', message);
         console.log('Date:', formattedDate);
         console.log("username: ", username);
@@ -178,7 +180,7 @@ async function editData(index){
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                previousTitle : result.idAnnouncement.title,
+                ID : result.idAnnouncement.ID,
                 title: title,
                 message: message,
                 date: formattedDate,

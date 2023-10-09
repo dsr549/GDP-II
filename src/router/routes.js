@@ -2,13 +2,15 @@ const express = require("express");
 const router = express.Router();
 const controller = require("../controller/controllers");
 const multer = require('multer');
+const path = require('path');
+const time = new Date();
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null,__dirname + '/files/')
+      cb(null, path.join(__dirname, '..', '..', 'files'));
     },
     filename: (req, file, cb) => {
-      cb(null, file.fieldname + '-' + Date.now() + '-' + file.originalname)
+      cb(null, file.fieldname + '-' + time.getHours()+ '-' + time.getMinutes() + '-' + file.originalname)
     },
   });
 

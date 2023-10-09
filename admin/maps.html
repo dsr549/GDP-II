@@ -96,19 +96,7 @@
     th {
       background-color: #f2f2f2;
     }
-   .btn {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #4CBA17;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-      }
-
-      .btn:hover {
-        background-color: #4CBB17;
-      }
+   
 
 
 /* footer */
@@ -293,30 +281,9 @@
   <!-- Sub Header -->
 
 
+
  <!-- ***** Header Area Start ***** -->
  <header class="announcement-header-area" style="background-color: #444; height: 150px;">
-  <!--<div class="sub-header">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-sm-8">
-          <div class="left-content">
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-4">
-          <div class="right-icons">
-            <ul>
-              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-              <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-            </ul>
-            
-          </div>
-          
-        </div>
-      </div>
-    </div>
-  </div>-->
     <div class="container">
       <div class="row">
         <div class="col-12">
@@ -326,19 +293,21 @@
             </a>
             <!-- ***** Menu Start ***** -->
             <ul class="nav" style="margin-top: 40px !important;">
-              <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
+              <li class="scroll-to-section"><a  href="announcements.html">Announcement</a></li>
               <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
               <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
               <li class="scroll-to-section"><a class="active" href="maps.html">Maps</a></li>
               <li class="scroll-to-section"><a href="contactuspage.html">Contact Us</a></li>
               <li class="scroll-to-section"><a href="gallerypage.html">Gallery</a></li>
-              <button id="logout" style="margin-right: 0px !important; background-color: #0b5ed7 !important; margin-left: 60px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
+              <button id="logout" style="margin-right: 0px !important; margin-left: 60px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
             </ul>
+            
             <a class='menu-trigger'>
               <span>Menu</span>
             </a>
             <!-- ***** Menu End ***** -->
           </nav>
+          
         </div>
       </div>
     </div>
@@ -462,16 +431,60 @@
         directionsRenderer = new google.maps.DirectionsRenderer();
         directionsRenderer.setMap(map);
 
-
+        // Region 1
         addCustomMarker(40.2022, -85.4089, 'Ball State University', "./images/green.png", 1, "University of Illinois Urbana-Champaign"); //sub clg 1
-        addCustomMarker(39.4801, -88.1759, 'Eastern Illinois University', "./images/green.png", 2, "University of Illinois Urbana-Champaign"); // sub clg 1 // A2 clg will be ""  and all A clg will be ""
-        addCustomMarker(40.4237, -86.9212, 'Purdue University', "./images/green.png", 3, "University of Illinois Urbana-Champaign");
-        addCustomMarker(40.1106, -88.2284, 'University of Illinois Urbana-Champaign', "./images/marina.png", 4, "AnchorCollegeOne"); //
-        addCustomMarker(39.1666, -86.5265, 'Indiana University', "./images/green.png", 5, "University of Illinois Urbana-Champaign"); // sub clg 1 // A2 clg will be ""  and all A clg will be ""
-        addCustomMarker(39.7729, -86.1752, 'IUPUI', "./images/green.png", 6, "University of Illinois Urbana-Champaign");
-        addCustomMarker(41.3625, -87.3451, 'Lakeland College', "./images/green.png", 7, "University of Illinois Urbana-Champaign");
-        addCustomMarker(39.5212, -87.4074, 'St. Mary of the Woods College', "./images/green.png", 8, "University of Illinois Urbana-Champaign");
-        addCustomMarker(40.4527, -85.5023, 'Taylor University', "./images/green.png", 9, "University of Illinois Urbana-Champaign");
+        addCustomMarker(39.4801, -88.1759, 'Eastern Illinois University', "./images/green.png", 1, "University of Illinois Urbana-Champaign"); // sub clg 1 // A2 clg will be ""  and all A clg will be ""
+        addCustomMarker(40.4237, -86.9212, 'Purdue University', "./images/green.png", 1, "University of Illinois Urbana-Champaign");
+        addCustomMarker(40.1106, -88.2284, 'University of Illinois Urbana-Champaign', "./images/marina.png", 1, "AnchorCollegeOne"); //
+        addCustomMarker(39.1666, -86.5265, 'Indiana University', "./images/green.png", 1, "University of Illinois Urbana-Champaign"); // sub clg 1 // A2 clg will be ""  and all A clg will be ""
+        addCustomMarker(39.7729, -86.1752, 'IUPUI', "./images/green.png", 1, "University of Illinois Urbana-Champaign");
+        addCustomMarker(41.3625, -87.3451, 'Lakeland College', "./images/green.png", 1, "University of Illinois Urbana-Champaign");
+        addCustomMarker(39.5212, -87.4074, 'St. Mary of the Woods College', "./images/green.png", 1, "University of Illinois Urbana-Champaign");
+        addCustomMarker(40.4527, -85.5023, 'Taylor University', "./images/green.png", 1, "University of Illinois Urbana-Champaign");
+
+        // Region 2
+        addCustomMarker(32.2824, -106.7465, 'New Mexico State University', "./images/yellow.png", 2, "West Texas A&M University");
+        addCustomMarker(33.2181, -97.1292, 'North Central Texas College', "./images/yellow.png", 2, "West Texas A&M University");
+        addCustomMarker(36.4071, -101.7947, 'Oklahoma Panhandle State University', "./images/yellow.png", 2, "West Texas A&M University");
+        addCustomMarker(35.5335, -97.6409, 'Southern Nazarene University', "./images/yellow.png", 2, "West Texas A&M University");
+        addCustomMarker(32.2199, -98.2201, 'Tarleton State University', "./images/yellow.png", 2, "West Texas A&M University");
+        addCustomMarker(33.5841, -101.8780, 'Texas Tech University', "./images/yellow.png", 2, "West Texas A&M University");
+        addCustomMarker(33.2148, -97.1331, 'University of North Texas', "./images/yellow.png", 2, "West Texas A&M University");
+        addCustomMarker(35.2058, -97.4450, 'University of Oklahoma', "./images/yellow.png", 2, "West Texas A&M University");
+        addCustomMarker(35.2031, -101.8749, 'West Texas A&M University', "./images/marina.png", 2, "AnchorCollegeTwo");
+
+        //Region 3 
+        addCustomMarker(44.3194, -93.9709, 'Gustavus Adolphus College', "./images/red.png", 3, "North Dakota State University");
+        addCustomMarker(45.6700, -111.0469, 'Montana State University', "./images/red.png", 3, "North Dakota State University");
+        addCustomMarker(46.8772, -96.7898, 'North Dakota State University', "./images/marina.png", 3, "AnchorCollegeThree");
+        addCustomMarker(45.5563, -94.1695, 'St. Cloud State University', "./images/red.png", 3, "North Dakota State University");
+        addCustomMarker(47.7716, -96.6136, 'University of Minnesota - Crookston', "./images/red.png", 3, "North Dakota State University");
+        addCustomMarker(44.9727, -93.2354, 'University of Minnesota - Twin Cities', "./images/red.png", 3, "North Dakota State University");
+        addCustomMarker(44.7982, -91.4940, 'University of Wisconsin - Eau Claire', "./images/red.png", 3, "North Dakota State University");
+        addCustomMarker(44.8519, -92.6266, 'University of Wisconsin - River Falls', "./images/red.png", 3, "North Dakota State University");
+
+        // Region 4
+        addCustomMarker(43.5266, -96.7326, 'Augustana College', './images/lightblue.png', 4, 'University of Wisconsin-La Crosse');
+        addCustomMarker(42.0265, -93.6483, 'Iowa State University', './images/lightblue.png', 4, 'University of Wisconsin-La Crosse');
+        addCustomMarker(43.0389, -87.9288, 'Marquette University', './images/lightblue.png', 4, 'University of Wisconsin-La Crosse');
+        addCustomMarker(42.0555, -87.6750, 'Northwestern University', './images/lightblue.png', 4, 'University of Wisconsin-La Crosse');
+        addCustomMarker(41.5726, -87.4709, 'Purdue University Northwest', './images/lightblue.png', 4, 'University of Wisconsin-La Crosse');
+        addCustomMarker(43.8456, -88.8431, 'Ripon College', './images/lightblue.png', 4, 'University of Wisconsin-La Crosse');
+        addCustomMarker(41.7039, -86.2386, 'University of Notre Dame', './images/lightblue.png', 4, 'University of Wisconsin-La Crosse');
+        addCustomMarker(43.8126, -91.2304, 'University of Wisconsin-La Crosse', './images/marina.png', 4, 'AnchorCollegeFour');
+        addCustomMarker(43.0731, -89.4012, 'University of Wisconsin-Madison', './images/lightblue.png', 4, 'University of Wisconsin-La Crosse');
+
+        // Region 5
+        addCustomMarker(41.4571, -90.6036, 'Black Hawk College', './images/pink.png', 5, 'Saint Louis University');
+        addCustomMarker(40.5087, -88.9915, 'Illinois State University', './images/pink.png', 5, 'Saint Louis University');
+        addCustomMarker(39.1890, -96.5769, 'Kansas State University', './images/pink.png', 5, 'Saint Louis University');
+        addCustomMarker(37.1960, -93.2827, 'Missouri State University', './images/pink.png', 5, 'Saint Louis University');
+        addCustomMarker(41.9342, -88.7738, 'Northern Illinois University', './images/pink.png', 5, 'Saint Louis University');
+        addCustomMarker(40.3484, -94.8824, 'Northwest Missouri State University', './images/pink.png', 5, 'Saint Louis University');
+        addCustomMarker(38.6358, -90.2343, 'Saint Louis University', './images/marina.png', 5, 'AnchorCollegeFive');
+        addCustomMarker(37.3133, -89.5369, 'Southeast Missouri State University', './images/pink.png', 5, 'Saint Louis University');
+        addCustomMarker(37.7157, -89.2224, 'Southern Illinois University - Carbondale', './images/pink.png', 5, 'Saint Louis University');
+
 
     }
 
@@ -512,102 +525,49 @@
             { key: "Taylor University", value: "4", range: "false", type: "298.05 km", speed: "310 km" },
         ],
         2: [
-            { key: "Eastern Illinois University", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
-            { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
-
-            { key: "Ball State University", value: "8", range: "false", type: "156 km", speed: "160 km" },
-            { key: " Indiana University", value: "4", range: "false", type: "269.1 km", speed: "280 km" },
-            { key: "IUPUI", value: "6", range: "false", type: "190 km", speed: "200 km" },
-            { key: "Lakeland College", value: "5", range: "false", type: "187.33 km", speed: "195 km" },
-            { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
-            { key: "St. Mary of the Woods College", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
-            { key: "Taylor University", value: "4", range: "false", type: "298.05 km", speed: "310 km" },
+            { key: "New Mexico State University", value: "8", range: "false", type: "156 km", speed: "160 km" },
+            { key: "North Central Texas College", value: "7", range: "false", type: "0", speed: "0" },
+            { key: "Oklahoma Panhandle State University'", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
+            { key: "Southern Nazarene University", value: "4", range: "false", type: "269.1 km", speed: "280 km" },
+            { key: "Tarleton State University", value: "6", range: "false", type: "190 km", speed: "200 km" },
+            { key: "Texas Tech University", value: "5", range: "false", type: "187.33 km", speed: "195 km" },
+            { key: "University of North Texas", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
+            { key: "University of Oklahoma", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
+            { key: "West Texas A&M University", value: "4", range: "True", type: "298.05 km", speed: "310 km" },
         ],
         3: [
-            { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
-            { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
-            { key: "Eastern Illinois University", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
-            { key: "Ball State University", value: "8", range: "false", type: "156 km", speed: "160 km" },
-            { key: " Indiana University", value: "4", range: "false", type: "269.1 km", speed: "280 km" },
-            { key: "IUPUI", value: "6", range: "false", type: "190 km", speed: "200 km" },
-            { key: "Lakeland College", value: "5", range: "false", type: "187.33 km", speed: "195 km" },
-
-            { key: "St. Mary of the Woods College", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
-            { key: "Taylor University", value: "4", range: "false", type: "298.05 km", speed: "310 km" },
+            { key: "New Mexico State University", value: "8", range: "false", type: "156 km", speed: "160 km" },
+            { key: "North Central Texas College", value: "7", range: "false", type: "0", speed: "0" },
+            { key: "Oklahoma Panhandle State University'", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
+            { key: "Southern Nazarene University", value: "4", range: "false", type: "269.1 km", speed: "280 km" },
+            { key: "Tarleton State University", value: "6", range: "false", type: "190 km", speed: "200 km" },
+            { key: "Texas Tech University", value: "5", range: "false", type: "187.33 km", speed: "195 km" },
+            { key: "University of North Texas", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
+            { key: "University of Oklahoma", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
+            { key: "West Texas A&M University", value: "4", range: "True", type: "298.05 km", speed: "310 km" },
         ],
         4: [
-            { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
-            { key: "Eastern Illinois University", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
-            { key: "Ball State University", value: "8", range: "false", type: "156 km", speed: "160 km" },
-            { key: " Indiana University", value: "4", range: "false", type: "269.1 km", speed: "280 km" },
-            { key: "IUPUI", value: "6", range: "false", type: "190 km", speed: "200 km" },
-            { key: "Lakeland College", value: "5", range: "false", type: "187.33 km", speed: "195 km" },
-            { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
-            { key: "St. Mary of the Woods College", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
-            { key: "Taylor University", value: "4", range: "false", type: "298.05 km", speed: "310 km" },
+            { key: "New Mexico State University", value: "8", range: "false", type: "156 km", speed: "160 km" },
+            { key: "North Central Texas College", value: "7", range: "false", type: "0", speed: "0" },
+            { key: "Oklahoma Panhandle State University'", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
+            { key: "Southern Nazarene University", value: "4", range: "false", type: "269.1 km", speed: "280 km" },
+            { key: "Tarleton State University", value: "6", range: "false", type: "190 km", speed: "200 km" },
+            { key: "Texas Tech University", value: "5", range: "false", type: "187.33 km", speed: "195 km" },
+            { key: "University of North Texas", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
+            { key: "University of Oklahoma", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
+            { key: "West Texas A&M University", value: "4", range: "True", type: "298.05 km", speed: "310 km" },
         ],
         5: [
-            { key: " Indiana University", value: "4", range: "false", type: "269.1 km", speed: "280 km" },
-            { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
-            { key: "Eastern Illinois University", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
-            { key: "Ball State University", value: "8", range: "false", type: "156 km", speed: "160 km" },
-
-            { key: "IUPUI", value: "6", range: "false", type: "190 km", speed: "200 km" },
-            { key: "Lakeland College", value: "5", range: "false", type: "187.33 km", speed: "195 km" },
-            { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
-            { key: "St. Mary of the Woods College", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
-            { key: "Taylor University", value: "4", range: "false", type: "298.05 km", speed: "310 km" },
-        ],
-        6: [
-            { key: "IUPUI", value: "6", range: "false", type: "190 km", speed: "200 km" },
-            { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
-            { key: "Eastern Illinois University", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
-            { key: "Ball State University", value: "8", range: "false", type: "156 km", speed: "160 km" },
-            { key: " Indiana University", value: "4", range: "false", type: "269.1 km", speed: "280 km" },
-
-            { key: "Lakeland College", value: "5", range: "false", type: "187.33 km", speed: "195 km" },
-            { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
-            { key: "St. Mary of the Woods College", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
-            { key: "Taylor University", value: "4", range: "false", type: "298.05 km", speed: "310 km" },
-        ],
-        7: [
-            { key: "Lakeland College", value: "5", range: "false", type: "187.33 km", speed: "195 km" },
-            { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
-            { key: "Eastern Illinois University", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
-            { key: "Ball State University", value: "8", range: "false", type: "156 km", speed: "160 km" },
-            { key: " Indiana University", value: "4", range: "false", type: "269.1 km", speed: "280 km" },
-            { key: "IUPUI", value: "6", range: "false", type: "190 km", speed: "200 km" },
-
-            { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
-            { key: "St. Mary of the Woods College", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
-            { key: "Taylor University", value: "4", range: "false", type: "298.05 km", speed: "310 km" },
-        ],
-        8: [
-            { key: "St. Mary of the Woods College", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
-            { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
-            { key: "Eastern Illinois University", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
-            { key: "Ball State University", value: "8", range: "false", type: "156 km", speed: "160 km" },
-            { key: " Indiana University", value: "4", range: "false", type: "269.1 km", speed: "280 km" },
-            { key: "IUPUI", value: "6", range: "false", type: "190 km", speed: "200 km" },
-            { key: "Lakeland College", value: "5", range: "false", type: "187.33 km", speed: "195 km" },
-            { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
-
-            { key: "Taylor University", value: "4", range: "false", type: "298.05 km", speed: "310 km" },
-        ],
-        9: [
-            { key: "Taylor University", value: "4", range: "false", type: "298.05 km", speed: "310 km" },
-            { key: "University of Illinois Urbana-Champaign", value: "7", range: "True", type: "0", speed: "0" },
-            { key: "Eastern Illinois University", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
-            { key: "Ball State University", value: "8", range: "false", type: "156 km", speed: "160 km" },
-            { key: " Indiana University", value: "4", range: "false", type: "269.1 km", speed: "280 km" },
-            { key: "IUPUI", value: "6", range: "false", type: "190 km", speed: "200 km" },
-            { key: "Lakeland College", value: "5", range: "false", type: "187.33 km", speed: "195 km" },
-            { key: "Purdue University", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
-            { key: "St. Mary of the Woods College", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
-
-        ],
-
-
+            { key: "New Mexico State University", value: "8", range: "false", type: "156 km", speed: "160 km" },
+            { key: "North Central Texas College", value: "7", range: "false", type: "0", speed: "0" },
+            { key: "Oklahoma Panhandle State University'", value: "8", range: "false", type: "77.52 km", speed: "77.52 km" },
+            { key: "Southern Nazarene University", value: "4", range: "false", type: "269.1 km", speed: "280 km" },
+            { key: "Tarleton State University", value: "6", range: "false", type: "190 km", speed: "200 km" },
+            { key: "Texas Tech University", value: "5", range: "false", type: "187.33 km", speed: "195 km" },
+            { key: "University of North Texas", value: "7", range: "false", type: "142.45 km", speed: "145 km" },
+            { key: "University of Oklahoma", value: "6", range: "false", type: "144.05 km", speed: "150 km" },
+            { key: "West Texas A&M University", value: "4", range: "True", type: "298.05 km", speed: "310 km" },
+        ]
     };
 
 
@@ -659,8 +619,16 @@
         }
 
         var AnchorCollegeOneLocation = { lat: 40.1106, lng: -88.2284 };
+        var AnchorCollegeTwoLocation = { lat: 35.2031, lng: -101.8749};
+        var AnchorCollegeThreeLocation = { lat: 46.8772, lng: -96.7898};
+        var AnchorCollegeFourLocation = { lat: 43.8126, lng: -91.2304};
+        var AnchorCollegeFiveLocation = { lat: 38.6358, lng: -90.2343};
 
         var AnchorCollegeOne = "University of Illinois Urbana-Champaign";
+        var AnchorCollegeTwo = "West Texas A&M University";
+        var AnchorCollegeThree = "North Dakota State University";
+        var AnchorCollegeFour = "University of Wisconsin-La Crosse";
+        var AnchorCollegeFive = "Saint Louis University";
 
         var checkbox = document.getElementById("anchor-school");
         var dropbox1 = document.getElementById("region");
@@ -668,18 +636,49 @@
         console.log("-->>>>>>", dropbox1);
         console.log(basedetail, "iohoihih")
         // add anchor college here
+        
         if (basedetail === "AnchorCollegeOne") {
+            console.log("1 achor",basedetail === "AnchorCollegeOne")
+            checkbox.checked = true;
+            console.log(document.getElementById("anchor-school").checked)
+            console.log(checkbox.value)
+            dropbox1.value = "1"
+            dropbox2.value = "1"
+        }
+        else if(basedetail == "AnchorCollegeTwo"){
+            //console.log("------->. Sencond anchor college------->")
+            console.log("AnchorCollegeTwo",basedetail === "AnchorCollegeTwo")
             checkbox.checked = true;
             dropbox1.value = "2"
             dropbox2.value = "2"
         }
-        else {
+        else if(basedetail == "AnchorCollegeThree"){
+            console.log("AnchorCollegeThree",basedetail === "AnchorCollegeThree")
+            checkbox.checked = true;
+            dropbox1.value = "3"
+            dropbox2.value = "3"
+        }
+        else if(basedetail == "AnchorCollegeFour"){
+            //console.log("------->. Sencond anchor college------->")
+            console.log("AnchorCollegeFour",basedetail === "AnchorCollegeFour")
+            checkbox.checked = true;
+            dropbox1.value = "4"
+            dropbox2.value = "4"
+        } 
+        else if(basedetail == "AnchorCollegeFive"){
+            console.log("AnchorCollegeFive",basedetail === "AnchorCollegeFive")
+            checkbox.checked = true;
+            dropbox1.value = "5"
+            dropbox2.value = "5"
+        }  else {
             checkbox.checked = false;
         }
+       
 
         if (basedetail == AnchorCollegeOne) {  // if getting base clg from addCustomMarker == AnchorCollegeOne this works
+            console.log(AnchorCollegeOne)
             var dropbox1 = document.getElementById("region");
-            dropbox1.value = "2";
+           // dropbox1.value = "2";
             var request = {
                 origin: firstLocation,
                 destination: AnchorCollegeOneLocation,
@@ -701,8 +700,109 @@
 
 
         }
+        console.log("2-->",basedetail , AnchorCollegeTwo , basedetail == AnchorCollegeTwo)
+        if (basedetail == AnchorCollegeTwo) {  // if getting base clg from addCustomMarker == AnchorCollegeTwo this works
+            console.log(AnchorCollegeTwo)
+            var dropbox1 = document.getElementById("region");
+          //  dropbox1.value = "2";
+            var request = {
+                origin: firstLocation,
+                destination: AnchorCollegeTwoLocation,
+                travelMode: 'DRIVING'
+            };
 
-        // copy paste Same logic
+            directionsService.route(request, function (response, status) {
+                if (status === 'OK') {
+                    directionsRenderer.setDirections(response);
+
+                    var distanceInMeters = response.routes[0].legs[0].distance.value;
+                    var distanceInKilometers = (distanceInMeters / 1000).toFixed(2);
+
+                    document.getElementById("result").textContent = "Distance from " + marker.getTitle() + " to West Texas A&M University: " + distanceInKilometers + " km";
+                } else {
+                    alert("Directions request failed: " + status);
+                }
+            });
+
+
+        }
+        if (basedetail == AnchorCollegeThree) {  // if getting base clg from addCustomMarker == AnchorCollegeOne this works
+         //   console.log(AnchorCollegeTwo)
+            var dropbox1 = document.getElementById("region");
+           // dropbox1.value = "3";
+            var request = {
+                origin: firstLocation,
+                destination: AnchorCollegeThreeLocation,
+                travelMode: 'DRIVING'
+            };
+
+            directionsService.route(request, function (response, status) {
+                if (status === 'OK') {
+                    directionsRenderer.setDirections(response);
+
+                    var distanceInMeters = response.routes[0].legs[0].distance.value;
+                    var distanceInKilometers = (distanceInMeters / 1000).toFixed(2);
+
+                    document.getElementById("result").textContent = "Distance from " + marker.getTitle() + " to North Dakota State University: " + distanceInKilometers + " km";
+                } else {
+                    alert("Directions request failed: " + status);
+                }
+            });
+
+
+        }
+        if (basedetail == AnchorCollegeFour) {  // if getting base clg from addCustomMarker == AnchorCollegeOne this works
+          //  console.log(AnchorCollegeTwo)
+            var dropbox1 = document.getElementById("region");
+          //  dropbox1.value = "4";
+            var request = {
+                origin: firstLocation,
+                destination: AnchorCollegeFourLocation,
+                travelMode: 'DRIVING'
+            };
+
+            directionsService.route(request, function (response, status) {
+                if (status === 'OK') {
+                    directionsRenderer.setDirections(response);
+
+                    var distanceInMeters = response.routes[0].legs[0].distance.value;
+                    var distanceInKilometers = (distanceInMeters / 1000).toFixed(2);
+
+                    document.getElementById("result").textContent = "Distance from " + marker.getTitle() + " to University of Wisconsin-La Crosse: " + distanceInKilometers + " km";
+                } else {
+                    alert("Directions request failed: " + status);
+                }
+            });
+
+
+        }
+
+        if (basedetail == AnchorCollegeFive) {  // if getting base clg from addCustomMarker == AnchorCollegeOne this works
+          //  console.log(AnchorCollegeTwo)
+            var dropbox1 = document.getElementById("region");
+          //  dropbox1.value = "4";
+            var request = {
+                origin: firstLocation,
+                destination: AnchorCollegeFiveLocation,
+                travelMode: 'DRIVING'
+            };
+
+            directionsService.route(request, function (response, status) {
+                if (status === 'OK') {
+                    directionsRenderer.setDirections(response);
+
+                    var distanceInMeters = response.routes[0].legs[0].distance.value;
+                    var distanceInKilometers = (distanceInMeters / 1000).toFixed(2);
+
+                    document.getElementById("result").textContent = "Distance from " + marker.getTitle() + " to University of Wisconsin-La Crosse: " + distanceInKilometers + " km";
+                } else {
+                    alert("Directions request failed: " + status);
+                }
+            });
+
+
+        }
+        
 
 
     }

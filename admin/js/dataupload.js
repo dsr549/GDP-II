@@ -9,6 +9,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     .then((res) => res.json());
     console.log(result1)
     if(result1.success){
+        const rider_filename = result1.Rlist[0].filename;
+        const horse_filename = result1.Hlist[0].filename;
+        document.getElementById("rider_filename").innerHTML = `<a href="../files/${rider_filename}" download="${rider_filename}">${rider_filename}</a>`
+        document.getElementById("horse_filename").innerHTML = `<a href="../files/${horse_filename}" download="${horse_filename}">${horse_filename}</a>`
         let classesList,hclassesList;
         let classList = [] , hclassList = [];
         result1.Rlist.forEach((data,index)=>{
