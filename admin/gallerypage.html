@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="ISHA.css">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
+  <meta name="description" content="gallery.css">
   <meta name="author" content="TemplateMo">
   <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 
@@ -17,14 +17,12 @@
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-
   <!-- Additional CSS Files -->
   <link rel="stylesheet" href="assets/css/fontawesome.css">
   <link rel="stylesheet" href="assets/css/templatemo-edu-meeting.css">
   <link rel="stylesheet" href="assets/css/owl.css">
   <link rel="stylesheet" href="assets/css/lightbox.css">
   <style>
-    /* Custom section for announcements */
     .announcements {
       margin-top: 40px;
     }
@@ -38,7 +36,6 @@
     .announcement-content h3 {
       margin-bottom: 10px;
       font-size: 20px;
-      background-color: #e9ecef;
     }
 
     .announcement-content p {
@@ -85,7 +82,6 @@
       width: 100%;
       border-collapse: collapse;
       margin-top: 20px;
-      position: relative;
     }
 
     th,
@@ -122,42 +118,104 @@
  color: #fff;
  background-image: linear-gradient(45deg, #32be8f 0%, #38d39f 510%, #32be8f 100%);
 }
+#thumbnails{
+			width: 20%;
+    	float: left;
+		}
+		.thumbnail{
+			height: 100px;
+      width: 150px;
+      object-fit: contain;
+			border: 4px solid #555;
+			padding: 1px;
+			margin: 0 10px 10px 0;
+		}
+		.thumbnail:hover{
+			border: 4px solid #00ccff;
+			cursor: pointer;
+		}
+    #preview{
+      width: 100%;
+      height: 950px;
+      margin-left: 50px;
+    }
+		#preview img{
+			width: 80%;
+      height: 100%;
+      object-fit: contain;
+		}
+
+    
+    sidebar {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+        .folder-button-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .folder {
+            cursor: pointer;
+            padding: 10px 20px;
+            border: none;
+            background-color: #444;
+            color: #fff;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 50px;
+        }
+
+        .folder:hover {
+            background-color: #32be8f;
+            transform: scale(1.05); 
+        }
+        .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+    
+    /* Style for the "Add folder" button */
+    .add-folder-button {
+      position: absolute; 
+      top: 25%; 
+      right: 100px; 
+      z-index: 999; 
+      cursor: pointer;
+      padding: 15px 20px;
+      border: 1px solid #32be8f;
+      font-weight: bold;
+      font-size: 18px;
+      border-radius: 8px;
+      background-color: #32be8f; 
+      color: #fff; 
+      text-align: center;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .add-folder-button:hover {
+      background-color: #4CAF50; 
+      transform: scale(1.05);
+    }
+
 
 </style>
 <script src="https://kit.fontawesome.com/f52c3b31f3.js" crossorigin="anonymous"></script>
-<script src="js/auth.js"></script>
-<script src="js/logout.js"></script>
 </head>
 
 <body>
-
-  <!-- Sub Header -->
-
-
- <!-- ***** Header Area Start ***** -->
- <header class="announcement-header-area" style="background-color: #444; height: 150px;">
-  <!--<div class="sub-header">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-sm-8">
-          <div class="left-content">
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-4">
-          <div class="right-icons">
-            <ul>
-              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-              <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-            </ul>
-            
-          </div>
-          
-        </div>
-      </div>
-    </div>
-  </div>-->
+  <header class="announcement-header-area" style="background-color: #444; height: 150px;">
     <div class="container">
       <div class="row">
         <div class="col-12">
@@ -167,19 +225,22 @@
             </a>
             <!-- ***** Menu Start ***** -->
             <ul class="nav" style="margin-top: 40px !important;">
+              <li class="scroll-to-section"><a href="#!">Manage Admins</a></li>
               <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
               <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
               <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
               <li class="scroll-to-section"><a href="maps.html">Maps</a></li>
               <li class="scroll-to-section"><a href="contactuspage.html">Contact Us</a></li>
-              <li class="scroll-to-section"><a class="active" href="gallerypage.html">Gallery</a></li>
+              <li class="scroll-to-section"><a  class="active" href="gallerypage.html">Gallery</a></li>
               <button id="logout" style="margin-right: 0px !important; margin-left: 60px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
             </ul>
+            
             <a class='menu-trigger'>
               <span>Menu</span>
             </a>
             <!-- ***** Menu End ***** -->
           </nav>
+          
         </div>
       </div>
     </div>
@@ -187,12 +248,43 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-lg-12">
-        <div class="section-heading">
-          <h2>Images Gallery</h2>
+        <div class="col-lg-10">
+            <div class="sidebar">
+                <div class="folder-button-container">
+                    <div class="folder" data-event="event-1">Event 1</div>
+                    <div class="folder" data-event="event-2">Event 2</div>
+                    <div class="folder" data-event="event-3">Event 3</div>
+                    <div class="folder" data-event="event-4">Event 4</div>
+                </div>
+            </div>
+        </div>
+        
+            <div class="col-lg-12">
+                <div id="event-1" class="content">
+                    <div class="section-heading">
+                        <h2>Event 1</h2>
+                    </div>
+        <div id = "gallery">
+          <br />
+          <div id = "thumbnails">
+            <img src="images/gallery/IMG-20230917-WA0003.jpg" name="img1" class="thumbnail" onclick="preview.src=img1.src">
+            <img src="images/gallery/IMG-20230917-WA0004.jpg" name="img2" class="thumbnail" onclick="preview.src=img2.src">
+            <img src="images/gallery/IMG-20230917-WA0005.jpg" name="img3" class="thumbnail" onclick="preview.src=img3.src">
+            <img src="images/gallery/IMG-20230917-WA0006.jpg" name="img4" class="thumbnail" onclick="preview.src=img4.src">
+            <img src="images/gallery/IMG-20230917-WA0007.jpg" name="img5" class="thumbnail" onclick="preview.src=img5.src">
+            <img src="images/gallery/IMG-20230917-WA0008.jpg" name="img6" class="thumbnail" onclick="preview.src=img6.src">
+            <img src="images/gallery/IMG-20230917-WA0009.jpg" name="img7" class="thumbnail" onclick="preview.src=img7.src">
+            <img src="images/gallery/IMG-20230917-WA0010.jpg" name="img8" class="thumbnail" onclick="preview.src=img8.src">
+          </div>
+          <div id="preview">
+            <img name="preview" src="images/gallery/IMG-20230917-WA0003.jpg">
+          </div>
+        </div>
+
         </div>
       </div>
-    </div>
+      
+    </div> <div class="add-folder-button">ADD FOLDER</div>
   </div>
 
   
@@ -205,6 +297,33 @@
     </div>
     <p>copyright &copy 2023 - IHSA</p>
 </footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const folders = document.querySelectorAll(".folder");
+  const contents = document.querySelectorAll(".content");
+
+  folders.forEach((folder) => {
+      folder.addEventListener("click", () => {
+          const eventId = folder.getAttribute("data-event");
+          contents.forEach((content) => {
+              content.classList.remove("active");
+              const gallery = content.querySelector("#gallery");
+              if (gallery) {
+                  gallery.style.display = "none";
+              }
+          });
+          const selectedContent = document.getElementById(eventId);
+          if (selectedContent) {
+              selectedContent.classList.add("active");
+              const selectedGallery = selectedContent.querySelector("#gallery");
+              if (selectedGallery) {
+                  selectedGallery.style.display = "block";
+              }
+          }
+      });
+  });
+});
+</script>
 </body>
 
 </html>
