@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
     
     var classList = [];
-    var result = await fetch('/admin/api/getData', {
+    var result = await fetch('/api/getData', {
         method: 'GET',
         headers: {
             'Accept': 'application/json'
@@ -30,7 +30,7 @@ async function updateRandomizer(){
     const classSelcted = document.getElementById("classSelection").value;
     var horses = [], riders = [];
     console.log(classSelcted);
-    const result2 = await fetch('/admin/api/getData', {
+    const result2 = await fetch('/api/getData', {
         method: 'GET',
         headers: {
             'Accept': 'application/json'
@@ -111,7 +111,7 @@ async function saveCombinations() {
     console.log(savedCombinations);
   //  console.log(horses,riders);
 
-  const post = await fetch('/admin/api/saveRandomizer', {
+  const post = await fetch('/api/saveRandomizer', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',

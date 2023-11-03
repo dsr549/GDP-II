@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async function () {
 
-    const announcementsList = await fetch('/admin/api/fetchAnnouncements', {
+    const announcementsList = await fetch('/api/fetchAnnouncements', {
         method: 'GET',
         headers: {
             'Accept': 'application/json'

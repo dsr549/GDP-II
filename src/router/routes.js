@@ -21,6 +21,7 @@ router.get("/fetchAnnouncements", controller.fetchAnnouncements);
 router.get("/edit", controller.editAnnouncement);
 router.get("/delete", controller.deleteAnnouncement);
 router.get("/getData", controller.getData);
+router.get("/sendOTP", controller.sendOTP);
 router.get("/test", (req,res) => {
     res.status(200).json({message : "Success"});
 })

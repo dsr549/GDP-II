@@ -19,7 +19,7 @@ signupForm.addEventListener('submit', (e) => {
 
 function sendDataToBackend(formDataObject) {
     console.log(formDataObject);
-    fetch('/admin/api/signup', {
+    fetch('/api/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

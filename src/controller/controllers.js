@@ -1,10 +1,37 @@
 const jwt = require("jsonwebtoken");
 const pool = require("../pool");
+const Mails = require('../emails/service')
 const config = require("../config");
 const readXlsxFile = require('read-excel-file/node');
 const path = require('path');
+var savedOTPS = {
+
+};
+
+const sendOTP = async (req,res) => {
+  const { mail } = req.query;
+  console.log(mail)
+  let randomdigit = Math.floor(100000 + Math.random() * 900000);
+    try {
+      await Mails.sendOtpEmail(mail, randomdigit);
+      res.status(200).send({ message: "OTP Sent" });
+        savedOTPS[mail] = randomdigit;
+        setTimeout(() => {
+            delete savedOTPS[`${mail}`];
+        }, 10000);
+        console.log(savedOTPS); 
+    } catch(e) {
+        console.log(e);
+        res.status(400).send({ error: "Unable to send OTP" });
+    }
+     
+     /* let expiry = new Date();
+      expiry.setMinutes(expiry.getMinutes() + 1); // OTP expires after 15 minutes
+      let [rows] = await pool.query('INSERT INTO otps VALUES (?, ?, ?)', [otpemail, randomdigit, expiry]);  */
+}
 
 const login = async (req, res) => {
+  console.log(req.body)
   const { userName, password } = req.body;
   try {
     if (!userName || !password) {
@@ -430,5 +457,6 @@ module.exports = {
   editRider,
   editHorse,
   deleteRider,
-  deleteHorse
+  deleteHorse,
+  sendOTP
 };

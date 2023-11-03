@@ -67,6 +67,12 @@ body{
 .form label{
   color: #fff;
 }
+.form .mandatory::after {
+  content: ' *';
+  font-weight: bolder;
+  color: red;
+  font-size: 22px;
+}
 .form button{
   color: #fff;
   background: #009579;

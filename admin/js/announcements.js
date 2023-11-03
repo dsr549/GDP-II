@@ -1,7 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', async function () {
 
-    const announcementsList = await fetch('/admin/api/fetchAnnouncements', {
+    const announcementsList = await fetch('/api/fetchAnnouncements', {
         method: 'GET',
         headers: {
             'Accept': 'application/json'
@@ -92,7 +92,7 @@ announcementsList.announcements.forEach((data, index) => {
         console.log('Date:', formattedDate);
         console.log("username: ", username);
 
-        fetch('/admin/api/addAnnouncements', {
+        fetch('/api/addAnnouncements', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ announcementsList.announcements.forEach((data, index) => {
 
 async function editData(index){
     console.log(index);
-    const result = await fetch(`/admin/api/edit?id=${index}`, {
+    const result = await fetch(`/api/edit?id=${index}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json'
@@ -174,7 +174,7 @@ async function editData(index){
         console.log('Date:', formattedDate);
         console.log("username: ", username);
 
-        const saveResult = await fetch('/admin/api/saveAnnouncement', {
+        const saveResult = await fetch('/api/saveAnnouncement', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -212,7 +212,7 @@ async function deleteData(index){
     console.log(index);
     const confirmDelete = confirm("Are you sure want to delete?");
     if(confirmDelete){
-    const result = await fetch(`/admin/api/delete?id=${index}`, {
+    const result = await fetch(`/api/delete?id=${index}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json'

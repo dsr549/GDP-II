@@ -285,56 +285,57 @@
       background-color: #0056b3;
     }
 
-      /* Add CSS styling for side-by-side form inputs */
-  #riderForm label,
-  #riderForm input,
-  #riderForm select,
-  #horseForm label,
-  #horseForm input,
+    #riderForm label,
+    #riderForm input,
+    #riderForm select,
+    #horseForm label,
+    #horseForm input,
+    #horseForm select {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    #riderForm label, #horseForm label {
+      width: 100px; 
+      display: inline-block;
+    }
+
+    #riderForm input,
+    #riderForm select,#horseForm input,
+    #horseForm select {
+      width: 200px;
+      display: inline-block;
+    }
+    #riderForm input[type="submit"], #horseForm input[type="submit"] {
+      margin-top: 10px;
+    }
   #horseForm select {
-    display: block;
-    margin-bottom: 10px;
+      width: 100%;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
   }
 
-  #riderForm label, #horseForm label {
-    width: 100px; /* Adjust the width of the labels as needed */
-    display: inline-block;
+  #horseForm input[type=submit] {
+      display: block;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
   }
 
-  #riderForm input,
-  #riderForm select,#horseForm input,
-  #horseForm select {
-    width: 200px; /* Adjust the width of the input/select fields as needed */
-    display: inline-block;
+  #horseForm input[type=submit]:hover {
+      background-color: #0056b3;
   }
-
-  /* Additional styling for the submit button */
-  #riderForm input[type="submit"], #horseForm input[type="submit"] {
-    margin-top: 10px;
+  .active{
+    color: #4CBB17;
   }
-
-  /* Popup CSS  */
-#horseForm select {
-    width: 100%;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-
-#horseForm input[type=submit] {
-    display: block;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-#horseForm input[type=submit]:hover {
-    background-color: #0056b3;
-}
-.active{
-  color: #4CBB17;
+  .mandatory::after {
+  content: ' *';
+  font-weight: bolder;
+  color: red;
+  font-size: 22px;
 }
   </style>
 <script src="https://kit.fontawesome.com/f52c3b31f3.js" crossorigin="anonymous"></script>
@@ -370,7 +371,7 @@
               <li class="scroll-to-section"><a href="maps.html">Maps</a></li>
               <li class="scroll-to-section"><a href="contactuspage.html">Contact Us</a></li>
               <li class="scroll-to-section"><a href="gallerypage.html">Gallery</a></li>
-              <button id="logout" style="margin-right: 0px !important; margin-left: 60px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
+              <button id="logout" style="margin-right: 0px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
             </ul>
             <a class='menu-trigger'>
               <span>Menu</span>
@@ -441,14 +442,14 @@
     <span class="close" id="closePopup">&times;</span>
     <h5>Add Rider Data</h5>
     <form id="riderForm">
-      <label for="riderclass">Select Class:</label>
+      <label class="mandatory" for="riderclass">Select Class:</label>
       <select name="riderclass" id="add-class-options">
       </select>
-      <label for="riderid">Rider Id:</label>
+      <label class="mandatory" for="riderid">Rider Id:</label>
       <input type="number" name="riderid" id="riderid" required>
-      <label for="ridername">Name:</label>
+      <label class="mandatory" for="ridername">Name:</label>
       <input type="text" name="ridername" id="ridername" required>
-      <label for="school">School:</label>
+      <label class="mandatory" for="school">School:</label>
       <input type="text" name="school" id="school" required>
       <label for="height">Height:</label>
       <input type="text" name="height" id="height" >
@@ -460,7 +461,7 @@
       <input type="text" name="remarks" id="remarks" >
       <label for="placing">Placing:</label>
       <input type="number" name="placing" id="placing">
-      <label for="oh_ow">OH / OW:</label>
+      <label class="mandatory" for="oh_ow">OH / OW:</label>
       <select name="oh_ow" id="oh_ow">
         <option value="1">True</option>
         <option value="0">False</option>
@@ -522,12 +523,12 @@
       <span class="close" id="closehPopup">&times;</span>
       <h5>Add Horse</h5>
       <form id="horseForm">
-        <label for="horseclass">Select Class:</label>
+        <label class="mandatory" for="horseclass">Select Class:</label>
         <select name="horseclass" id="add-hclass-options" required multiple>
         </select>
-        <label for="name">Name:</label>
+        <label class="mandatory" for="name">Name:</label>
         <input type="text" name="name" id="horsename" required>
-        <label for="provider">Provider:</label>
+        <label class="mandatory" for="provider">Provider:</label>
         <input type="text" name="provider" id="provider" required>
         <label for="spur">Spur:</label>
         <input type="text" name="spur" id="spur">
@@ -535,7 +536,7 @@
         <input type="text" name="rein_hold" id="rein_hold">
         <label for="remarks">Remarks:</label>
         <input type="text" name="remarks" id="remarks">
-        <label for="isStrong">Strong:</label>
+        <label class="mandatory" for="isStrong">Strong:</label>
         <select name="isStrong" id="isStrong" required>
           <option value="1">True</option>
           <option value="0">False</option>

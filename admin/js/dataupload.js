@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function () {
 
-    const result1 = await fetch('/admin/api/getData', {
+    const result1 = await fetch('/api/getData', {
         method: 'GET',
         headers: {
             'Accept': 'application/json'
@@ -114,7 +114,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     const horseForm = document.getElementById('horseForm');
     addRiderBtn.addEventListener('click', function () {
         riderPopup.style.display = 'block';
-      
     });
     closePopupBtn.addEventListener('click', function () {
         riderPopup.style.display = 'none';
@@ -129,7 +128,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             formDataObject[key] = value;
         });
       console.log(formDataObject);
-      const addRider = await fetch('/admin/api/addRider', {
+      const addRider = await fetch('/api/addRider', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -171,7 +170,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         }
         console.log(formDataObject);
-      const addHorse = await fetch('/admin/api/addHorse', {
+      const addHorse = await fetch('/api/addHorse', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -193,7 +192,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 async function showclass(){
     const classname = document.getElementById("classes").value;
-    const result2 = await fetch('/admin/api/getData', {
+    const result2 = await fetch('/api/getData', {
         method: 'GET',
         headers: {
             'Accept': 'application/json'
@@ -240,7 +239,7 @@ async function showclass(){
 
 async function showhorseclass(){
     const classname = document.getElementById("h-classes").value;
-    const result2 = await fetch('/admin/api/getData', {
+    const result2 = await fetch('/api/getData', {
         method: 'GET',
         headers: {
             'Accept': 'application/json'
@@ -398,7 +397,7 @@ function editRow(ID) {
     console.log('Updated data:', updatedData);
     const confirmEdit=confirm("Are you sure want to save?");
     if(confirmEdit){
-    const updateRider = await fetch('/admin/api/editRider', {
+    const updateRider = await fetch('/api/editRider', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -446,7 +445,7 @@ function editRow(ID) {
     console.log('Updated data:', updatedData);
     const confirmEdit=confirm("Are you sure want to save changes?");
     if(confirmEdit){
-    const updateHorse = await fetch('/admin/api/editHorse', {
+    const updateHorse = await fetch('/api/editHorse', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -471,7 +470,7 @@ async function deleteRow(ID) {
     if(confirmEdit){
         console.log('Delete button clicked for riderid: ' , ID);
 
-        const deleteRider = await fetch('/admin/api/deleteRider', {
+        const deleteRider = await fetch('/api/deleteRider', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -495,7 +494,7 @@ async function deletehRow(ID) {
         if(confirmEdit){
     console.log('Delete button clicked for horseid: ' , ID);
     
-    const deleteRider = await fetch('/admin/api/deleteHorse', {
+    const deleteRider = await fetch('/api/deleteHorse', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -523,7 +522,7 @@ async function handleRiderFiles(files) {
                 const formData = new FormData();
                 formData.append("riders", file);
     
-                const result = await axios.post('/admin/api/uploadRider', formData, {
+                const result = await axios.post('/api/uploadRider', formData, {
                       headers: {
                           'Content-Type': 'multipart/form-data'
                       },
@@ -574,7 +573,7 @@ async function handleRiderFiles(files) {
                 const formData = new FormData();
                 formData.append("horses", file);
     
-                const result = await axios.post('/admin/api/uploadHorse', formData, {
+                const result = await axios.post('/api/uploadHorse', formData, {
                       headers: {
                           'Content-Type': 'multipart/form-data'
                       },

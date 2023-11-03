@@ -31,19 +31,19 @@
     <div class="registration form">
       <header style="color: #fff; font-weight: bolder; font-size: larger; font-size: 25px;">Signup</header>
       <form id="signupForm">
-        <label for="firstName">First Name:</label>
+        <label class="mandatory" for="firstName">First Name:</label>
         <input type="text" onkeydown="return /[a-z]/i.test(event.key)" id="firstName" name="firstName" required> 
   
-        <label for="lastName">Last Name:</label>
+        <label class="mandatory" for="lastName">Last Name:</label>
         <input type="text" onkeydown="return /[a-z]/i.test(event.key)" id="lastName" name="lastName" required>
   
-        <label for="userName">Username:</label>
+        <label class="mandatory" for="userName">Username:</label>
         <input type="text" onkeydown="return /[a-zA-Z0-9]/i.test(event.key)" id="userName" name="userName" required>
   
-        <label for="email">Email:</label>
+        <label class="mandatory" for="email">Email:</label>
         <input type="email" id="email" name="email" required>
   
-        <label for="password">Password:</label>
+        <label class="mandatory" for="password">Password:</label>
         <input type="password" id="password" name="password" required onkeydown="{
           const a = document.getElementById('password').value.length
           if(a > 6 ){
@@ -61,7 +61,7 @@
           }
         }">
         <p style="color: green;" id="pss"></p>
-        <label for="password2">Confirm Password:</label>
+        <label class="mandatory" for="password2">Confirm Password:</label>
         <input type="password" id="password2" name="password2" required>
         <br>
         <p style="color: #fff;" id="message"></p>

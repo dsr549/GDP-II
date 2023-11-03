@@ -179,8 +179,7 @@
 
 
         .first-table td {
-            padding: 20px 30px;
-            width: 100%;
+            padding: 20px 7px;
             border-right: 1px solid black;
         }
 
@@ -300,7 +299,7 @@
               <li class="scroll-to-section"><a class="active" href="maps.html">Maps</a></li>
               <li class="scroll-to-section"><a href="contactuspage.html">Contact Us</a></li>
               <li class="scroll-to-section"><a href="gallerypage.html">Gallery</a></li>
-              <button id="logout" style="margin-right: 0px !important; margin-left: 60px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
+              <button id="logout" style="margin-right: 0px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
             </ul>
             
             <a class='menu-trigger'>
@@ -322,26 +321,21 @@
         <div class="form-container">
             <div class="form-item">
                 <label for="school-name">School Name</label> <br>
-                <input type="text" id="school-name" style="width: 250px;" name="school-name" placeholder="">
+                <input type="text" id="school-name" style="width: 250px;" name="school-name" placeholder="" readonly>
             </div>
 
             <div class="form-item">
                 <label for="anchor-school">Is Anchor School</label>
-                <input type="checkbox" id="anchor-school" name="anchor-schooll">
+                <input type="checkbox" id="anchor-school" name="anchor-schooll" readonly>
             </div>
             <div class="form-item">
                 <label for="number-input">Number of riders</label>
-                <input type="number" id="number-input" name="number-input" value="20">
+                <input type="number" id="number-input" name="number-input" value="" readonly>
             </div>
             <div class="form-item">
                 <label for="region">Region</label>
-                <select id="regionone" name="region">
-                    <option value="1"> 1</option>
-                    <option value="2"> 2</option>
-                    <option value="3"> 3</option>
-                    <option value="4"> 4</option>
-                    <option value="5"> 5</option>
-                </select>
+                <input type="number" id="regionone" name="region" readonly>
+                    
             </div>
 
 
@@ -360,9 +354,9 @@
                         </select>
                     </div>
                 </td>
-                <td>Schools : 11</td>
-                <td>Riders : 20</td>
-                <td>Anchor Schools : 1</td>
+                <td>Schools : <span id="region-schools">11</span></td>
+                <td>Riders : <span id="region-riders">3</span></td>
+                <td>Anchor Schools : <span id="region-anchors">1</span></td>
                 <td>Avg Mileage : NaN</td>
             </tr>
         </table>
@@ -581,7 +575,8 @@
         console.log(basedetail)
         console.log(getid, "ohoih")
         document.getElementById("school-name").value = firstTitle;
-
+        document.getElementById("number-input").value = "3"
+        document.getElementById("regionone").value = getid
 
         const regionData = jsonData[getid];
 
@@ -865,7 +860,10 @@
 
     function populateJsonTable(selectedRegion) {
         const jsonRegionData = jsonData[selectedRegion];
-
+        const riders = document.getElementById('region-riders');
+        const schools = document.getElementById('region-schools')
+        riders.innerText = jsonRegionData.length  * 3
+        schools.innerText = jsonRegionData.length ;
         if (jsonRegionData) {
             jsonTable.querySelector("tbody").innerHTML = "";
 

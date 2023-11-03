@@ -96,7 +96,7 @@
     th {
       background-color: #f2f2f2;
     }
-   .btn {
+   .save {
         display: inline-block;
         padding: 10px 20px;
         background-color: #4CBA17;
@@ -106,7 +106,7 @@
         transition: background-color 0.3s ease;
       }
 
-      .btn:hover {
+      .save:hover {
         background-color: #4CBB17;
       }
 
@@ -154,28 +154,7 @@
 
  <!-- ***** Header Area Start ***** -->
  <header class="announcement-header-area" style="background-color: #444; height: 150px;">
-  <!--<div class="sub-header">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-sm-8">
-          <div class="left-content">
-          </div>
-        </div>
-        <div class="col-lg-4 col-sm-4">
-          <div class="right-icons">
-            <ul>
-              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-              <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-            </ul>
-            
-          </div>
-          
-        </div>
-      </div>
-    </div>
-  </div>-->
+ 
     <div class="container">
       <div class="row">
         <div class="col-12">
@@ -192,7 +171,7 @@
               <li class="scroll-to-section"><a href="maps.html">Maps</a></li>
               <li class="scroll-to-section"><a href="contactuspage.html">Contact Us</a></li>
               <li class="scroll-to-section"><a href="gallerypage.html">Gallery</a></li>
-              <button id="logout" style="margin-right: 0px !important; background-color: #0b5ed7 !important; margin-left: 60px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
+              <button id="logout" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
             </ul>
             <a class='menu-trigger'>
               <span>Menu</span>
@@ -219,7 +198,7 @@
   
         <div class="section-heading">
           <label for="class">Select Class:</label>
-          <select id="class">
+          <select id="class" style="width: 200px !important;">
               <option hidden>Select a Class</option>
           </select>
           <button id="show-all">Show All Classes</button>
@@ -246,7 +225,7 @@
 <div class="container">
     <div class="row">
       <div class="col-lg-12">
-        <button style="margin-left: 45%; margin-top: 30px;" class="btn" id="save-combinations">Save Generated</button>
+        <button style="margin-left: 45%; margin-top: 30px;" class="save" id="save-combinations">Save Generated</button>
       </div>
     </div>
 </div>
@@ -261,7 +240,7 @@
 </footer>
 <script>
 document.addEventListener("DOMContentLoaded", async function () {
-  var result = await fetch('/admin/api/getData', {
+  var result = await fetch('/api/getData', {
           method: 'GET',
           headers: {
               'Accept': 'application/json'
@@ -399,13 +378,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       clearAllTables();
       if (selectedClass !== "Select a Class") {
           populateTable(selectedClass);
-          document.getElementById("randomize").style.display = "block";
+          document.getElementById("randomize").style.display = "inline-block";
           document.getElementById("randomizeAll").style.display = "none";
         //  document.getElementById("save-combinations").style.display = "none";
       } else {
           document.getElementById("randomize").style.display = "none";
-          document.getElementById("randomizeAll").style.display = "block";
-          document.getElementById("save-combinations").style.display = "block";
+          document.getElementById("randomizeAll").style.display = "inline-block";
+          document.getElementById("save-combinations").style.display = "inline-block";
       }
   });
   
@@ -414,8 +393,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       uniqueClasses.forEach(className => {
           populateTable(className); 
       });
-      document.getElementById("randomizeAll").style.display = "block";
-      document.getElementById("save-combinations").style.display = "block";
+      document.getElementById("randomizeAll").style.display = "inline-block";
+      document.getElementById("save-combinations").style.display = "inline-block";
       document.getElementById("randomize").style.display = "none";
       classSelect.value = "Select a Class";
   });
