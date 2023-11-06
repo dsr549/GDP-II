@@ -89,12 +89,17 @@
     th,
     td {
       padding: 8px;
-      text-align: left;
+      text-align: center;
       border-bottom: 1px solid #ddd;
     }
 
     th {
       background-color: #f2f2f2;
+    }
+    .class-table{
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+      border: 1px solid rgba(125, 125, 125, 0.614);
+      margin: 50px 0px;
     }
    .save {
         display: inline-block;
@@ -141,6 +146,97 @@
     .active-table {
         display: table;
     }
+    .save-button {
+  background-color: #007bff; 
+  color: #fff; 
+  padding: 4px 10.5px; 
+  border: none;
+  border-radius: 4px; 
+  cursor: pointer; 
+  transition: background-color 0.3s; 
+}
+
+.save-button:hover {
+  background-color: #0056b3; 
+}
+
+.select-dropdown {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  
+  background: url('your-arrow-image.png') no-repeat right center;
+  background-size: 20px 20px; 
+  padding: 3px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px;
+  width: 400px; 
+  cursor: pointer; 
+}
+
+
+.select-dropdown option {
+  background: #fff; 
+  color: #333; 
+  padding: 10px;
+  border: none; 
+
+}
+.select-dropdown:hover {
+  background: #f0f0f0; 
+}
+.edit-button, .add-rider {
+  display: inline-block;
+  background-color: #0074E4; 
+  color: #ffffff; 
+  padding: 4px 16px; 
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-button:hover, .add-rider:hover {
+  background-color: #0057a8;
+}
+
+
+.edit-button {
+  background-color: #0074E4; 
+  color: #ffffff; 
+  padding: 4px 16px; 
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  background-color: #0057a8; 
+}
+
+
+.delete-button {
+  background-color: #ff000096; 
+  color: #ffffff; 
+  padding: 4px 16px; 
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #cc0000; 
+}
+.randomize{
+  background-color: #2ac5f4; 
+  color: #ffffff; 
+  padding: 4px 16px; 
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.randomize:hover {
+  background-color: #0183ab; 
+}
 </style>
 <script src="https://kit.fontawesome.com/f52c3b31f3.js" crossorigin="anonymous"></script>
 <script src="js/auth.js"></script>
@@ -154,34 +250,46 @@
 
  <!-- ***** Header Area Start ***** -->
  <header class="announcement-header-area" style="background-color: #444; height: 150px;">
- 
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <nav class="main-nav">
-            <a href="index.html" class="logo">
-              InterCollegiate Horse Shows Association
-            </a>
-            <!-- ***** Menu Start ***** -->
-            <ul class="nav" style="margin-top: 40px !important;">
-              <li class="scroll-to-section"><a href="#!">Manage Admins</a></li>
-              <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
-              <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
-              <li class="scroll-to-section"><a class="active" href="randomizer.html">Randomizer</a></li>
-              <li class="scroll-to-section"><a href="maps.html">Maps</a></li>
-              <li class="scroll-to-section"><a href="contactuspage.html">Contact Us</a></li>
-              <li class="scroll-to-section"><a href="gallerypage.html">Gallery</a></li>
-              <button id="logout" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
-            </ul>
-            <a class='menu-trigger'>
-              <span>Menu</span>
-            </a>
-            <!-- ***** Menu End ***** -->
-          </nav>
+  <div class="containerbin">
+    <div class="myheading">     <a href="index.html" class="logo">
+      InterCollegiate Horse Shows Association
+    </a></div>
+    <nav class="main-navnew">
+     
+      <!-- ***** Menu Start ***** -->
+      <ul class="navnew" >
+        <li class="scroll-to-section"><a href="#!">Manage Admins</a></li>
+        <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
+        <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
+        <li class="scroll-to-section"><a  class="active" href="randomizer.html">Randomizer</a></li>
+        <li class="scroll-to-section"><a href="maps.html">Maps</a></li>
+        <li class="scroll-to-section"><a href="contactuspage.html">Contact Us</a></li>
+        <li class="scroll-to-section"><a href="gallerypage.html">Gallery</a></li>
+        <button id="logout" style="margin-right: 0px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
+      </ul>
+      
+      <ul class="responcive-nav-new" >
+        <div class="responcive-nav">
+          <li class="scroll-to-section"><a href="#!">Manage Admins</a></li>
+          <li class="scroll-to-section"><a class="active" href="announcements.html">Announcement</a></li>
+          <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
+          <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
         </div>
-      </div>
-    </div>
-  </header>
+         <div class="responcive-nav">
+          <li class="scroll-to-section"><a href="maps.html">Maps</a></li>
+          <li class="scroll-to-section"><a href="contactuspage.html">Contact Us</a></li>
+          <li class="scroll-to-section"><a href="gallerypage.html">Gallery</a></li>
+          <button id="logout" style="margin-right: 0px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
+         </div>
+        </ul>
+
+      <!-- <a class='menu-trigger'>
+        <span>Menu</span>
+      </a> -->
+      <!-- ***** Menu End ***** -->
+    </nav>
+  </div>
+</header>
 
   <div class="container">
     <div class="row">
@@ -198,12 +306,12 @@
   
         <div class="section-heading">
           <label for="class">Select Class:</label>
-          <select id="class" style="width: 200px !important;">
+          <select id="class" class="select-dropdown" >
               <option hidden>Select a Class</option>
           </select>
-          <button id="show-all">Show All Classes</button>
-          <button id="randomize" style="display: none;">Randomize</button>
-          <button id="randomizeAll">Randomize All</button>
+          <button class="edit-button" id="show-all">Show All Classes</button>
+          <button class="randomize" id="randomize" style="display: none;">Randomize</button>
+          <button class="randomize" id="randomizeAll">Randomize All</button>
         </div>
       </div>
     </div>
@@ -326,8 +434,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             <td>${rider.riderid}</td>
             <td>${rider.name}</td>
             <td>${rider.school}</td>
-            <td>-</td>
-            <td>-</td>
+            <td style="color: red; background-color: #ff00001f;">-</td>
+            <td style="color: red; background-color: #ff00001f;">-</td>
           </tr>
         `;
       }).join('')}
@@ -351,8 +459,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             <td>${rider.riderid}</td>
             <td>${rider.name}</td>
             <td>${rider.school}</td>
-            <td>-</td>
-            <td>-</td>
+            <td style="color: red; background-color: #ff00001f;">-</td>
+            <td style="color: red; background-color: #ff00001f;">-</td>
           </tr>
         `;
       }).join('')}

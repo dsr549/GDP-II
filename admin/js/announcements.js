@@ -43,7 +43,7 @@ announcementsList.announcements.forEach((data, index) => {
     var announcement = `<div class="row announcement-item">
         <div class="col-lg-8">
           <div class="announcement-content">
-            <h3>${data.title}${isNewAnnouncement ? '<img style="width: 42px; height: 42px;" src="https://img.icons8.com/doodle/48/new--v1.png" alt="new--v1"/>' : ''}</h3>
+            <h3>${data.title.toString().toUpperCase()}${isNewAnnouncement ? '<img style="width: 42px; height: 42px;" src="https://img.icons8.com/doodle/48/new--v1.png" alt="new--v1"/>' : ''}</h3>
             <p>${data.message}</p>
           </div>
         </div>

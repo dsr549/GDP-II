@@ -26,43 +26,7 @@
   <link rel="stylesheet" href="assets/css/owl.css">
   <link rel="stylesheet" href="assets/css/lightbox.css">
   <style>
-    /* Custom section for announcements */
-    .announcements {
-      margin-top: 40px;
-    }
-
-    .announcement-item {
-      margin-bottom: 30px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #e9ecef;
-    }
-
-    .announcement-content h3 {
-      margin-bottom: 10px;
-      font-size: 20px;
-    }
-
-    .announcement-content p {
-      margin-bottom: 0;
-    }
-
-    .announcement-date {
-      text-align: right;
-      margin-top: 10px;
-      font-size: 14px;
-      color: #888;
-    }
-
-    /* Custom buttons */
-    .announcement-buttons {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 10px;
-    }
-
-    .announcement-buttons button {
-      margin-left: 10px;
-    }
+    
 
     /* Custom styling for nav */
     .main-nav {
@@ -112,7 +76,10 @@
     position: relative;
     bottom: 0;
 }
-
+.table-head{
+  border: 1px solid #4444443e !important;
+  border-radius: 12px !important;
+}
 .footer .social a {
     margin-right: 20px;
     color: #4CBB17;
@@ -292,7 +259,7 @@
     #horseForm input,
     #horseForm select {
       display: block;
-      margin-bottom: 10px;
+      margin-bottom: 1px;
     }
 
     #riderForm label, #horseForm label {
@@ -307,7 +274,7 @@
       display: inline-block;
     }
     #riderForm input[type="submit"], #horseForm input[type="submit"] {
-      margin-top: 10px;
+      margin-top: 1px;
     }
   #horseForm select {
       width: 100%;
@@ -337,6 +304,90 @@
   color: red;
   font-size: 22px;
 }
+
+.save-button {
+  background-color: #007bff; 
+  color: #fff; 
+  padding: 4px 10.5px; 
+  border: none;
+  border-radius: 4px; 
+  cursor: pointer; 
+  transition: background-color 0.3s; 
+}
+
+.save-button:hover {
+  background-color: #0056b3; 
+}
+
+.select-dropdown {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  
+  background: url('your-arrow-image.png') no-repeat right center;
+  background-size: 20px 20px; 
+  padding: 3px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px;
+  width: 400px; 
+  cursor: pointer; 
+}
+
+
+.select-dropdown option {
+  background: #fff; 
+  color: #333; 
+  padding: 10px;
+  border: none; 
+
+}
+.select-dropdown:hover {
+  background: #f0f0f0; 
+}
+.edit-button, .add-rider {
+  display: inline-block;
+  background-color: #0074E4; 
+  color: #ffffff; 
+  padding: 4px 16px; 
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-button:hover, .add-rider:hover {
+  background-color: #0057a8;
+}
+
+
+.edit-button {
+  background-color: #0074E4; 
+  color: #ffffff; 
+  padding: 4px 16px; 
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  background-color: #0057a8; 
+}
+
+
+.delete-button {
+  background-color: #ff000096; 
+  color: #ffffff; 
+  padding: 4px 16px; 
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #cc0000; 
+}
+table{
+  border: 0.5px inset #292b2c;
+}
   </style>
 <script src="https://kit.fontawesome.com/f52c3b31f3.js" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -353,34 +404,45 @@
   <!-- Sub Header -->
 
 
- <!-- ***** Header Area Start ***** -->
+ <!-- ** Header Area Start ** -->
  <header class="announcement-header-area" style="background-color: #444; height: 150px;">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <nav class="main-nav">
-            <a href="index.html" class="logo">
-              InterCollegiate Horse Shows Association
-            </a>
-            <!-- ***** Menu Start ***** -->
-            <ul class="nav" style="margin-top: 40px !important;">
-              <li class="scroll-to-section"><a href="#!">Manage Admins</a></li>
-              <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
-              <li class="scroll-to-section"><a class="active" href="dataUpload.html">Horse/Rider Info</a></li>
-              <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
-              <li class="scroll-to-section"><a href="maps.html">Maps</a></li>
-              <li class="scroll-to-section"><a href="contactuspage.html">Contact Us</a></li>
-              <li class="scroll-to-section"><a href="gallerypage.html">Gallery</a></li>
-              <button id="logout" style="margin-right: 0px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
-            </ul>
-            <a class='menu-trigger'>
-              <span>Menu</span>
-            </a>
-            <!-- ***** Menu End ***** -->
-          </nav>
-        </div>
-      </div>
-    </div>
+  <div class="containerbin">
+    <div class="myheading">     <a href="index.html" class="logo">
+     InterCollegiate Horse Shows Association
+   </a></div>
+       <nav class="main-navnew">
+    
+         <!-- ***** Menu Start ***** -->
+         <ul class="navnew" >
+           <li class="scroll-to-section"><a href="#!">Manage Admins</a></li>
+           <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
+           <li class="scroll-to-section"><a class="active" href="dataUpload.html">Horse/Rider Info</a></li>
+           <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
+           <li class="scroll-to-section"><a href="maps.html">Maps</a></li>
+           <li class="scroll-to-section"><a href="contactuspage.html">Contact Us</a></li>
+           <li class="scroll-to-section"><a href="gallerypage.html">Gallery</a></li>
+           <button id="logout" style="margin-right: 0px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
+         </ul>
+         <ul class="responcive-nav-new" >
+             <div class="responcive-nav">
+               <li class="scroll-to-section"><a href="#!">Manage Admins</a></li>
+               <li class="scroll-to-section"><a class="active" href="announcements.html">Announcement</a></li>
+               <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
+               <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
+             </div>
+              <div class="responcive-nav">
+               <li class="scroll-to-section"><a href="maps.html">Maps</a></li>
+               <li class="scroll-to-section"><a href="contactuspage.html">Contact Us</a></li>
+               <li class="scroll-to-section"><a href="gallerypage.html">Gallery</a></li>
+               <button id="logout" style="margin-right: 0px !important;" type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>
+              </div>
+             </ul>
+         <!-- <a class='menu-trigger'>
+           <span>Menu</span>
+         </a> -->
+         <!-- ***** Menu End ***** -->
+       </nav>
+     </div>
   </header>
 
   <div class="container">
@@ -394,7 +456,7 @@
   </div>
   <div class="form-container">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="flex-row-bin">
           <div id="rider-drop-area">
             <h1>Drag and Drop Riders Excel Files Here</h1>
             <p onclick="selectRiderFiles()">Or click to select files</p>
@@ -404,7 +466,7 @@
           </div>
           <div class="mt-2" id="rider-upload-details"></div>
             <!--<progress id="rider-upload-progress" value="0" max="100"></progress>-->
-          <div class="mt-2" ><h6 id="rider_filename"></h6><br><button id="rider_file_delete">Delete</button></div>
+          <div class="mt-2" ><h6 id="rider_filename"></h6><br><button class="delete-button" id="rider_file_delete">Delete</button></div>
         </div>
         
         <div id="horse-drop-area">
@@ -416,23 +478,23 @@
           </div>
           <div class="mt-2" id="horse-upload-details"></div>
             <!--<progress id="horse-upload-progress" value="0" max="100"></progress>-->
-            <div class="mt-2" ><h6 id="horse_filename"></h6><br><button id="horse_file_delete">Delete</button></div>
+            <div class="mt-2" ><h6 id="horse_filename"></h6><br><button class="delete-button" id="horse_file_delete">Delete</button></div>
         </div>
             <div id="status"></div>
         </div>
     </div>
 </div>
 <div class="container">
-  <h2>Riders</h2>
+  <h1 style="margin-bottom: 20px; margin-top: 30px;">Riders</h1>
   <div class="row">
     <div class="col-lg-12">
 
       <div class="section-heading">
         <!--<button type="button">Show all classes</button>-->
-        <select class="classes" id="classes" onchange="showclass()">
+        <select class="select-dropdown" id="classes" onchange="showclass()">
           <option hidden>Select Class</option>
         </select>
-        <button type="button" id="addRiderBtn">Add Rider</button>
+        <button type="button" class="add-rider" id="addRiderBtn">Add Rider</button>
       </div>
     </div>
   </div>
@@ -466,7 +528,7 @@
         <option value="1">True</option>
         <option value="0">False</option>
       </select>
-      <input style="left: 20px;" type="submit" value="Submit">
+      <input style="left: 20px; margin-top: 10px;" type="submit" value="Submit">
     </form>
   </div>
 </div>
@@ -476,9 +538,8 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="table-responsive" id="tabledata">
-
         <table>
-            <tr>
+            <tr class="table-head">
               <th>Rider ID</th>
               <th>Rider Name</th>
               <th>Rider School</th>
@@ -505,15 +566,15 @@
 
   <!--Horses data-->
   <div class="container">
-    <h2>Horses</h2>
+    <h1 style="margin-bottom: 20px; margin-top: 30px;">Horses</h1>
     <div class="row">
       <div class="col-lg-12">
   
         <div class="section-heading">
-          <select class="classes" id="h-classes" onchange="showhorseclass()">
+          <select class="select-dropdown" id="h-classes" onchange="showhorseclass()">
             <option hidden>Select Class</option>
           </select>
-          <button type="button" id="addHorseBtn">Add Horse</button>
+          <button type="button" class="add-rider" id="addHorseBtn">Add Horse</button>
         </div>
       </div>
     </div>
@@ -549,7 +610,6 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="table-responsive" id="tabledata">
-
         <table>
             <tr>
               <th>Horse Name</th>

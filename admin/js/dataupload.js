@@ -63,15 +63,15 @@ document.addEventListener("DOMContentLoaded", async function () {
             const saveButton = `<button class="save-button" style="display: none;" onclick="saveRow('${data.ID}')">Save</button>`;
             const temp = `<tr  id="${data.ID}">
                 <td>${rideridCell}</td>
-                <td>${nameCell}</td>
-                <td>${schoolCell}</td>
+                <td class="ellipsis-text">${nameCell}</td>
+                <td class="ellipsis-text">${schoolCell}</td>
                 <td>${heightCell}</td>
                 <td>${weightCell}</td>
                 <td>${experienceCell}</td>
                 <td>${remarksCell}</td>
                 <td>${placingCell}</td>
                 <td>${ohowCell}</td>
-                <td>${classCell}</td>
+                <td class="ellipsis-text">${classCell}</td>
                 <td>${editButton} ${saveButton}</td>
                 <td>${deleteButton}</td>
             </tr>`;
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             <td>${reinHoldCell}</td>
             <td>${remarksCell}</td>
             <td>${isStrongCell}</td>
-            <td>${classCell}</td>
+            <td >${classCell}</td>
             <td>${editButton} ${saveButton}</td>
             <td>${deleteButton}</td>
             </tr>`;
@@ -226,7 +226,7 @@ async function showclass(){
                     <td>${remarksCell}</td>
                     <td>${placingCell}</td>
                     <td>${ohowCell}</td>
-                    <td>${classCell}</td>
+                    <td >${classCell}</td>
                     <td>${editButton} ${saveButton}</td>
                     <td>${deleteButton}</td>
                 </tr>`;

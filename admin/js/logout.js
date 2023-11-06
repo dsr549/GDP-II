@@ -4,6 +4,6 @@ function logout(){
     const confirmLogout=confirm("Are you sure you want to logout?");
     if(confirmLogout){
         sessionStorage.clear();
-        window.location.href="http://localhost:3000";
+        window.location.href="/";
 }
 }
