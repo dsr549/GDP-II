@@ -118,7 +118,7 @@
  color: #fff;
  background-image: linear-gradient(45deg, #32be8f 0%, #38d39f 510%, #32be8f 100%);
 }
-#thumbnails{
+.thumbnails{
 			width: 20%;
     	float: left;
 		}
@@ -134,12 +134,12 @@
 			border: 4px solid #00ccff;
 			cursor: pointer;
 		}
-    #preview{
+    .preview{
       width: 100%;
       height: 950px;
       margin-left: 50px;
     }
-		#preview img{
+		.preview img{
 			width: 80%;
       height: 100%;
       object-fit: contain;
@@ -229,41 +229,16 @@
     </div>
   </header>
 
-  <div class="container">
+  <div class="container" style="min-height: calc(100vh - 250px); margin-bottom: 20px;">
     <div class="row">
         <div class="col-lg-10">
             <div class="sidebar">
-                <div class="folder-button-container">
-                    <div class="folder" data-event="event-1">Event 1</div>
-                    <div class="folder" data-event="event-2">Event 2</div>
-                    <div class="folder" data-event="event-3">Event 3</div>
-                    <div class="folder" data-event="event-4">Event 4</div>
+                <div class="folder-button-container" id="folders">
                 </div>
             </div>
         </div>
-            <div class="col-lg-12">
-                <div id="event-1" class="content">
-                    <div class="section-heading">
-                        <h2>Event 1</h2>
-                    </div>
-        <div id = "gallery">
-          <br />
-          <div id = "thumbnails">
-            <img src="images/gallery/IMG-20230917-WA0003.jpg" name="img1" class="thumbnail" onclick="preview.src=img1.src">
-            <img src="images/gallery/IMG-20230917-WA0004.jpg" name="img2" class="thumbnail" onclick="preview.src=img2.src">
-            <img src="images/gallery/IMG-20230917-WA0005.jpg" name="img3" class="thumbnail" onclick="preview.src=img3.src">
-            <img src="images/gallery/IMG-20230917-WA0006.jpg" name="img4" class="thumbnail" onclick="preview.src=img4.src">
-            <img src="images/gallery/IMG-20230917-WA0007.jpg" name="img5" class="thumbnail" onclick="preview.src=img5.src">
-            <img src="images/gallery/IMG-20230917-WA0008.jpg" name="img6" class="thumbnail" onclick="preview.src=img6.src">
-            <img src="images/gallery/IMG-20230917-WA0009.jpg" name="img7" class="thumbnail" onclick="preview.src=img7.src">
-            <img src="images/gallery/IMG-20230917-WA0010.jpg" name="img8" class="thumbnail" onclick="preview.src=img8.src">
-          </div>
-          <div id="preview">
-            <img name="preview" src="images/gallery/IMG-20230917-WA0003.jpg">
-          </div>
-        </div>
-
-        </div>
+            <div class="col-lg-12" id="imagesGallery">
+                
       </div>
     </div>
   </div>
@@ -279,32 +254,113 @@
     <p>copyright &copy 2023 - IHSA</p>
 </footer>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const folders = document.querySelectorAll(".folder");
-  const contents = document.querySelectorAll(".content");
-
-  folders.forEach((folder) => {
-      folder.addEventListener("click", () => {
-          const eventId = folder.getAttribute("data-event");
-          contents.forEach((content) => {
-              content.classList.remove("active");
-              const gallery = content.querySelector("#gallery");
-              if (gallery) {
-                  gallery.style.display = "none";
+  document.addEventListener("DOMContentLoaded", async function () {
+   
+  
+    async function loadFolders() {
+      try {
+          const response = await fetch('/api/getFolders', {
+              method: 'GET',
+              headers: {
+                  'Accept': 'application/json'
               }
           });
-          const selectedContent = document.getElementById(eventId);
-          if (selectedContent) {
-              selectedContent.classList.add("active");
-              const selectedGallery = selectedContent.querySelector("#gallery");
-              if (selectedGallery) {
-                  selectedGallery.style.display = "block";
+          const data = await response.json();
+          console.log(data)
+          if (data.folders) {
+              displayFolders(data);
+          }
+      } catch (error) {
+          console.error("Error fetching folders:", error);
+      }
+  }
+  
+  function displayFolders(data) {
+      const foldersDiv = document.getElementById('folders');
+      const imagesGallery = document.getElementById('imagesGallery');
+      let foldersHTML = '';
+      data.folders.forEach((folder) => {
+          foldersHTML += `<div class="folder" data-event="${folder.folder_id}">${folder.folder_name}</div>`;
+          let galleryHTML = `<div id="content-${folder.folder_id}" class="content">
+              <div class="section-heading">
+                  <h2>Images </h2>
+              </div>
+              <div class="gallery">
+                  <br />
+                  <div id="thumbnails-${folder.folder_id}" class="thumbnails">`;
+          data.images.forEach((image) => {
+              if (image.folder_id === folder.folder_id) {
+                  galleryHTML += `<img src="${image.image_url}" class="thumbnail">`;
               }
+          });
+          galleryHTML += `</div>
+              <div id="preview-${folder.folder_id}" class="preview">
+                  <img name="preview" src="#">
+              </div>
+          </div>
+      </div>`;
+          imagesGallery.innerHTML += galleryHTML;
+      });
+      foldersDiv.innerHTML = foldersHTML;
+      setupGalleryEventListeners();
+      attachEventListeners();
+  }
+   
+  function attachEventListeners() {
+      const folders = document.querySelectorAll(".folder");
+      const contents = document.querySelectorAll(".content");
+  
+      folders.forEach((folder) => {
+          folder.addEventListener("click", () => {
+              const eventId = folder.getAttribute("data-event");
+              toggleGalleryDisplay(eventId, contents);
+          });
+      });
+  }
+  
+  function toggleGalleryDisplay(eventId, contents) {
+      contents.forEach((content) => {
+          const contentFolderId = content.id.split('-')[1];
+          if (contentFolderId === eventId) {
+              content.classList.toggle("active");
+              const gallery = content.querySelector(".gallery");
+              gallery.style.display = content.classList.contains("active") ? "block" : "none";
+              if(content.classList.contains("active")){
+                sessionStorage.setItem('folder_id',eventId);
+                console.log(eventId);
+              } else {
+                sessionStorage.removeItem('folder_id');
+              }
+          } else {
+              content.classList.remove("active");
+              const gallery = content.querySelector(".gallery");
+              gallery.style.display = "none";
           }
       });
+  }
+  
+  
+  loadFolders();
+  
+  function setImagePreview(imageUrl) {
+    const previewImage = document.querySelector('#preview img');
+    previewImage.src = imageUrl;
+  }
+  function setupGalleryEventListeners() {
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    thumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', () => {
+            const folderId = thumbnail.closest('.content').id.split('-')[1];
+            const previewImage = document.querySelector(`#preview-${folderId} img`);
+            if (previewImage) {
+                previewImage.src = thumbnail.src;
+            }
+        });
+    });
+  }
   });
-});
-</script>
+  
+  </script>
 </body>
 
 </html>

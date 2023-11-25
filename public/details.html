@@ -66,7 +66,7 @@
     .main-nav {
       background-color: rgba(7, 7, 7, 0.15);
     }
-
+    
     .announcement-header-area {
       background-color: rgba(7, 7, 7, 0.15);
       position: relative;
@@ -89,12 +89,17 @@
     th,
     td {
       padding: 8px;
-      text-align: left;
+      text-align: center;
       border-bottom: 1px solid #ddd;
     }
 
     th {
       background-color: #f2f2f2;
+    }
+    .class-table{
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+      border: 1px solid rgba(125, 125, 125, 0.614);
+      margin: 50px 0px;
     }
      /* footer */
      .footer {
@@ -120,6 +125,42 @@
         color: #fff;
         background-image: linear-gradient(45deg, #32be8f 0%, #38d39f 510%, #32be8f 100%);
     }
+    .select-dropdown {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  
+  background: url('your-arrow-image.png') no-repeat right center;
+  background-size: 20px 20px; 
+  padding: 3px; 
+  border: 1px solid #ccc; 
+  border-radius: 4px;
+  width: 400px; 
+  cursor: pointer; 
+}
+
+
+.select-dropdown option {
+  background: #fff; 
+  color: #333; 
+  padding: 10px;
+  border: none; 
+
+}
+.select-dropdown:hover {
+  background: #f0f0f0; 
+}
+.edit-button {
+  background-color: #0074E4; 
+  color: #ffffff; 
+  padding: 4px 16px; 
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.edit-button:hover {
+  background-color: #0057a8; 
+}
   </style>
 
 <script src="https://kit.fontawesome.com/f52c3b31f3.js" crossorigin="anonymous"></script>
@@ -190,8 +231,13 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
-        <div class="section-heading">
-          <h2>Horse and Riders</h2>
+        <div class="section-heading"style="margin-top: 30px;">
+          <h2>Horse and Riders - Randomized Data</h2>
+          <label for="class">Select Class:</label>
+          <select id="class" class="select-dropdown" >
+              <option hidden>Select a Class</option>
+          </select>
+          <button class="edit-button" id="show-all" style="display: none;">Show All Classes</button>
         </div>
       </div>
     </div>
@@ -201,17 +247,8 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="table-responsive">
-          <table>
-            <tr>
-              <th>Class</th>
-              <th>Rider ID</th>
-              <th>Rider Name</th>
-              <th>Rider School</th>
-              <th>Horse Name</th>
-              <th>Horse Provider</th>
-            </tr>
-            <tbody id="tabletr"></tbody>
-          </table>
+            <!-- Container to hold the tables for each class -->
+            <div id="table"></div>
         </div>
       </div>
     </div>
@@ -227,25 +264,99 @@
 </footer>
 <script>
   document.addEventListener("DOMContentLoaded", async function () {
-    const result1 = await fetch('/api/getData', {
+    const randomizer = await fetch('/api/getRandomizedData', {
         method: 'GET',
         headers: {
             'Accept': 'application/json'
         }
     })
     .then((res) => res.json());
-    if(result1.list){
-        result1.list.forEach((data,index) => {
+    console.log(randomizer)
+    if(randomizer.list){
+      randomizer.list.sort((a, b) => a.class_name.localeCompare(b.class_name));
+      const classSelect = document.getElementById("class");
+      const uniqueClasses = [...new Set(randomizer.list.map(item => item.class_name))];
+      uniqueClasses.forEach(className => {
+          const option = document.createElement("option");
+          option.value = className;
+          option.text = className;
+          classSelect.appendChild(option);
+          populateTable(className);
+      });
+       /* randomizer.list.forEach((data,index) => {
             var temp =`<tr>
-            <td>${data.classname}</td>
-            <td>${data.riderid}</td>
-            <td>${data.ridername}</td>
-            <td>${data.school}</td>
-            <td>${data.horsename}</td>
-            <td>${data.provider}</td>
+            <td>${data.class_name}</td>
+            <td>${data.rider_id}</td>
+            <td>${data.rider_name}</td>
+            <td>${data.rider_school}</td>
+            <td>${data.horse_name}</td>
+            <td>${data.horse_provider}</td>
           </tr>`;
-          document.getElementById('tabletr').innerHTML += temp;
-        });
+          document.getElementById('table').innerHTML += temp;
+        }); */ 
+
+        function populateTable(selectedClass) {
+          const tableContainer = document.getElementById("table");
+          const filteredData = randomizer.list.filter((item) => item.class_name === selectedClass);
+          const table = document.createElement("table");
+          table.className = `class-table ${selectedClass}-table active-table`;
+          let order = 1;
+          table.innerHTML = `
+          <thead>
+            <tr>
+              <th colspan="6">${selectedClass}</th>
+            </tr>
+            <tr>
+              <th>Order</th>
+              <th>Rider ID</th>
+              <th>Rider Name</th>
+              <th>Rider School</th>
+              <th>Horse Name</th>
+              <th>Provider</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${filteredData.map((data, index) => {
+              return `
+            <tr>
+              <td>${order++}</td>
+              <td>${data.rider_id}</td>
+              <td>${data.rider_name}</td>
+              <td>${data.rider_school}</td>
+              <td>${data.horse_name}</td>
+              <td>${data.horse_provider}</td>
+          </tr>
+          `;
+            }).join('')}
+          </tbody>`;
+
+          tableContainer.appendChild(table);
+          function clearAllTables() {
+              const tableContainer = document.getElementById("table");
+              tableContainer.innerHTML = ""; 
+          }
+          classSelect.addEventListener("change", () => {
+              const selectedClass = classSelect.value;
+              clearAllTables();
+              if (selectedClass !== "Select a Class") {
+                  populateTable(selectedClass);
+                 // document.getElementById("randomize").style.display = "inline-block";
+                  document.getElementById("show-all").style.display = "inline-block";
+              } else {
+                  document.getElementById("show-all").style.display = "none";
+              }
+          });
+          document.getElementById("show-all").addEventListener("click", () => {
+              clearAllTables(); 
+              uniqueClasses.forEach(className => {
+                  populateTable(className); 
+              });
+              document.getElementById("show-all").style.display = "none";
+              classSelect.value = "Select a Class";
+          });
+        }
+    } else {
+      console.log("Error")
     }
 });
 </script>

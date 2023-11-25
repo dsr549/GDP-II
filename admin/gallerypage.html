@@ -95,30 +95,31 @@
       background-color: #f2f2f2;
     }
  
- /* footer */
- .footer {
- display: flex;
- flex-direction: column;
- align-items: center;
- justify-content: center;
- text-align: center;
- height: 150px;
- position: relative;
- bottom: 0;
- width: 100%;
-}
+    /* footer */
+    .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 150px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    top: 70px;
+    }
 
-.footer .social a{
+    .footer .social a{
 
- margin-right: 20px;
- color: #4CBB17;
-}
+    margin-right: 20px;
+    color: #4CBB17;
+    }
 
-.footer .social a:hover{
- color: #fff;
- background-image: linear-gradient(45deg, #32be8f 0%, #38d39f 510%, #32be8f 100%);
-}
-#thumbnails{
+    .footer .social a:hover{
+    color: #fff;
+    background-image: linear-gradient(45deg, #32be8f 0%, #38d39f 510%, #32be8f 100%);
+    }
+    .thumbnails{
 			width: 20%;
     	float: left;
 		}
@@ -134,18 +135,16 @@
 			border: 4px solid #00ccff;
 			cursor: pointer;
 		}
-    #preview{
+    .preview{
       width: 100%;
       height: 950px;
       margin-left: 50px;
     }
-		#preview img{
+		.preview img{
 			width: 80%;
       height: 100%;
       object-fit: contain;
 		}
-
-    
     sidebar {
     background-color: #333;
     color: #fff;
@@ -154,44 +153,41 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-}
+    }   
 
-        .folder-button-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
+    .folder-button-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+    }
 
-        .folder {
-            cursor: pointer;
-            padding: 10px 20px;
-            border: none;
-            background-color: #444;
-            color: #fff;
-            text-align: center;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            margin-top: 50px;
-        }
+    .folder {
+        cursor: pointer;
+        padding: 10px 20px;
+        border: none;
+        background-color: #444;
+        color: #fff;
+        text-align: center;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        margin-top: 50px;
+    }
 
-        .folder:hover {
-            background-color: #32be8f;
-            transform: scale(1.05); 
-        }
-        .content {
-            display: none;
-        }
+    .folder:hover {
+        background-color: #32be8f;
+        transform: scale(1.05); 
+    }
+    .content {
+        display: none;
+    }
 
-        .content.active {
-            display: block;
-        }
+    .content.active {
+        display: block;
+    }
     
     /* Style for the "Add folder" button */
     .add-folder-button {
-      position: absolute; 
-      top: 25%; 
-      right: 100px; 
-      z-index: 999; 
+      margin: 20px 0;
       cursor: pointer;
       padding: 15px 20px;
       border: 1px solid #32be8f;
@@ -202,6 +198,10 @@
       color: #fff; 
       text-align: center;
       transition: background-color 0.3s ease, transform 0.3s ease;
+      position: absolute;
+      width: 20%;
+      left: 40%;
+    
     }
 
     .add-folder-button:hover {
@@ -218,9 +218,150 @@
       border: 1px solid #0d6efd;
       border-radius: 4px;
     }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
 
+    .popup-content {
+      background-color: white;
+      width: 80%;
+      max-width: 400px;
+      margin: 200px auto;
+      padding: 50px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      position: relative;
+      z-index: 999;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 25px;
+      cursor: pointer;
+    }
+   
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 6px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-align: center;
+      display: block;
+      margin: 0 auto;
+      margin-top: 5px;
+    }
 
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    #folder{
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    form label{
+      font-weight: 500;
+    }
+    .upload-button {
+      background-color: #0074E4; 
+      color: #ffffff; 
+      padding: 4px 16px; 
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      position: absolute;
+      bottom: 10px; 
+      left: 50%;
+      transform: translateX(-50%); 
+    }
+    .add-button {
+      background-color: #0074E4; 
+      color: #ffffff; 
+      padding: 4px 16px; 
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .add-button:hover {
+      background-color: #0057a8; 
+    }
+    .add-button span {
+      transition: transform 0.5s ease; 
+    }
+    .add-button:hover span {
+      transform: rotate(135deg);
+      display: inline-block;
+    }
+
+    .image-upload {
+      text-align: center;
+      margin: 20px auto;
+    }
+
+    .custom-file-upload {
+        border: 2px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        background-color: #f9f9f9;
+    }
+
+    #imagePreview {
+        display: none;
+        margin-top: 20px;
+    }
+
+    #selectedImage {
+        max-width: 100%;
+        max-height: 300px;
+    }
+    #image-drop-area {
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    margin: 20px;
+    cursor: pointer;
+    min-height: 250px;
+    max-width: 600px;
+}
+
+#image-drop-area.dragover {
+    background-color: #f0f0f0;
+}
+
+#imageInput {
+    display: none;
+}
+#image-drop-area {
+    width: 300px; 
+    height: 300px; 
+    border: 2px dashed #ccc;
+    background-color: #f9f9f9;
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+#imgPreview{
+  background-size: cover; 
+  background-repeat: no-repeat;
+  background-position: center center;
+}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://kit.fontawesome.com/f52c3b31f3.js" crossorigin="anonymous"></script>
 <script src="js/auth.js"></script>
 <script src="js/logout.js"></script>
@@ -236,7 +377,7 @@
       
            <!-- ***** Menu Start ***** -->
            <ul class="navnew" >
-             <li class="scroll-to-section"><a href="#!">Manage Admins</a></li>
+             <li class="scroll-to-section"><a href="dashboard.html">Manage Admins</a></li>
              <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
              <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
              <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
@@ -247,7 +388,7 @@
            </ul>
            <ul class="responcive-nav-new" >
                <div class="responcive-nav">
-                 <li class="scroll-to-section"><a href="#!">Manage Admins</a></li>
+                 <li class="scroll-to-section"><a href="dashboard.html">Manage Admins</a></li>
                  <li class="scroll-to-section"><a class="active" href="announcements.html">Announcement</a></li>
                  <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
                  <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
@@ -267,49 +408,143 @@
        </div>
   </header>
 
-  <div class="container">
+  <div class="container" style="min-height: calc(100vh - 250px); margin-bottom: 20px;">
     <div class="row">
         <div class="col-lg-10">
             <div class="sidebar">
-                <div class="folder-button-container">
-                    <div class="folder" data-event="event-1">Event 1</div>
-                    <div class="folder" data-event="event-2">Event 2</div>
-                    <div class="folder" data-event="event-3">Event 3</div>
-                    <div class="folder" data-event="event-4">Event 4</div>
+                <div class="folder-button-container" id="folders">
+                    <div class="folder" data-event="1">Ihsa</div>
+                    <div class="folder" data-event="2">Ihsa -2 </div>
                 </div>
             </div>
         </div>
         
-            <div class="col-lg-12">
-                <div id="event-1" class="content">
-                    <div class="section-heading">
-                        <h2>Event 1</h2>
-                    </div>
-        <div id = "gallery">
-          <br />
-          <div id = "thumbnails">
-            <img src="images/gallery/IMG-20230917-WA0003.jpg" name="img1" class="thumbnail" onclick="preview.src=img1.src">
-            <img src="images/gallery/IMG-20230917-WA0004.jpg" name="img2" class="thumbnail" onclick="preview.src=img2.src">
-            <img src="images/gallery/IMG-20230917-WA0005.jpg" name="img3" class="thumbnail" onclick="preview.src=img3.src">
-            <img src="images/gallery/IMG-20230917-WA0006.jpg" name="img4" class="thumbnail" onclick="preview.src=img4.src">
-            <img src="images/gallery/IMG-20230917-WA0007.jpg" name="img5" class="thumbnail" onclick="preview.src=img5.src">
-            <img src="images/gallery/IMG-20230917-WA0008.jpg" name="img6" class="thumbnail" onclick="preview.src=img6.src">
-            <img src="images/gallery/IMG-20230917-WA0009.jpg" name="img7" class="thumbnail" onclick="preview.src=img7.src">
-            <img src="images/gallery/IMG-20230917-WA0010.jpg" name="img8" class="thumbnail" onclick="preview.src=img8.src">
-          </div>
-          <div id="preview">
-            <img name="preview" src="images/gallery/IMG-20230917-WA0003.jpg">
-          </div>
-        </div>
-
-        </div>
+            <div class="col-lg-12" id="imagesGallery">
+              <div id="1" class="content">
+                <div class="section-heading">
+                    <h2>Images <button class="add-button" style="padding: 7px 8px !important; margin: 0 !important; font-size: 14px !important; line-height: 1 !important;" onclick="document.getElementById('addImages').style.display='block'">Add <span>&#43;</span></button></h2>
+                </div>
+    <div class = "gallery">
+      <br />
+      <div id = "thumbnails" class="thumbnails">
+        <img src="images/gallery/IMG-20230917-WA0003.jpg" name="img1" class="thumbnail" onclick="preview.src=img1.src">
+        <img src="images/gallery/IMG-20230917-WA0004.jpg" name="img2" class="thumbnail" onclick="preview.src=img2.src">
+        <img src="images/gallery/IMG-20230917-WA0005.jpg" name="img3" class="thumbnail" onclick="preview.src=img3.src">
+        <img src="images/gallery/IMG-20230917-WA0006.jpg" name="img4" class="thumbnail" onclick="preview.src=img4.src">
+        <img src="images/gallery/IMG-20230917-WA0007.jpg" name="img5" class="thumbnail" onclick="preview.src=img5.src">
+        <img src="images/gallery/IMG-20230917-WA0008.jpg" name="img6" class="thumbnail" onclick="preview.src=img6.src">
+        <img src="images/gallery/IMG-20230917-WA0009.jpg" name="img7" class="thumbnail" onclick="preview.src=img7.src">
+        <img src="images/gallery/IMG-20230917-WA0010.jpg" name="img8" class="thumbnail" onclick="preview.src=img8.src">
       </div>
-      
-    </div> <div class="add-folder-button">ADD FOLDER</div>
-    <!--<button id="logout" style="margin-right: 0px !important; " type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>-->
-  </div>
+      <div id="preview" class="preview">
+        <img name="preview" src="images/gallery/IMG-20230917-WA0003.jpg">
+      </div>
+    </div>
 
-  
+            </div>
+            </div>
+      
+    </div> <div class="add-folder-button" onclick="document.getElementById('addFolderPopup').style.display = 'block'">ADD FOLDER</div>
+    <!--<button id="logout" style="margin-right: 0px !important; " type="button" onclick="logout()" class="btn btn-primary">LOGOUT</button>-->
+    <div id="addFolderPopup" class="popup">
+      <div class="popup-content">
+          <span class="close" id="closePopup" style="font-size: 24px; font-weight: bolder;" onclick="document.getElementById('addFolderPopup').style.display = 'none'">&times;</span>
+          <h5 style="text-align: center; margin-bottom: 20px; font-weight: bold;">ADD FOLDER</h5>
+          <form id="addFolderForm">
+              <label for="folder">Folder name:</label>
+              <input type="text" placeholder="Enter folder name" name="folder" id="folder" required>           
+              <input type="submit" value="Submit">
+          </form>
+      </div>
+  </div>
+  <div id="falsepopup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <span class="close" id="falseclosePopups"></span>
+      <h3 style="color: #000; text-align: center;" id="falseResponse">Failed to add Folder</h3>
+      <p id="error"></p>
+      <div>
+    <lord-icon
+    src="https://cdn.lordicon.com/jxzkkoed.json"
+    trigger="hover"
+    style="width:60px; height:60px; margin-top: 7px; display : block; margin-left: 45%;">
+</lord-icon></div>
+    </div>
+  </div>
+  <div id="successpopup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <span class="close" id="successclosePopup"></span>
+      <h3 style="color: #000; text-align: center;" id="successResponse">Folder added successfully!</h3>
+      <p id="error"></p>
+      <div><lord-icon
+        src="https://cdn.lordicon.com/egiwmiit.json"
+        trigger="loop"
+        id="verifiedIcon"
+        colors="primary:#32cd32"
+        class="child"
+        scale="30"
+        axis-x="35"
+        axis-y="25"
+        state="intro"
+        style="width:60px; height:60px; margin-top: 7px; display : block; margin-left: 45%;">
+    </lord-icon></div>
+    </div>
+  </div>
+  </div>
+  <div id="addImages" class="popup" >
+    <div class="popup-content" style="max-width: 0 !important; min-width: 900px;">
+        <span class="close" id="closePopup" style="font-size: 24px; font-weight: bolder;" onclick="document.getElementById('addImages').style.display = 'none'">&times;</span>
+        <h5 style="text-align: center; margin-bottom: 20px; font-weight: bold;">Add Images</h5>
+        <div style="display: flex;">
+        <div>
+        <form id="addImages">
+          <div id="image-drop-area">
+            <h1>Drag and Drop Images</h1>
+            <p onclick="selectImages()">Or click to select files</p>
+            <input type="file" name="imageInput" id="imageInput" accept="image/*">
+            <!--<progress id="rider-upload-progress" value="0" max="100"></progress>-->
+          <div class="mt-2" ></div>
+        </div>
+        <button class="upload-button" type="submit">Upload</button>
+        <script>
+          const imageDropArea = document.getElementById('image-drop-area');
+          const imageFileInput = document.getElementById('imageInput');
+          function selectImages() {
+              document.getElementById('imageInput').click();
+          }
+          imageFileInput.addEventListener('change', () => {
+              if (imageFileInput.files && imageFileInput.files[0]) {
+                  const reader = new FileReader();
+                  reader.onload = function(e) {
+                      document.getElementById('imgPreview').src = e.target.result;
+                  };
+                  reader.readAsDataURL(imageFileInput.files[0]);
+              }
+          });
+
+          imageDropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imageDropArea.classList.add('dragover');
+        });
+
+        imageDropArea.addEventListener('dragleave', () => {
+            imageDropArea.classList.remove('dragover');
+        });
+
+        imageDropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            imageDropArea.classList.remove('dragover');
+            console.log(e.dataTransfer.files);
+          //  handleRiderFiles(e.dataTransfer.files);
+        });
+        </script>
+        </form>
+      </div>
+        <div style="height: 300px; width: 400px; border: 1px solid #000; margin: 20px;">
+          <img src="#" alt="Uploaded images preview" id="imgPreview" height="300px" width="400px">
+        </div>
+        </div>
+    </div>
+</div>
   <footer class="footer bg-dark" id="footer" style="bottom: 0 !important; background:#444;">
     <div class="social">
       <a href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook fa-2x"></i></a>
@@ -319,32 +554,197 @@
     </div>
     <p>copyright &copy 2023 - IHSA</p>
 </footer>
+<script src="https://cdn.lordicon.com/lordicon-1.2.0.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const folders = document.querySelectorAll(".folder");
-  const contents = document.querySelectorAll(".content");
+document.addEventListener("DOMContentLoaded", async function () {
+ 
 
-  folders.forEach((folder) => {
-      folder.addEventListener("click", () => {
-          const eventId = folder.getAttribute("data-event");
-          contents.forEach((content) => {
-              content.classList.remove("active");
-              const gallery = content.querySelector("#gallery");
-              if (gallery) {
-                  gallery.style.display = "none";
-              }
+  async function loadFolders() {
+    try {
+        const response = await fetch('/api/getFolders', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        const data = await response.json();
+        console.log(data)
+        if (data.folders) {
+            displayFolders(data);
+        }
+    } catch (error) {
+        console.error("Error fetching folders:", error);
+    }
+}
+
+function displayFolders(data) {
+    const foldersDiv = document.getElementById('folders');
+    const imagesGallery = document.getElementById('imagesGallery');
+    let foldersHTML = '';
+    data.folders.forEach((folder) => {
+        foldersHTML += `<div class="folder" data-event="${folder.folder_id}">${folder.folder_name}</div>`;
+        let galleryHTML = `<div id="content-${folder.folder_id}" class="content">
+            <div class="section-heading">
+                <h2>Images <button data-event="${folder.folder_id}" class="add-button" style="padding: 7px 8px !important; margin: 0 !important; font-size: 14px !important; line-height: 1 !important;" onclick="document.getElementById('addImages').style.display='block'">Add <span>&#43;</span></button></h2>
+            </div>
+            <div class="gallery">
+                <br />
+                <div id="thumbnails-${folder.folder_id}" class="thumbnails">`;
+        data.images.forEach((image) => {
+            if (image.folder_id === folder.folder_id) {
+                galleryHTML += `<img src="${image.image_url}" class="thumbnail">`;
+            }
+        });
+        galleryHTML += `</div>
+            <div id="preview-${folder.folder_id}" class="preview">
+                <img name="preview" src="#">
+            </div>
+        </div>
+    </div>`;
+        imagesGallery.innerHTML += galleryHTML;
+    });
+    foldersDiv.innerHTML = foldersHTML;
+    setupGalleryEventListeners();
+    attachEventListeners();
+}
+
+
+
+function attachEventListeners() {
+    const folders = document.querySelectorAll(".folder");
+    const contents = document.querySelectorAll(".content");
+
+    folders.forEach((folder) => {
+        folder.addEventListener("click", () => {
+            const eventId = folder.getAttribute("data-event");
+            toggleGalleryDisplay(eventId, contents);
+        });
+    });
+}
+
+function toggleGalleryDisplay(eventId, contents) {
+    contents.forEach((content) => {
+        const contentFolderId = content.id.split('-')[1];
+        if (contentFolderId === eventId) {
+            content.classList.toggle("active");
+            const gallery = content.querySelector(".gallery");
+            gallery.style.display = content.classList.contains("active") ? "block" : "none";
+            if(content.classList.contains("active")){
+              sessionStorage.setItem('folder_id',eventId);
+              console.log(eventId);
+            } else {
+              sessionStorage.removeItem('folder_id');
+            }
+        } else {
+            content.classList.remove("active");
+            const gallery = content.querySelector(".gallery");
+            gallery.style.display = "none";
+            
+        }
+    });
+}
+
+
+loadFolders();
+
+
+  const addImages = document.getElementById('addImages');
+  addImages.addEventListener('submit', async (e) => {
+        console.log("form recieved")
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        formData.append('folder_id',sessionStorage.getItem('folder_id'))
+        const formDataObject = {};
+        formData.forEach((value, key) => {
+            formDataObject[key] = value;
+        });
+        console.log(formDataObject)
+        axios.post('/api/addImage', formDataObject, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          .then(response => {
+            if(response.data.message){
+      document.getElementById('addImages').style.display = 'none'
+      document.getElementById('successpopup').style.display = "block";
+            document.getElementById('successResponse').innerHTML = "Image added successfully";
+            setTimeout(() => {
+                document.getElementById('successpopup').style.display = "none";
+                window.location.reload(true);
+                addFolderForm.reset();
+              }, 5000);
+        } else {
+            document.getElementById('addImages').style.display = 'none'
+            document.getElementById('falsepopup').style.display = "block";
+            document.getElementById('falseResponse').innerHTML = "Failed to add image!";
+            setTimeout(() => {
+                document.getElementById('falsepopup').style.display = "none";
+                addFolderForm.reset();
+              }, 5000);
+        }
+            
+          })
+          .catch(error => {
+            console.error('Error uploading image:', error);
           });
-          const selectedContent = document.getElementById(eventId);
-          if (selectedContent) {
-              selectedContent.classList.add("active");
-              const selectedGallery = selectedContent.querySelector("#gallery");
-              if (selectedGallery) {
-                  selectedGallery.style.display = "block";
-              }
-          }
-      });
   });
+  const addFolderForm = document.getElementById('addFolderForm');
+    addFolderForm.addEventListener('submit', async (e) => {
+        console.log("form recieved")
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const formDataObject = {};
+        formData.forEach((value, key) => {
+            formDataObject[key] = value;
+        });
+        console.log(formDataObject)
+        const addFolder = await fetch('/api/addFolder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formDataObject)
+    }).then((res) => res.json())
+    console.log(addFolder);
+    if(addFolder.message){
+      document.getElementById('addFolderPopup').style.display = 'none'
+      document.getElementById('successpopup').style.display = "block";
+            document.getElementById('successResponse').innerHTML = "Folder added successfully";
+            setTimeout(() => {
+                document.getElementById('successpopup').style.display = "none";
+                window.location.reload(true);
+                addFolderForm.reset();
+              }, 5000);
+        } else {
+            document.getElementById('addFolderPopup').style.display = 'none'
+            document.getElementById('falsepopup').style.display = "block";
+            document.getElementById('falseResponse').innerHTML = "Failed to add Folder!";
+            setTimeout(() => {
+                document.getElementById('falsepopup').style.display = "none";
+                addFolderForm.reset();
+              }, 5000);
+        }
+    });
+
+    function setImagePreview(imageUrl) {
+    const previewImage = document.querySelector('#preview img');
+    previewImage.src = imageUrl;
+  }
+  function setupGalleryEventListeners() {
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    thumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', () => {
+            const folderId = thumbnail.closest('.content').id.split('-')[1];
+            const previewImage = document.querySelector(`#preview-${folderId} img`);
+            if (previewImage) {
+                previewImage.src = thumbnail.src;
+            }
+        });
+    });
+}
 });
+
 </script>
 </body>
 

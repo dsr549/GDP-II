@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
 const pool = require("../pool");
 const Mails = require('../emails/service')
 const config = require("../config");
@@ -8,18 +9,102 @@ var savedOTPS = {
 
 };
 
+const getAdmins = async (req,res) => {
+  try {
+    const sqlQuery = "SELECT * FROM admins";
+      const [logins] = await pool.execute(sqlQuery);
+      res.status(200).send({ list : logins })
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ errorMessage : "Failed to get admin data"})
+  }
+}
+
+const addShowAdmin = async (req,res) => {
+  try{
+    const { username, email } = req.body;
+    let password = username+"123";
+    let isShowAdmin = 1;
+    if (!username || !email || !password) {
+      res.status(false).json({ message: "Enter all data", status: false });
+    } else {
+      const hashedPassword = await bcrypt.hash( password, 10);
+     // console.log(hashedPassword)
+      const insertQuery =
+        "INSERT INTO admins (username, email, password_hash, isShowAdmin) VALUES (?, ?, ?,?)";
+      const [result] = await pool.execute(insertQuery, [ username, email, hashedPassword, isShowAdmin]);
+     // console.log("result -> ",result)
+      if (result.affectedRows > 0) {
+        res.status(201).json({ message: "Show admin added successfully" });
+      } else {
+        res.status(400).json({ errorMessage: "Failed to add show admin" });
+      }
+    }
+  } catch (err) {
+    console.log(err)
+    res.status(500).send({ errorMessage : "Failed to add show admin"})
+  }
+}
+
+const editShowAdmin = async (req,res) => {
+  try{
+    const { username, email, id } = req.body;
+    console.log(id);
+    const fetchQuery = `UPDATE admins SET username = \'${username}\', email = \'${email}\' WHERE user_id = \'${id}\';`; 
+    const [updateAdmin] = await pool.execute(fetchQuery);
+    console.log(updateAdmin)
+    if (updateAdmin.affectedRows > 0) {
+      res.status(200).send({success: "show admin data edited successfully"});
+    } else {
+      console.log("Unable to edit show admin");
+      res.status(400).send({errorMessage : "Failed to edit show admin data"});
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ errorMessage: err });
+  }
+}
+
+const deleteShowAdmin = async (req,res) => {
+  try{
+    const { id } = req.query;
+    console.log(id);
+    const fetchQuery = "DELETE FROM admins WHERE user_id = ? ";
+    const [deleteAdmin] = await pool.execute(fetchQuery, [id]);
+    console.log(deleteAdmin)
+    if (deleteAdmin.affectedRows > 0) {
+      res.status(200).send({success: "show admin data deleted successfully"});
+    } else {
+      console.log("Unable to delete show admin");
+      res.status(400).send({errorMessage : "Failed to delete show admin data"});
+    }
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ errorMessage: err });
+  }
+}
+
 const sendOTP = async (req,res) => {
   const { mail } = req.query;
   console.log(mail)
   let randomdigit = Math.floor(100000 + Math.random() * 900000);
     try {
-      await Mails.sendOtpEmail(mail, randomdigit);
+      const sqlQuery = "SELECT * FROM admins WHERE BINARY email = ?";
+      const [logins] = await pool.execute(sqlQuery, [mail]);
+
+      if (logins.length === 0) {
+        res.status(404).json({ error: "Email is not registered" });
+      } else {
+        await Mails.sendOtpEmail(mail, randomdigit);
       res.status(200).send({ message: "OTP Sent" });
         savedOTPS[mail] = randomdigit;
         setTimeout(() => {
             delete savedOTPS[`${mail}`];
-        }, 10000);
+        }, 180000);
         console.log(savedOTPS); 
+      }
+      
     } catch(e) {
         console.log(e);
         res.status(400).send({ error: "Unable to send OTP" });
@@ -30,65 +115,136 @@ const sendOTP = async (req,res) => {
       let [rows] = await pool.query('INSERT INTO otps VALUES (?, ?, ?)', [otpemail, randomdigit, expiry]);  */
 }
 
+const checkOTP = async (req,res ) => {
+  console.log(req.query);
+  const { mail, OTP } = req.query;
+  try{
+    if (savedOTPS[mail] && savedOTPS[mail].toString() === OTP.toString()) {
+      res.status(200).send({message : "OTP matched!"})
+      delete savedOTPS[mail];
+    } else {
+      res.status(400).send({error: "Wrong password!"})
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({error: "Wrong password!"})
+  }
+}
+
+const changePassword = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    if (email && password) {
+      const hashedPassword = await bcrypt.hash(password, 10); // Hash the new password
+
+      const sqlQuery = `UPDATE admins SET password_hash = ? WHERE email = ?`;
+      const [result] = await pool.execute(sqlQuery, [hashedPassword, email]);
+      if(result.affectedRows > 0){
+        res.status(200).send({ message: "Password changed successfully" });
+      } else {
+        res.status(404).send({ error: "Email not found" });
+      }
+      
+    } else {
+      res.status(404).send({ error: "Email not found" });
+    }
+  } catch (err) {
+    console.log(err)
+    res.status(500).send({ error: "An error occurred while changing the password" });
+  }
+}
+
 const login = async (req, res) => {
-  console.log(req.body)
   const { userName, password } = req.body;
   try {
     if (!userName || !password) {
       res.json({ message: "Enter all data", status: false });
     } else {
-      const sqlQuery = "SELECT * FROM user WHERE BINARY username = ?";
+      const sqlQuery = "SELECT * FROM admins WHERE BINARY username = ? AND isShowAdmin = 0";
       const [logins] = await pool.execute(sqlQuery, [userName]);
-
+      console.log(logins)
       if (logins.length === 0) {
-        res.json({ msg: "User does not exist" });
+        res.status(404).json({ msg: "User does not exist" });
       } else {
         const userData = logins[0];
-        console.log(userData)
-        if (userData.password === password) {
+        const passwordMatch = await bcrypt.compare(password, userData.password_hash); 
+        if (passwordMatch) {
           const token = jwt.sign({ id: userData.username }, config.JWT_TOKEN_KEY);
           res.json({
             message: "Login successful",
             token: token,
             username: userData.username,
             status: true,
+            isShowAdmin: userData.isShowAdmin
           });
         } else {
-          res.status(false).json({ error: "Invalid username/password"});
+          res.status(401).json({ error: "Invalid username/password" });
         }
       }
     }
   } catch (err) {
-    res.status(500).json({ errorMessage: "Internal server error, please try again later."});
+    res.status(404).json({ error: "Invalid username/password" });
   }
-  
-};
+}
 
+const showAdminLogin = async (req, res) => {
+  const { userName, password } = req.body;
+  try {
+    if (!userName || !password) {
+      res.json({ message: "Enter all data", status: false });
+    } else {
+      const sqlQuery = "SELECT * FROM admins WHERE BINARY username = ? AND isShowAdmin = 1";
+      const [logins] = await pool.execute(sqlQuery, [userName]);
+      console.log(" Logins --> ",logins)
+      if (logins.length === 0) {
+        res.status(404).json({ msg: "User does not exist" });
+      } else {
+        const userData = logins[0];
+        const passwordMatch = await bcrypt.compare(password, userData.password_hash); 
+        if (passwordMatch) {
+          const token = jwt.sign({ id: userData.username }, config.JWT_TOKEN_KEY);
+          res.json({
+            message: "Login successful",
+            token: token,
+            username: userData.username,
+            status: true,
+            isShowAdmin: userData.isShowAdmin
+          });
+        } else {
+          res.status(401).json({ error: "Invalid username/password" });
+        }
+      }
+    }
+  } catch (err) {
+    res.status(404).json({ error: "Invalid username/password" });
+  }
+}
 
 const signUp = async (req, res) => {
   try {
-    const { firstName, lastName, userName, email, password } = req.body;
-    console.log(firstName, lastName, userName, email, password)
+    const { firstName, lastName, userName, email, password, isShowAdmin } = req.body;
+    
     if (!firstName || !lastName || !userName || !email || !password) {
-      res.json({ message: "enter all data", status: false });
+      res.status(false).json({ message: "Enter all data", status: false });
     } else {
+      const hashedPassword = await bcrypt.hash(password, 10);
+     // console.log(hashedPassword)
       const insertQuery =
-        "INSERT INTO user (firstname, lastname, username, email, password) VALUES (?, ?, ?, ?, ?)";
-      let signup = await pool.query(insertQuery, [
-        firstName,
-        lastName,
-        userName,
-        email,
-        password,
-      ]);
-      console.log(signup)
-      res.status(201).json({ message: "User signed up successfully", status: true });
+        "INSERT INTO admins (firstname, lastname, username, email, password_hash, isShowAdmin) VALUES (?, ?, ?, ?, ?,?)";
+      const [result] = await pool.execute(insertQuery, [firstName, lastName, userName, email, hashedPassword, isShowAdmin]);
+     // console.log("result -> ",result)
+      if (result.affectedRows > 0) {
+        res.status(201).json({ message: "User signed up successfully" });
+      } else {
+        res.status(400).json({ errorMessage: "User signup failed"});
+      }
     }
   } catch (error) {
     console.log(error)
-    res.status(500).json({ errorMessage: "An error occurred while signing up", status: false });
+    res.status(500).json({ errorMessage: "An error occurred while signing up" });
   }
 };
+
 
 const addAnnouncements = async (req,res) => {
 
@@ -239,20 +395,72 @@ const getData = async (req,res) => {
   }
 }
 
-const saveCombination = async (req,res) => {
-  try{
-    const { classname, horses,riders } = req.body;
-    const query = `INSERT INTO randomizer(classname,riderName,horsename) VALUES(?,?,?);`;
-    const leng = horses.length
-    for(let i=0; i< leng;i++){
-      let list = await pool.execute(query,[classname,riders[i],horses[i]]);
+const saveCombination = async (req, res) => {
+  const tablesData = req.body.tables;
+  const file_id = req.body.file_id;
+  const conn = await pool.getConnection();
+
+  try {
+    let errorOccurred = false;
+
+    for (const tableData of tablesData) {
+      const className = Object.keys(tableData[0])[0].replace('class-table ', '').replace('-table active-table', '');
+
+      await conn.beginTransaction();
+
+      try {
+        await conn.execute('DELETE FROM randomizer WHERE file_id = ? AND class_name = ?', [file_id, className]);
+
+        for (const studentData of tableData.slice(1)) {
+          const values = [className, file_id, ...studentData];
+          await conn.execute('INSERT INTO randomizer (class_name, file_id, order_id, rider_id, rider_name, rider_school, horse_name, horse_provider) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', values);
+        }
+
+        await conn.commit();
+      } catch (error) {
+        await conn.rollback();
+        console.error('Failed to insert student data:', error);
+        res.status(400).send({ errorMessage: 'Failed to save randomizer data' });
+        errorOccurred = true;
+        break; // Exit the loop immediately if an error occurs
+      }
     }
-    res.status(200).json({success: "Uploaded Successfully"});
-  } catch (err){
-    console.log(err);
-    res.status(500).json({ errorMessage: err });
+
+    if (!errorOccurred) {
+      console.log('Randomized data inserted successfully');
+      res.status(200).send({ message: 'Data saved successfully' });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ errorMessage: error });
+  } finally {
+    conn.release();
   }
 }
+
+
+const getRandomizer = async (req, res) => {
+  try {
+      const result = await pool.query(`
+          SELECT r.*, f.filename
+          FROM (
+              SELECT MAX(file_id) AS latest_file_id
+              FROM randomizer
+          ) AS latest_randomizer
+          LEFT JOIN randomizer AS r ON r.file_id = latest_randomizer.latest_file_id
+          LEFT JOIN files AS f ON r.file_id = f.file_id;
+      `);
+
+      const randomizerData = result[0];
+      res.status(200).json({ list : randomizerData });
+  } catch (error) {
+      console.error('Failed to fetch randomizer data:', error);
+      res.status(500).json({ errorMessage: 'Failed to fetch randomizer data' });
+  }
+};
+
+
+
 
 const uploadRider = async (req,res) => {
  // console.log(req,res);
@@ -439,8 +647,97 @@ const deleteHorse = async (req,res) =>{
   
 }
 
+const addFolder = async (req,res) => {
+  try{
+    const { folder } = req.body;
+    console.log(folder);
+    if (!folder) {
+      res.json({ errorMessage: "enter folder name", status: false });
+    } else {
+      const insertQuery =
+        "INSERT INTO folders (folder_name) VALUES (?)";
+      let [add] = await pool.query(insertQuery, [folder]);
+      console.log(add)
+      if (add.affectedRows > 0) {
+        res.status(201).json({ message: "Folder added successfully" });
+      } else {
+        res.status(201).json({ errorMessage: "An error occurred while adding folder" });
+      }
+      
+    }
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ errorMessage: "An error occurred while adding folder"});
+  }
+}
+
+
+const deleteFolder = async (req,res) =>{
+  const { folder_id } = req.query;
+  try{
+    if(folder_id){
+      const imagesDeleteQuery = "DELETE FROM images WHERE folder_id = ? ";
+      const folderDeleteQuery = "DELETE FROM folders WHERE folder_id = ? ";
+      const [result1] = await pool.execute(imagesDeleteQuery, [folder_id]);
+      const [result] = await pool.execute(folderDeleteQuery, [folder_id]);
+    console.log(result1 , result);
+    if (result.affectedRows > 0 & result1.affectedRows > 0) {
+      res.status(201).json({message : "Deleted Successfully"});
+    } else {
+      res.status(400).json({errorMessage : "Failed to delete"});
+    }
+  } else {
+    res.status(400).json({errorMessage : "Failed to delete"});
+  }
+  } catch(err){
+    console.log(err);
+    res.status(500).json({ errorMessage: err });
+  }
+}
+
+const getFolders = async (req,res) => {
+  try{
+    const fetchQuery = "SELECT * FROM folders";
+    const fetchImages = "SELECT * FROM images"
+    const [folders] = await pool.execute(fetchQuery);
+    const [images] = await pool.execute(fetchImages);
+    if (folders.length == 0) {
+      res.status(401).json({ errorMessage: "Empty folders" });
+    } else {
+     // console.log(folders, images)
+      res.status(201).json({folders : folders, images : images});
+    }
+
+  } catch (err) {
+    res.status(500).json({ errorMessage: err});
+  }
+
+}
+
+const addImage = async (req,res) => {
+  try{
+    console.log(req.file, req.body.folder_id)
+    if(req.file && req.body.folder_id){
+        console.log("Image data recieved from cloudinary");
+        const { path:  url } = req.file;
+        const image = { url };
+        const addQuery = "INSERT INTO images (image_url,folder_id) VALUES (?,?)";
+        const [folders] = await pool.execute(addQuery, [image.url,req.body.folder_id]);
+        if(folders.affectedRows > 0){
+          res.status(201).json({message : "Image added Successfully"});
+        } else {
+          res.status(500).json({ errorMessage: "Failed to upload image"});
+        }
+        }
+  } catch (err) {
+    res.status(500).json({ errorMessage: err});
+  }
+}
+
 module.exports = {
   login,
+  showAdminLogin,
   signUp,
   addAnnouncements,
   fetchAnnouncements,
@@ -458,5 +755,16 @@ module.exports = {
   editHorse,
   deleteRider,
   deleteHorse,
-  sendOTP
+  sendOTP,
+  checkOTP,
+  changePassword,
+  getRandomizer,
+  getAdmins,
+  addShowAdmin,
+  editShowAdmin,
+  deleteShowAdmin,
+  addFolder,
+  deleteFolder,
+  getFolders,
+  addImage
 };

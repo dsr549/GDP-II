@@ -212,7 +212,13 @@
 .edit-button:hover {
   background-color: #0057a8; 
 }
-
+.add-button span {
+  transition: transform 0.5s ease; 
+}
+.add-button:hover span {
+  transform: rotate(135deg);
+  display: inline-block;
+}
 
 .delete-button {
   background-color: #ff000096; 
@@ -237,8 +243,37 @@
 .randomize:hover {
   background-color: #0183ab; 
 }
+.popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    .popup-content {
+      background-color: white;
+      width: 80%;
+      max-width: 400px;
+      margin: 30px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      position: relative;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 25px;
+      cursor: pointer;
+    }
 </style>
 <script src="https://kit.fontawesome.com/f52c3b31f3.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/logout.js"></script>
 </head>
@@ -258,7 +293,7 @@
      
       <!-- ***** Menu Start ***** -->
       <ul class="navnew" >
-        <li class="scroll-to-section"><a href="#!">Manage Admins</a></li>
+        <li class="scroll-to-section"><a href="dashboard.html">Manage Admins</a></li>
         <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
         <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
         <li class="scroll-to-section"><a  class="active" href="randomizer.html">Randomizer</a></li>
@@ -270,7 +305,7 @@
       
       <ul class="responcive-nav-new" >
         <div class="responcive-nav">
-          <li class="scroll-to-section"><a href="#!">Manage Admins</a></li>
+          <li class="scroll-to-section"><a href="dashboard.html">Manage Admins</a></li>
           <li class="scroll-to-section"><a class="active" href="announcements.html">Announcement</a></li>
           <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
           <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
@@ -337,6 +372,38 @@
       </div>
     </div>
 </div>
+<div id="falsepopup" class="popup" style="display: none;">
+  <div class="popup-content">
+    <span class="close" id="falseclosePopups"></span>
+    <h3 style="color: #000; text-align: center;" id="falseResponse"></h3>
+    <p id="error"></p>
+    <div>
+  <lord-icon
+  src="https://cdn.lordicon.com/jxzkkoed.json"
+  trigger="hover"
+  style="width:60px; height:60px; margin-top: 7px; display : block; margin-left: 45%;">
+</lord-icon></div>
+  </div>
+</div>
+<div id="successpopup" class="popup" style="display: none;">
+  <div class="popup-content">
+    <span class="close" id="successclosePopup"></span>
+    <h3 style="color: #000; text-align: center;" id="successResponse">Password changed successfully!</h3>
+    <p id="error"></p>
+    <div><lord-icon
+      src="https://cdn.lordicon.com/egiwmiit.json"
+      trigger="loop"
+      id="verifiedIcon"
+      colors="primary:#32cd32"
+      class="child"
+      scale="30"
+      axis-x="35"
+      axis-y="25"
+      state="intro"
+      style="width:60px; height:60px; margin-top: 7px; display : block; margin-left: 45%;">
+  </lord-icon></div>
+  </div>
+</div>
   <footer class="footer bg-dark" id="footer" style="bottom: 0 !important; background:#444;">
     <div class="social">
       <a href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook fa-2x"></i></a>
@@ -346,8 +413,10 @@
     </div>
     <p>copyright &copy 2023 - IHSA</p>
 </footer>
+<script src="https://cdn.lordicon.com/lordicon-1.2.0.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", async function () {
+  var file_id = 0;
   var result = await fetch('/api/getData', {
           method: 'GET',
           headers: {
@@ -356,6 +425,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       })
       .then((res) => res.json());
      console.log(result);
+     file_id = result.Rlist[0].file_id
+     console.log(file_id)
     const classSelect = document.getElementById("class");
       const uniqueClasses = [...new Set(result.Rlist.map(item => item.class))];
       uniqueClasses.forEach(className => {
@@ -521,9 +592,68 @@ document.getElementById("randomize").addEventListener("click", () => {
 });
   
 
-document.getElementById("save-combinations").addEventListener("click", () => {
+document.getElementById("save-combinations").addEventListener("click", async() => {
         const allTables = document.querySelectorAll(".class-table");
-        tablesToExcel(Array.from(allTables).map(table => table.outerHTML), "ihsa-randomizer-data");
+      //  tablesToExcel(Array.from(allTables).map(table => table.outerHTML), "ihsa-randomizer-data");
+      const tableData = [];
+
+      allTables.forEach(table => {
+        const tableRows = table.querySelectorAll("tr");
+        const tableDataRows = [];
+
+        const className = table.className || "";
+        const classNameKey = className.startsWith("class") ? className : `class-${className}`;
+
+        tableDataRows.push({
+            [classNameKey]: className,
+        });
+
+        tableRows.forEach(row => {
+            if (row.querySelector("td")) {
+                const rowData = [];
+                const tableCells = row.querySelectorAll("td");
+
+                tableCells.forEach((cell, index) => {
+                    rowData[index] = cell.textContent;
+                });
+
+                tableDataRows.push(rowData);
+            }
+        });
+
+        tableData.push(tableDataRows);
+    });
+    const dataToSend = {
+        tables: tableData,
+        file_id: file_id
+    };
+      console.log(dataToSend)
+      const save = await fetch(`/api/saveRandomizer`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataToSend),
+        })
+        .then((res) => res.json());
+        console.log(save)
+        if(save.message){
+      document.getElementById('successpopup').style.display = "block";
+            document.getElementById('successResponse').innerHTML = "Randomized data successfully";
+            setTimeout(() => {
+                document.getElementById('successpopup').style.display = "none";
+                window.location.reload(true);
+                addFolderForm.reset();
+              }, 5000);
+        } else {
+            document.getElementById('falsepopup').style.display = "block";
+            document.getElementById('falseResponse').innerHTML = "Failed to save randomized data!";
+            setTimeout(() => {
+                document.getElementById('falsepopup').style.display = "none";
+                addFolderForm.reset();
+              }, 5000);
+        }
+
     }); 
   });
 
@@ -566,9 +696,9 @@ function tablesToExcel(tables, sheetName) {
     const blob = new Blob([format(template, ctx)], { type: 'application/vnd.ms-excel' });
     const link = document.createElement('a');
     link.href = uri + base64(format(template, ctx));
+   // console.log(uri + base64(format(template, ctx)))
     link.download = `${sheetName}.xls`;
-    link.click();
-  
+   // link.click();
   
   
   }

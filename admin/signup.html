@@ -13,15 +13,19 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 100vw; /* 100% of viewport width */
-      height: 100vh; /* 100% of viewport height */
+      width: 100vw; 
+      height: 100vh; 
       background-image: url("./img/horse-bg.jpg");
-      background-repeat: no-repeat; /* Do not repeat the image */
-      background-size: cover; /* Resize the background image to cover the entire container */
+      background-repeat: no-repeat;
+      background-size: cover; 
       background-position: center center;
-      z-index: -1; /* Place behind content */
+      z-index: -1; 
       object-fit: cover;
       filter: brightness(35%);
+      
+    }
+    .container{
+      max-height: calc(100vh);
     }
   </style>
 </head>
@@ -74,6 +78,39 @@
       </div>
     </div>
   </div>
+  <div id="falsepopup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <span class="close" id="falseclosePopups">&times;</span>
+      <h3 style="color: #000; text-align: center;" id="falseResponse">Failed to signup</h3>
+      <p id="error"></p>
+      <div>
+    <lord-icon
+    src="https://cdn.lordicon.com/jxzkkoed.json"
+    trigger="loop"
+    style="width:60px; height:60px; margin-top: 7px; display : block; margin-left: 45%;">
+</lord-icon></div>
+    </div>
+  </div>
+  <div id="successpopup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <span class="close" id="successclosePopup" onclick="document.getElementById('successShowpopup').style.display='none'">&times;</span>
+      <h3 style="color: #000; text-align: center;" id="Showresponse">Registered successfully!</h3>
+      <p id="error"></p>
+      <div><lord-icon
+        src="https://cdn.lordicon.com/egiwmiit.json"
+        trigger="loop"
+        id="verifiedIcon"
+        colors="primary:#32cd32"
+        class="child"
+        scale="30"
+        axis-x="35"
+        axis-y="25"
+        state="intro"
+        style="width:60px; height:60px; margin-top: 7px; display : block; margin-left: 45%;">
+    </lord-icon></div>
+    </div>
+  </div>
   <script src="js/signup.js"></script>
+  <script src="https://cdn.lordicon.com/lordicon-1.2.0.js"></script>
 </body>
 </html>

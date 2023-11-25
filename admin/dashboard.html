@@ -219,6 +219,138 @@
     form label{
       font-weight: 500;
     }
+    .home{
+      min-height: calc(100vh - 250px);
+    }
+    .home-container {
+      max-width: calc(100vw - 250px);
+      margin: 20px auto;
+      border: 1px solid rgb(154 154 154 / 38%);
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .home-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .search-bar {
+      flex-grow: 1;
+      margin-right: 10px;
+    }
+
+    .add-button {
+      color: rgb(0, 0, 0);
+      border: none;
+      padding: 10px 15px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .add-button span {
+      transition: transform 0.5s ease; 
+    }
+    .add-button:hover span {
+      transform: rotate(135deg);
+      display: inline-block;
+    }
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 8px;
+    }
+
+    .table th, .table td {
+      border: 1px solid #ddddddae;
+      border-radius: 8px;
+      padding: 8px;
+      text-align: left;
+    }
+
+    .table th {
+      background-color: #ededf7;
+      color: rgb(0, 0, 0);
+    }
+    .edit-button, .add-button {
+      background-color: #0074E4; 
+      color: #ffffff; 
+      padding: 4px 16px; 
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .edit-button:hover, .add-button:hover {
+      background-color: #0057a8; 
+    }
+
+
+    .delete-button {
+      background-color: #ff000096; 
+      color: #ffffff; 
+      padding: 4px 16px; 
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .delete-button:hover {
+      background-color: #cc0000; 
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+
+    .popup-content {
+      background-color: white;
+      width: 80%;
+      max-width: 400px;
+      margin: 200px auto;
+      padding: 50px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      position: relative;
+    }
+
+
+    #username,
+    #email{
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    .disabled{
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
   </style>
   <script src="https://kit.fontawesome.com/f52c3b31f3.js" crossorigin="anonymous"></script>
   <script src="js/auth.js"></script>
@@ -240,8 +372,8 @@
     
         <!-- ***** Menu Start ***** -->
         <ul class="navnew" >
-          <li class="scroll-to-section"><a href="dashboard.html">Manage Admins</a></li>
-          <li class="scroll-to-section"><a class="active" href="announcements.html">Announcement</a></li>
+          <li class="scroll-to-section"><a class="active" href="dashboard.html">Manage Admins</a></li>
+          <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
           <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
           <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
           <li class="scroll-to-section"><a href="maps.html">Maps</a></li>
@@ -252,8 +384,8 @@
 
         <ul class="responcive-nav-new" >
         <div class="responcive-nav">
-          <li class="scroll-to-section"><a href="dashboard.html">Manage Admins</a></li>
-          <li class="scroll-to-section"><a class="active" href="announcements.html">Announcement</a></li>
+          <li class="scroll-to-section"><a class="active" href="dashboard.html">Manage Admins</a></li>
+          <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
           <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
           <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
         </div>
@@ -276,70 +408,115 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
-      <div class="section-heading">
-        
+      <div class="section-heading" style="margin-top: 30px;">
+        <h2>Admin Dashboard</h2>
       </div>
     </div>
   </div>
 </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="text-center mt-4">
-              <button id="addAnnouncementBtn" class="btn btn-primary">Add New Announcement</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="announcementPopup" class="popup">
-        <div class="popup-content">
-            <span class="close" id="closePopup">&times;</span>
-            <h5 style="text-align: center; margin-bottom: 20px;">ADD ANNOUNCEMENTS</h5>
-            <form id="announcementForm">
-                <label for="announcementTitle">Title:</label>
-                <input type="text"  id="announcementTitle" required>
-                <label for="announcementMessage">Message:</label>
-                <textarea id="announcementMessage" value="" required></textarea>                 
-                <input type="submit" value="Submit">
-            </form>
-        </div>
-    </div>
-    <div id="editAnnouncement"></div>
-      <!-- Announcement Item 1 -->
-      <div id="announcements"></div>
-      
 
-    
-      <!--<div class="row announcement-item">
-        <div class="col-lg-8">
-          <div class="announcement-content">
-            <h3>Announcement Title</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sed ullamcorper dolor, non varius mauris.
-              Quisque a malesuada lectus. Curabitur eget massa fringilla, lacinia risus eget, suscipit lacus.</p>
-          </div>
+  <div class="home">
+    <div class="home-container">
+      <div class="section-heading" style="margin-top: 30px;">
+        <h2>Admin Management</h2>
+      </div>
+      <div class="home-header">
+        <div class="search-bar">
+          <input type="text" placeholder="Search...">
         </div>
-        <div class="col-lg-4">
-          <div class="announcement-date">May 23, 2023</div>
-          <div class="announcement-buttons">
-            <button class="btn btn-primary">Edit Announcement</button>
-            <button class="btn btn-danger">Delete Announcement</button>
-          </div>
+        <button class="add-button">Add <span>&#43;</span></button>
+      </div>
+  
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Mail Id</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="admin-table">
+        </tbody>
+      </table>
+    </div>
+    <br>
+    <div class="home-container">
+      <div class="section-heading" style="margin-top: 30px;">
+        <h2>Show-admins Management</h2>
+      </div>
+      <div class="home-header">
+        <div class="search-bar">
+          <input type="text" placeholder="Search...">
         </div>
-      </div>-->
-    
-  <!-- ***** Announcements Section End ***** -->
- 
+        <button class="add-button" onclick="document.getElementById('addShowAdminPopup').style.display = 'block'">Add <span>&#43;</span></button>
+      </div>
+  
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Mail Id</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="showAdmin-table">
+
+        </tbody>
+      </table>
+    </div>
+    <div id="addShowAdminPopup" class="popup">
+      <div class="popup-content">
+          <span class="close" id="closePopup" style="font-size: 24px; font-weight: bolder;" onclick="document.getElementById('addShowAdminPopup').style.display = 'none'">&times;</span>
+          <h5 style="text-align: center; margin-bottom: 20px;">ADD SHOW ADMINS</h5>
+          <form id="addShowAdminForm">
+              <label for="Username">Username:</label>
+              <input type="text" name="username" id="username" required>
+              <label for="email">Mail Id:</label>
+              <textarea id="email" name="email" type="Email" required></textarea>             
+              <input type="submit" value="Submit">
+          </form>
+      </div>
+  </div>
+  <div id="falsepopup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <span class="close" id="falseclosePopups"></span>
+      <h3 style="color: #000; text-align: center;" id="falseResponse">Failed to add show admin</h3>
+      <p id="error"></p>
+      <div>
+    <lord-icon
+    src="https://cdn.lordicon.com/jxzkkoed.json"
+    trigger="hover"
+    style="width:60px; height:60px; margin-top: 7px; display : block; margin-left: 45%;">
+</lord-icon></div>
+    </div>
+  </div>
+  <div id="successpopup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <span class="close" id="successclosePopup"></span>
+      <h3 style="color: #000; text-align: center;" id="successResponse">Show admin added successfully!</h3>
+      <p id="error"></p>
+      <div><lord-icon
+        src="https://cdn.lordicon.com/egiwmiit.json"
+        trigger="loop"
+        id="verifiedIcon"
+        colors="primary:#32cd32"
+        class="child"
+        scale="30"
+        axis-x="35"
+        axis-y="25"
+        state="intro"
+        style="width:60px; height:60px; margin-top: 7px; display : block; margin-left: 45%;">
+    </lord-icon></div>
+    </div>
+  </div>
+  </div>
 
   <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="js/dashboard.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/js/owl-carousel.js"></script>
-  <script src="assets/js/animation.js"></script>
-  <script src="assets/js/imagesloaded.js"></script>
-  <script src="assets/js/templatemo-custom.js"></script>
-
+  <script src="https://cdn.lordicon.com/lordicon-1.2.0.js"></script>
+  
   <!-- CUSTOM ANNOUNCEMENTS -->
-  <script src="js/announcements.js"></script>
   <footer class="footer bg-dark" id="footer" style="bottom: 0 !important; background:#444;">
     <div class="social">
       <a href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook fa-2x"></i></a>

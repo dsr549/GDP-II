@@ -233,6 +233,8 @@ async function showclass(){
           document.getElementById('tabletr').innerHTML += temp;
         }
         });
+
+        document.getElementById('addBtn').innerHTML = `<button type="button" class="addBtn" onclick ="window.location.reload(true)">Show All</button>`
     }
 
 }
@@ -274,6 +276,7 @@ async function showhorseclass(){
           document.getElementById('tableth').innerHTML += temp;
         }
         });
+        document.getElementById('addBtnh').innerHTML = `<button type="button" class="addBtn" onclick ="window.location.reload(true)">Show All</button>`
     }
 }
 const riderDropArea = document.getElementById('rider-drop-area');
@@ -630,6 +633,7 @@ async function uploadFileToBackend(file) {
               });
               console.log(result);
 }
+
 
 function selectRiderFiles() {
     document.getElementById('rider-file-input').click();

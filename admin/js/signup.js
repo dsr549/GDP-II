@@ -5,6 +5,7 @@ signupForm.addEventListener('submit', (e) => {
     e.preventDefault();
         // Get form data
         const formData = new FormData(e.target);
+        formData.append("isShowAdmin", 0)
         const formDataObject = {};
         formData.forEach((value, key) => {
             formDataObject[key] = value;
@@ -31,15 +32,21 @@ function sendDataToBackend(formDataObject) {
        // console.log('Response from the backend:', responseData);
         // Handle the response from the backend here (if needed)
         if(responseData.message){
-            alert("Success Fully Registered! ");
-            console.log(responseData.msg)
+            //alert("Success Fully Registered! ");
+            document.getElementById('successpopup').style.display = 'block';
+            console.log(responseData.message)
+            window.location.href = "index.html"
         } else{
-            responseData.errorMessage ? alert(responseData.errorMessage) : alert("Error while Signup");
-            window.location.href="index.html";
+            //responseData.errorMessage ? alert(responseData.errorMessage) : alert("Error while Signup");
+           // window.location.href="index.html";
+           document.getElementById('falsepopup').style.display = 'block';
+           setTimeout(() => window.location.reload(true), 4000);
         }
     })
     .catch(error => {
         console.error('Error sending data to the backend:', error);
+        document.getElementById('falsepopup').style.display = 'block';
+           setTimeout(() => window.location.reload(true), 4000);
         // Handle errors here (if needed)
     });  
 }

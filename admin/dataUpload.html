@@ -323,8 +323,6 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  
-  background: url('your-arrow-image.png') no-repeat right center;
   background-size: 20px 20px; 
   padding: 3px; 
   border: 1px solid #ccc; 
@@ -332,7 +330,13 @@
   width: 400px; 
   cursor: pointer; 
 }
-
+.add-button span {
+      transition: transform 0.5s ease; 
+}
+.add-button:hover span {
+  transform: rotate(135deg);
+  display: inline-block;
+}
 
 .select-dropdown option {
   background: #fff; 
@@ -388,6 +392,17 @@
 table{
   border: 0.5px inset #292b2c;
 }
+.addBtn{
+  background-color: #2ac5f4; 
+  color: #ffffff; 
+  padding: 4px 16px; 
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.addBtn:hover {
+  background-color: #0183ab; 
+}
   </style>
 <script src="https://kit.fontawesome.com/f52c3b31f3.js" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -414,7 +429,7 @@ table{
     
          <!-- ***** Menu Start ***** -->
          <ul class="navnew" >
-           <li class="scroll-to-section"><a href="#!">Manage Admins</a></li>
+           <li class="scroll-to-section"><a href="dashboard.html">Manage Admins</a></li>
            <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
            <li class="scroll-to-section"><a class="active" href="dataUpload.html">Horse/Rider Info</a></li>
            <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
@@ -425,7 +440,7 @@ table{
          </ul>
          <ul class="responcive-nav-new" >
              <div class="responcive-nav">
-               <li class="scroll-to-section"><a href="#!">Manage Admins</a></li>
+               <li class="scroll-to-section"><a href="dashboard.html">Manage Admins</a></li>
                <li class="scroll-to-section"><a class="active" href="announcements.html">Announcement</a></li>
                <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
                <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
@@ -466,7 +481,7 @@ table{
           </div>
           <div class="mt-2" id="rider-upload-details"></div>
             <!--<progress id="rider-upload-progress" value="0" max="100"></progress>-->
-          <div class="mt-2" ><h6 id="rider_filename"></h6><br><button class="delete-button" id="rider_file_delete">Delete</button></div>
+         <div class="mt-2" ><h6 id="rider_filename"></h6><br><!--<button class="delete-button" id="rider_file_delete">Delete</button>--></div>
         </div>
         
         <div id="horse-drop-area">
@@ -478,7 +493,7 @@ table{
           </div>
           <div class="mt-2" id="horse-upload-details"></div>
             <!--<progress id="horse-upload-progress" value="0" max="100"></progress>-->
-            <div class="mt-2" ><h6 id="horse_filename"></h6><br><button class="delete-button" id="horse_file_delete">Delete</button></div>
+            <div class="mt-2" ><h6 id="horse_filename"></h6><br><!--<button class="delete-button" id="horse_file_delete">Delete</button>--></div>
         </div>
             <div id="status"></div>
         </div>
@@ -495,6 +510,7 @@ table{
           <option hidden>Select Class</option>
         </select>
         <button type="button" class="add-rider" id="addRiderBtn">Add Rider</button>
+        <span id="addBtn"></span>
       </div>
     </div>
   </div>
@@ -575,6 +591,7 @@ table{
             <option hidden>Select Class</option>
           </select>
           <button type="button" class="add-rider" id="addHorseBtn">Add Horse</button>
+          <span id="addBtnh"></span>
         </div>
       </div>
     </div>
