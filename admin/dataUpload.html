@@ -645,7 +645,38 @@ table{
       </div>
     </div>
   </div>
-
+  <div id="successpopup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <span class="close" id="successclosePopup" onclick="document.getElementById('successpopup').style.display='none'">&times;</span>
+      <h3 style="color: #000; text-align: center;" id="successResponse">Password changed successfully!</h3>
+      <p id="error"></p>
+      <div><lord-icon
+        src="https://cdn.lordicon.com/egiwmiit.json"
+        trigger="loop"
+        id="verifiedIcon"
+        colors="primary:#32cd32"
+        class="child"
+        scale="30"
+        axis-x="35"
+        axis-y="25"
+        state="intro"
+        style="width:60px; height:60px; margin-top: 7px; display : block; margin-left: 45%;">
+    </lord-icon></div>
+    </div>
+  </div>
+  <div id="falsepopup" class="popup" style="display: none;">
+    <div class="popup-content">
+      <span class="close" id="falseclosePopups" onclick="document.getElementById('falsepopup').style.display='none'">&times;</span>
+      <h3 style="color: #000; text-align: center;" id="falseResponse">EMAIL NOT FOUND</h3>
+      <p id="error"></p>
+      <div>
+    <lord-icon
+    src="https://cdn.lordicon.com/jxzkkoed.json"
+    trigger="loop"
+    style="width:60px; height:60px; margin-top: 7px; display : block; margin-left: 45%;">
+</lord-icon></div>
+    </div>
+  </div>
   <footer class="footer bg-dark" id="footer" style="bottom: 0 !important; background:#444;">
     <div class="social">
       <a href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook fa-2x"></i></a>
@@ -656,6 +687,7 @@ table{
     <p>copyright &copy 2023 - IHSA</p>
 </footer>
 <script src="js/dataupload.js"></script>
+<script src="https://cdn.lordicon.com/lordicon-1.2.0.js"></script>
 </body>
 
 </html>

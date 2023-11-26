@@ -398,7 +398,7 @@ function editRow(ID) {
   
     
     console.log('Updated data:', updatedData);
-    const confirmEdit=confirm("Are you sure want to save?");
+    const confirmEdit=true
     if(confirmEdit){
     const updateRider = await fetch('/api/editRider', {
         method: 'POST',
@@ -409,11 +409,18 @@ function editRow(ID) {
     }).then((res) => res.json())
     console.log(updateRider);
     if(updateRider.message){
-        alert(updateRider.message);
-        location.reload();
+        document.getElementById('successpopup').style.display = "block";
+        document.getElementById('successResponse').innerHTML = "Edited successfully";
+        setTimeout(() => {
+            document.getElementById('successpopup').style.display = "none";
+            window.location.reload(true);
+          }, 5000);
     } else {
-        alert(updateRider.errorMessage);
-        location.reload();
+        document.getElementById('falsepopup').style.display = "block";
+        document.getElementById('falseResponse').innerHTML = "Failed to edit details!";
+        setTimeout(() => {
+            document.getElementById('falsepopup').style.display = "none";
+          }, 5000);
     }
     } else {
         location.reload();
@@ -446,7 +453,7 @@ function editRow(ID) {
       primary_key: ID,
     };
     console.log('Updated data:', updatedData);
-    const confirmEdit=confirm("Are you sure want to save changes?");
+    const confirmEdit=true
     if(confirmEdit){
     const updateHorse = await fetch('/api/editHorse', {
         method: 'POST',
@@ -457,11 +464,18 @@ function editRow(ID) {
     }).then((res) => res.json())
     console.log(updateHorse);
     if(updateHorse.message){
-        alert(updateHorse.message);
-        location.reload();
+        document.getElementById('successpopup').style.display = "block";
+        document.getElementById('successResponse').innerHTML = "Edited successfully";
+        setTimeout(() => {
+            document.getElementById('successpopup').style.display = "none";
+            window.location.reload(true);
+          }, 5000);
     } else {
-        alert(updateHorse.errorMessage);
-        location.reload();
+        document.getElementById('falsepopup').style.display = "block";
+        document.getElementById('falseResponse').innerHTML = "Failed to edit details!";
+        setTimeout(() => {
+            document.getElementById('falsepopup').style.display = "none";
+          }, 5000);
     }
     } else {
         location.reload();
@@ -469,7 +483,7 @@ function editRow(ID) {
   }
   
 async function deleteRow(ID) {
-    const confirmEdit=confirm("Are you sure you want to delete?");
+    const confirmEdit=true
     if(confirmEdit){
         console.log('Delete button clicked for riderid: ' , ID);
 
@@ -482,11 +496,18 @@ async function deleteRow(ID) {
         }).then((res) => res.json())
         console.log(deleteRider);
         if(deleteRider.message){
-            alert(deleteRider.message);
-            location.reload();
+            document.getElementById('successpopup').style.display = "block";
+            document.getElementById('successResponse').innerHTML = "Deleted successfully";
+            setTimeout(() => {
+                document.getElementById('successpopup').style.display = "none";
+                window.location.reload(true);
+              }, 5000);
         } else {
-            alert(deleteRider.errorMessage);
-            location.reload();
+            document.getElementById('falsepopup').style.display = "block";
+            document.getElementById('falseResponse').innerHTML = "Failed to delete details!";
+            setTimeout(() => {
+                document.getElementById('falsepopup').style.display = "none";
+              }, 5000);
         }
     }
 
@@ -506,11 +527,18 @@ async function deletehRow(ID) {
     }).then((res) => res.json())
     console.log(deleteRider);
     if(deleteRider.message){
-        alert(deleteRider.message);
-        location.reload();
+        document.getElementById('successpopup').style.display = "block";
+        document.getElementById('successResponse').innerHTML = "Deleted successfully";
+        setTimeout(() => {
+            document.getElementById('successpopup').style.display = "none";
+            window.location.reload(true);
+          }, 5000);
     } else {
-        alert(deleteRider.errorMessage);
-        location.reload();
+        document.getElementById('falsepopup').style.display = "block";
+        document.getElementById('falseResponse').innerHTML = "Failed to delete details!";
+        setTimeout(() => {
+            document.getElementById('falsepopup').style.display = "none";
+          }, 5000);
     }
     }
     

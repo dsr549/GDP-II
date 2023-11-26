@@ -86,13 +86,15 @@ const deleteShowAdmin = async (req,res) => {
 }
 
 const sendOTP = async (req,res) => {
-  const { mail } = req.query;
+  const { mail, isShowAdmin } = req.query;
   console.log(mail)
   let randomdigit = Math.floor(100000 + Math.random() * 900000);
     try {
-      const sqlQuery = "SELECT * FROM admins WHERE BINARY email = ?";
+      console.log(isShowAdmin , isShowAdmin === "true")
+      let sqlQuery = isShowAdmin === "true" ? "SELECT * FROM admins WHERE BINARY email = ? AND isShowAdmin = 1;" : "SELECT * FROM admins WHERE BINARY email = ? AND isShowAdmin = 0;";
+      console.log(sqlQuery)
       const [logins] = await pool.execute(sqlQuery, [mail]);
-
+      console.log(logins)
       if (logins.length === 0) {
         res.status(404).json({ error: "Email is not registered" });
       } else {
@@ -123,11 +125,11 @@ const checkOTP = async (req,res ) => {
       res.status(200).send({message : "OTP matched!"})
       delete savedOTPS[mail];
     } else {
-      res.status(400).send({error: "Wrong password!"})
+      res.status(400).send({error: "Wrong otp!"})
     }
   } catch (err) {
     console.log(err);
-    res.status(400).send({error: "Wrong password!"})
+    res.status(400).send({error: "Wrong otp!"})
   }
 }
 

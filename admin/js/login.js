@@ -159,7 +159,7 @@ forgotForm.addEventListener('submit', async(e) => {
             formDataObject[key] = value;
         });
     console.log(formDataObject)
-    const sendOtp = await fetch(`/api/sendOTP?mail=${formDataObject.email}`, {
+    const sendOtp = await fetch(`/api/sendOTP?mail=${formDataObject.email}&isShowAdmin=false`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json'
@@ -174,6 +174,7 @@ forgotForm.addEventListener('submit', async(e) => {
     } else {
         popup.style.display = 'none';
         document.getElementById('falsepopup').style.display = "block";
+        setTimeout(() => document.getElementById('falsepopup').style.display = "none",5000);
     }
 });
 
@@ -186,7 +187,7 @@ showForgotform.addEventListener('submit', async(e) => {
             formDataObject[key] = value;
         });
     console.log(formDataObject)
-    const sendOtp = await fetch(`/api/sendOTP?mail=${formDataObject.email}`, {
+    const sendOtp = await fetch(`/api/sendOTP?mail=${formDataObject.email}&isShowAdmin=true`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json'
@@ -201,6 +202,7 @@ showForgotform.addEventListener('submit', async(e) => {
     } else {
         showpopup.style.display = 'none';
         document.getElementById('falseShowpopup').style.display = "block";
+        setTimeout(() => document.getElementById('falseShowpopup').style.display = "none",5000);
     }
 });
 
@@ -227,11 +229,14 @@ newPasswordForm.addEventListener('submit', async(e) => {
         if(change.message){
             document.getElementById('newPasswordPopup').style.display = 'none';
             document.getElementById('successpopup').style.display = "block";
+            setTimeout(() => document.getElementById('successpopup').style.display = "none",5000);
             sessionStorage.removeItem('otp-email')
         } else {
             //newPasswordForm.style.display = 'none';
             document.getElementById('falsepopup').style.display = "block";
-            document.getElementById('response').innerHTML = "Password reset failed!"
+            document.getElementById('response').innerHTML = "Password reset failed!";
+            sessionStorage.removeItem('otp-email')
+            setTimeout(() => document.getElementById('falsepopup').style.display = "none",5000);
         }
     } else {
         console.log("Password not matched")
@@ -239,7 +244,7 @@ newPasswordForm.addEventListener('submit', async(e) => {
         sessionStorage.removeItem('otp-email');
        // document.getElementById('falsepopup').style.display = "block";
        // document.getElementById('response').innerHTML = "Password not matched!"
-      setTimeout(() => { document.getElementById('message').innerHTML = 'Password not matched!'},5000)
+        setTimeout(() => { document.getElementById('message').innerHTML = ''},3000)
     }
     
 })
@@ -254,7 +259,7 @@ newShowPasswordForm.addEventListener('submit', async(e) => {
             formDataObject[key] = value;
         });
     console.log(formDataObject)
-    if(verifyPassword(formDataObject.password,formDataObject.password2)){
+    if(verifyShowPassword(formDataObject.password,formDataObject.password2)){
         const change = await fetch(`/api/changePassword`, {
             method: 'POST',
             headers: {
@@ -267,11 +272,14 @@ newShowPasswordForm.addEventListener('submit', async(e) => {
         if(change.message){
             document.getElementById('newShowPasswordPopup').style.display = 'none';
             document.getElementById('successShowpopup').style.display = "block";
+            setTimeout(() => { document.getElementById('successShowpopup').style.display = "none";},5000)
             sessionStorage.removeItem('otp-email')
         } else {
             //newPasswordForm.style.display = 'none';
             document.getElementById('falseShowpopup').style.display = "block";
             document.getElementById('falseResponse').innerHTML = "Password reset failed!"
+            setTimeout(() => document.getElementById('falseShowpopup').style.display = "none",5000)
+            sessionStorage.removeItem('otp-email')
         }
     } else {
         console.log("Password not matched")
@@ -279,7 +287,7 @@ newShowPasswordForm.addEventListener('submit', async(e) => {
         sessionStorage.removeItem('otp-email');
        // document.getElementById('falsepopup').style.display = "block";
        // document.getElementById('response').innerHTML = "Password not matched!"
-      setTimeout(() => { document.getElementById('message').innerHTML = 'Password not matched!'},5000)
+       setTimeout(() => { document.getElementById('showmessage').innerHTML = ''},3000)
     }
     
 })
@@ -328,7 +336,7 @@ async function checkShowotp(value){
 
 function verifyPassword(password1,password2) {  
     if(password1!==password2){
-        document.getElementById("message").innerHTML = "password and confirm password should be same";
+        document.getElementById("message").innerHTML = "Password and confirm password should be same";
         return false
     }
     if(password1.length < 6){
@@ -357,6 +365,43 @@ function verifyPassword(password1,password2) {
     const isValidLength = /^.{6,16}$/;
     if (!isValidLength.test(password1)) {
         document.getElementById("message").innerHTML = "Password must be 6-16 Characters Long.";
+        return false
+    }
+    return true
+   
+} 
+
+function verifyShowPassword(password1,password2) {  
+    if(password1!==password2){
+        document.getElementById("showmessage").innerHTML = "Password and confirm password should be same";
+        return false
+    }
+    if(password1.length < 6){
+        document.getElementById("showmessage").innerHTML = "password length should be longer than or equal to 8 characters";
+        return false
+    }
+    const isNonWhiteSpace = /^\S*$/;
+    if (!isNonWhiteSpace.test(password1)) {
+        document.getElementById("showmessage").innerHTML ="Password must not contain Whitespaces.";
+      return false
+    }
+
+    const isContainsLowercase = /^(?=.*[a-z]).*$/;
+    if (!isContainsLowercase.test(password1)) {
+        document.getElementById("showmessage").innerHTML = "Password must have at least one Lowercase Character.";
+        return false
+    }
+  
+    const isContainsNumber = /^(?=.*[0-9]).*$/;
+    if (!isContainsNumber.test(password1)) {
+        document.getElementById("showmessage").innerHTML = "Password must contain at least one Digit.";
+        return false
+    }
+  
+  
+    const isValidLength = /^.{6,16}$/;
+    if (!isValidLength.test(password1)) {
+        document.getElementById("showmessage").innerHTML = "Password must be 6-16 Characters Long.";
         return false
     }
     return true
