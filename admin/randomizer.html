@@ -296,6 +296,7 @@
         <li class="scroll-to-section"><a href="dashboard.html">Manage Admins</a></li>
         <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
         <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
+        <li class="scroll-to-section"><a href="parser.html">Parser</a></li>
         <li class="scroll-to-section"><a  class="active" href="randomizer.html">Randomizer</a></li>
         <li class="scroll-to-section"><a href="maps.html">Maps</a></li>
         <li class="scroll-to-section"><a href="contactuspage.html">Contact Us</a></li>
@@ -308,6 +309,7 @@
           <li class="scroll-to-section"><a href="dashboard.html">Manage Admins</a></li>
           <li class="scroll-to-section"><a class="active" href="announcements.html">Announcement</a></li>
           <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
+          <li class="scroll-to-section"><a href="parser.html">Parser</a></li>
           <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
         </div>
          <div class="responcive-nav">
@@ -436,6 +438,8 @@ document.addEventListener("DOMContentLoaded", async function () {
           classSelect.appendChild(option);
       });
       const randomizedData = {};
+
+      // Algorithm 
       function shuffleArray(array) {
           for (let i = array.length - 1; i > 0; i--) {
               const j = Math.floor(Math.random() * (i + 1));
@@ -445,9 +449,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       function populateTable(selectedClass) {
   const tableContainer = document.getElementById("table-container");
+  console.log(selectedClass)
   const filteredRiders = result.Rlist.filter((item) => item.class === selectedClass);
-  const horseDataForClass = result.Hlist.filter(item => item.class && selectedClass.includes(item.class));
-
+  const horseDataForClass = result.Hlist.filter(item =>  item.class && selectedClass.toString().toLowerCase().includes(item.class.toString().toLowerCase()));
+  console.log(filteredRiders)
+  console.log(horseDataForClass)
 
   const ohOwRiders = filteredRiders.filter((rider) => rider.oh_ow === 1);
   const regularRiders = filteredRiders.filter((rider) => rider.oh_ow === 0);

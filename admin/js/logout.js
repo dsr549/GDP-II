@@ -18,7 +18,7 @@ function logout() {
     popup.id = 'logout';
     popup.className = 'popup';
     popup.style.display = 'block'; // Initially display the popup
-
+    popup.style.zIndex = '999'
     // Set the inner HTML of the popup
     popup.innerHTML = `
         <div class="popup-content">

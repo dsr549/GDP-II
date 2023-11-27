@@ -39,13 +39,13 @@ showAdminLogin.addEventListener('submit', (e) => {
             }else{
                 console.log(responseData)
                 // responseData.msg ? alert(responseData.msg) : alert(responseData.error);
-                document.getElementById('falsepopup').style.display = 'block';
+                document.getElementById('falseshowpopup').style.display = 'block';
                 if(responseData.msg)
-                    document.getElementById('falseResponse').innerHTML = "Username not found"
+                    document.getElementById('falseshowResponse').innerHTML = "Username not found"
                 else
-                    document.getElementById('falseResponse').innerHTML = "Wrong password"
+                    document.getElementById('falseshowResponse').innerHTML = "Wrong password"
                 setTimeout(() => {
-                    document.getElementById('falsepopup').style.display = 'none';
+                    document.getElementById('falseshowpopup').style.display = 'none';
                 }, 3000);
             }
     });
@@ -201,8 +201,8 @@ showForgotform.addEventListener('submit', async(e) => {
         sessionStorage.setItem('otp-email', formDataObject.email)
     } else {
         showpopup.style.display = 'none';
-        document.getElementById('falseShowpopup').style.display = "block";
-        setTimeout(() => document.getElementById('falseShowpopup').style.display = "none",5000);
+        document.getElementById('falseshowpopup').style.display = "block";
+        setTimeout(() => document.getElementById('falseshowpopup').style.display = "none",5000);
     }
 });
 
@@ -276,9 +276,9 @@ newShowPasswordForm.addEventListener('submit', async(e) => {
             sessionStorage.removeItem('otp-email')
         } else {
             //newPasswordForm.style.display = 'none';
-            document.getElementById('falseShowpopup').style.display = "block";
-            document.getElementById('falseResponse').innerHTML = "Password reset failed!"
-            setTimeout(() => document.getElementById('falseShowpopup').style.display = "none",5000)
+            document.getElementById('falseshowpopup').style.display = "block";
+            document.getElementById('falseshowResponse').innerHTML = "Password reset failed!"
+            setTimeout(() => document.getElementById('falseshowpopup').style.display = "none",5000)
             sessionStorage.removeItem('otp-email')
         }
     } else {
@@ -330,7 +330,7 @@ async function checkShowotp(value){
     } else {
         showpopup.style.display = 'none';
         checkShowOtpForm.setAttribute('hidden', 'true')
-        document.getElementById('falseShowpopup').style.display = "block";
+        document.getElementById('falseshowpopup').style.display = "block";
     }
 }
 

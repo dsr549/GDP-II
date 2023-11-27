@@ -160,11 +160,11 @@ const login = async (req, res) => {
   const { userName, password } = req.body;
   try {
     if (!userName || !password) {
-      res.json({ message: "Enter all data", status: false });
+      res.json({ error: "Enter all data", status: false });
     } else {
       const sqlQuery = "SELECT * FROM admins WHERE BINARY username = ? AND isShowAdmin = 0";
       const [logins] = await pool.execute(sqlQuery, [userName]);
-      console.log(logins)
+      console.log(logins , logins.length === 0 )
       if (logins.length === 0) {
         res.status(404).json({ msg: "User does not exist" });
       } else {
@@ -185,6 +185,7 @@ const login = async (req, res) => {
       }
     }
   } catch (err) {
+    console.log(err)
     res.status(404).json({ error: "Invalid username/password" });
   }
 }
@@ -193,7 +194,7 @@ const showAdminLogin = async (req, res) => {
   const { userName, password } = req.body;
   try {
     if (!userName || !password) {
-      res.json({ message: "Enter all data", status: false });
+      res.json({ error: "Enter all data", status: false });
     } else {
       const sqlQuery = "SELECT * FROM admins WHERE BINARY username = ? AND isShowAdmin = 1";
       const [logins] = await pool.execute(sqlQuery, [userName]);
@@ -218,6 +219,7 @@ const showAdminLogin = async (req, res) => {
       }
     }
   } catch (err) {
+    console.log(err)
     res.status(404).json({ error: "Invalid username/password" });
   }
 }

@@ -138,12 +138,19 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.log(addRider);
     if(addRider.success){
         riderPopup.style.display = 'none';
-        alert(addRider.success);
-        location.reload();
+        document.getElementById('successpopup').style.display = "block";
+        document.getElementById('successResponse').innerHTML = "Rider added successfully";
+        setTimeout(() => {
+            document.getElementById('successpopup').style.display = "none";
+            window.location.reload(true);
+          }, 5000);
     } else {
         riderPopup.style.display = 'none';
-        alert(addRider.errorMessage);
-        location.reload();
+        document.getElementById('falsepopup').style.display = "block";
+        document.getElementById('falseResponse').innerHTML = "Failed to add rider!";
+        setTimeout(() => {
+            document.getElementById('falsepopup').style.display = "none";
+          }, 5000);
     }
     });
 
@@ -180,12 +187,19 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.log(addHorse);
     if(addHorse.success){
         horsePopup.style.display = 'none';
-        alert(addHorse.success);
-        location.reload();
+        document.getElementById('successpopup').style.display = "block";
+        document.getElementById('successResponse').innerHTML = "Horse added successfully";
+        setTimeout(() => {
+            document.getElementById('successpopup').style.display = "none";
+            window.location.reload(true);
+          }, 5000);
     } else {
         horsePopup.style.display = 'none';
-        alert(addHorse.errorMessage);
-        location.reload();
+        document.getElementById('falsepopup').style.display = "block";
+        document.getElementById('falseResponse').innerHTML = "Failed to add horse";
+        setTimeout(() => {
+            document.getElementById('falsepopup').style.display = "none";
+          }, 5000);
     }
     });
 });
@@ -514,7 +528,7 @@ async function deleteRow(ID) {
 }
 
 async function deletehRow(ID) {
-    const confirmEdit=confirm("Are you sure you want to delete?");
+    const confirmEdit=true
         if(confirmEdit){
     console.log('Delete button clicked for horseid: ' , ID);
     
@@ -569,11 +583,12 @@ async function handleRiderFiles(files) {
                     riderUploadProgress.style.width = '100%';
                     riderUploadProgress.textContent = '100%';
                     riderUploadDetails.textContent = ' Upload successful!';
+
                     setTimeout(() => {
-                        alert("Uploaded Successfully");
+                       // alert("Uploaded Successfully");
                         window.location.reload(true);
                         
-                    }, 5000);
+                    }, 3000);
                     
                     //alert("Uploaded Successfully");
                   }else{
@@ -584,12 +599,12 @@ async function handleRiderFiles(files) {
                     setTimeout(() =>{
                         riderUploadProgress.style.width = '0%';
                         riderUploadProgress.textContent = '0%';
-                    }, 4000);
+                    }, 3000);
                    // alert(result.errorMessage);
                    setTimeout(() => {
                    // alert("Uploaded Successfully");
                     window.location.reload(true);  
-                }, 6000);
+                }, 5000);
                   }
             } else {
                 riderUploadDetails.textContent = `${file.name} is not a valid Excel file.`;

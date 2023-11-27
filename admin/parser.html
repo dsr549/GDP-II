@@ -138,12 +138,12 @@
 #rider-drop-area,#horse-drop-area {
     border: 2px dashed #ccc;
     border-radius: 5px;
-    padding: 20px;
+    padding: 10px;
     text-align: center;
     margin: 20px;
     cursor: pointer;
     min-height: 250px;
-    max-width: 600px;
+    max-width: 1000px;
 }
 
 #rider-drop-area.dragover,#horse-drop-area.dragover {
@@ -411,7 +411,7 @@ table{
 <script src="js/logout.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
 </head>
 
 <body>
@@ -431,8 +431,8 @@ table{
          <ul class="navnew" >
            <li class="scroll-to-section"><a href="dashboard.html">Manage Admins</a></li>
            <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
-           <li class="scroll-to-section"><a class="active" href="dataUpload.html">Horse/Rider Info</a></li>
-           <li class="scroll-to-section"><a href="parser.html">Parser</a></li>
+           <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
+           <li class="scroll-to-section"><a class="active" href="parser.html">Parser</a></li>
            <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
            <li class="scroll-to-section"><a href="maps.html">Maps</a></li>
            <li class="scroll-to-section"><a href="contactuspage.html">Contact Us</a></li>
@@ -442,7 +442,7 @@ table{
          <ul class="responcive-nav-new" >
              <div class="responcive-nav">
                <li class="scroll-to-section"><a href="dashboard.html">Manage Admins</a></li>
-               <li class="scroll-to-section"><a class="active" href="announcements.html">Announcement</a></li>
+               <li class="scroll-to-section"><a href="announcements.html">Announcement</a></li>
                <li class="scroll-to-section"><a href="dataUpload.html">Horse/Rider Info</a></li>
                <li class="scroll-to-section"><a href="parser.html">Parser</a></li>
                <li class="scroll-to-section"><a href="randomizer.html">Randomizer</a></li>
@@ -475,31 +475,12 @@ table{
     <div class="row">
         <div class="flex-row-bin">
           <div id="rider-drop-area">
-            <h1>Drag and Drop Riders Excel Files Here</h1>
-            <p onclick="selectRiderFiles()">Or click to select files</p>
-            <input type="file" id="rider-file-input" accept=".xlsx, .xls" multiple>
-            <div class="progress mt-3">
-              <div id="rider-upload-progress" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            <textarea style="height: 400px; width: 800px;" id="text"></textarea>
           </div>
-          <div class="mt-2" id="rider-upload-details"></div>
-            <!--<progress id="rider-upload-progress" value="0" max="100"></progress>-->
-         <div class="mt-2" ><h6 id="rider_filename"></h6><br><!--<button class="delete-button" id="rider_file_delete">Delete</button>--></div>
         </div>
         
-        <div id="horse-drop-area">
-            <h1>Drag and Drop Horses Excel Files Here</h1>
-            <p onclick="selectHorseFiles()">Or click to select files</p>
-            <input type="file" id="horse-file-input" accept=".xlsx, .xls" multiple>
-            <div class="progress mt-3">
-              <div id="horse-upload-progress" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
-          </div>
-          <div class="mt-2" id="horse-upload-details"></div>
-            <!--<progress id="horse-upload-progress" value="0" max="100"></progress>-->
-            <div class="mt-2" ><h6 id="horse_filename"></h6><br><!--<button class="delete-button" id="horse_file_delete">Delete</button>--></div>
-        </div>
-            <div id="status"></div>
-        </div>
     </div>
+    <button type="button" class="add-rider" id="parseBtn">Parse</button>
 </div>
 <div class="container">
   <h1 style="margin-bottom: 20px; margin-top: 30px;">Riders</h1>
@@ -556,7 +537,7 @@ table{
     <div class="row">
       <div class="col-lg-12">
         <div class="table-responsive" id="tabledata">
-        <table>
+        <!--<table>
             <tr class="table-head">
               <th>Rider ID</th>
               <th>Rider Name</th>
@@ -572,7 +553,9 @@ table{
               <th>Delete</th>
             </tr>
             <tbody id="tabletr"></tbody>
-        </table>
+        </table>-->
+
+        <div id="classesContainer"></div>
         </div>
       </div>
     </div>
@@ -582,71 +565,7 @@ table{
   <br>
   <br>
 
-  <!--Horses data-->
-  <div class="container">
-    <h1 style="margin-bottom: 20px; margin-top: 30px;">Horses</h1>
-    <div class="row">
-      <div class="col-lg-12">
-  
-        <div class="section-heading">
-          <select class="select-dropdown" id="h-classes" onchange="showhorseclass()">
-            <option hidden>Select Class</option>
-          </select>
-          <button type="button" class="add-rider" id="addHorseBtn">Add Horse</button>
-          <span id="addBtnh"></span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="horsePopup" class="popup">
-    <div class="popup-content">
-      <span class="close" id="closehPopup">&times;</span>
-      <h5>Add Horse</h5>
-      <form id="horseForm">
-        <label class="mandatory" for="horseclass">Select Class:</label>
-        <select name="horseclass" id="add-hclass-options" required multiple>
-        </select>
-        <label class="mandatory" for="name">Name:</label>
-        <input type="text" name="name" id="horsename" required>
-        <label class="mandatory" for="provider">Provider:</label>
-        <input type="text" name="provider" id="provider" required>
-        <label for="spur">Spur:</label>
-        <input type="text" name="spur" id="spur">
-        <label for="rein_hold">Rein hold:</label>
-        <input type="text" name="rein_hold" id="rein_hold">
-        <label for="remarks">Remarks:</label>
-        <input type="text" name="remarks" id="remarks">
-        <label class="mandatory" for="isStrong">Strong:</label>
-        <select name="isStrong" id="isStrong" required>
-          <option value="1">True</option>
-          <option value="0">False</option>
-        </select>
-        <input style="left: 20px;" type="submit" value="Submit">
-      </form>
-    </div>
-  </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="table-responsive" id="tabledata">
-        <table>
-            <tr>
-              <th>Horse Name</th>
-              <th>Provider</th>
-              <th>Spur</th>
-              <th>Rein Hold</th>
-              <th>Remarks</th>
-              <th>isStrong</th>
-              <th>Class</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-            <tbody id="tableth"></tbody>
-        </table>
-        </div>
-      </div>
-    </div>
-  </div>
+
   <div id="successpopup" class="popup" style="display: none;">
     <div class="popup-content">
       <span class="close" id="successclosePopup" onclick="document.getElementById('successpopup').style.display='none'">&times;</span>
@@ -688,7 +607,194 @@ table{
     </div>
     <p>copyright &copy 2023 - IHSA</p>
 </footer>
-<script src="js/dataupload.js"></script>
+<script>
+  const parseBtn = document.getElementById('parseBtn')
+  parseBtn.addEventListener('click', () => {
+    const classesData = extractClassData(document.getElementById('text').value);
+      const container = document.getElementById('classesContainer');
+      container.innerHTML = '';
+
+      const table = createTable();
+      classesData.forEach(classData => {
+          addRowsToTable(table, classData);
+      });
+
+      const downloadButton = document.createElement('button');
+      downloadButton.textContent = 'Download';
+      //downloadButton.className = 'add-rider'
+      downloadButton.className = "save-button";
+      downloadButton.style.position = 'relative';
+      downloadButton.style.left = '90%';
+      downloadButton.onclick = downloadTableAsExcel;
+      container.appendChild(downloadButton);
+      container.appendChild(table);
+  });
+
+  function createTable() {
+      const table = document.createElement('table');
+      table.className = 'table-class';
+     // table.style.border = '1px solid black';
+     // table.style.borderCollapse = 'collapse';
+      table.style.width = '100%';
+
+      const headerRow = table.insertRow();
+      ['Rider ID', 'Rider Name', 'Height',	'Weight','Experience' ,'School', 'Placing','Class Name','Remarks','OH_OW','Edit', 'Delete',].forEach(headerText => {
+          const headerCell = document.createElement('th');
+          headerCell.textContent = headerText;
+          headerCell.className = 'table-head'
+          headerCell.style.borderBottom = '1px solid #ddd';
+        //  headerCell.style.padding = '5px';
+         headerRow.appendChild(headerCell);
+      });
+
+      return table;
+  }
+
+  function addRowsToTable(table, classData) {
+      classData.riders.forEach(rider => {
+          const row = table.insertRow();
+
+          const riderIdCell = row.insertCell();
+          riderIdCell.textContent = rider.riderId; 
+          riderIdCell.style.border = '1px solid #ddd';
+
+          const riderNameCell = row.insertCell();
+          riderNameCell.textContent = rider.riderName; 
+          riderNameCell.style.border = '1px solid #ddd';
+
+          const heightCell = row.insertCell();
+          heightCell.textContent = "";
+          heightCell.style.border = '1px solid #ddd';
+
+          const weightCell = row.insertCell();
+          weightCell.textContent = "";
+          weightCell.style.border = '1px solid #ddd';
+
+          const expCell = row.insertCell();
+          expCell.textContent = "";
+          expCell.style.border = '1px solid #ddd';
+
+          const schoolCell = row.insertCell();
+          schoolCell.textContent = rider.school; 
+          schoolCell.style.border = '1px solid #ddd';
+
+          const placingCell = row.insertCell();
+          placingCell.textContent = "";
+          placingCell.style.border = '1px solid #ddd';
+
+          const classCell = row.insertCell();
+          classCell.textContent = classData.className;
+          classCell.className = 'class-name';
+          classCell.style.border = '1px solid #ddd';
+
+          const remarksCell = row.insertCell();
+          remarksCell.textContent = "";
+          remarksCell.style.border = '1px solid #ddd';
+
+          const ohowCell = row.insertCell();
+          ohowCell.textContent = "0";
+          ohowCell.style.border = '1px solid #ddd';
+
+          const editCell = row.insertCell();
+          const editButton = document.createElement('button');
+          editButton.className = 'edit-button';
+          editButton.textContent = 'Edit';
+          editButton.onclick = () => editRow(row, editButton);
+          editCell.appendChild(editButton);
+
+          const deleteCell = row.insertCell();
+          const deleteButton = document.createElement('button');
+          deleteButton.className = "delete-button";
+          deleteButton.textContent = 'Delete';
+          deleteButton.onclick = () => deleteRow(row);
+          deleteCell.appendChild(deleteButton);
+      });
+  }
+
+  function editRow(row, editButton) {
+    const classNameCell = row.querySelector('.class-name');
+    console.log(classNameCell.textContent)
+      if (row.isContentEditable) {
+          row.contentEditable = 'false';
+          editButton.textContent = 'Edit';
+          // Process the updated data here
+      } else {
+          row.contentEditable = 'true';
+          editButton.textContent = 'Save';
+      }
+  }
+
+function deleteRow(row) {
+    const classNameCell = row.querySelector('.class-name');
+    if (classNameCell) {
+        console.log(classNameCell.textContent);
+    }
+    row.remove();
+}
+
+
+  function extractClassData(text) {
+      const lines = text.split('\n');
+      let classes = [];
+      let currentClass = null;
+
+      lines.forEach(line => {
+          if (line.startsWith('Show Class')) {
+              if (currentClass) {
+                  classes.push(currentClass);
+              }
+              currentClass = { className: line, riders: [] };
+          } else if (line.trim() !== '1. _________ 2. _________ 3. _________ 4. _________ 5. _________ 6. _________ R. _________' && line.trim() !== '') {
+              const parts = line.trim().split(' ');
+              const riderId = parts.shift(); 
+              const riderName = parts.splice(0, 2).join(' '); 
+             // const oh_ow = parts.pop(); 
+              const school = parts.join(' '); 
+              currentClass.riders.push({ riderId, riderName, school });
+          }
+      });
+
+      if (currentClass) {
+          classes.push(currentClass);
+      }
+
+      return classes;
+  }
+
+function downloadTableAsExcel() {
+    let originalTable = document.querySelector('.table-class');
+    let cloneTable = originalTable.cloneNode(true);
+    Array.from(cloneTable.rows).forEach(row => {
+        row.deleteCell(-1)
+        row.deleteCell(-1)
+    });
+    let wb = XLSX.utils.table_to_book(cloneTable, { sheet: "Sheet1" });
+    let today = new Date();
+    let filename = 'riders-TableData_' + today.toISOString().slice(0,15) + '.xlsx';
+    XLSX.writeFile(wb, filename);
+}
+
+
+  function run() {
+      const classesData = extractClassData(document.getElementById('text').value);
+      const container = document.getElementById('classesContainer');
+      container.innerHTML = '';
+
+      const table = createTable();
+      classesData.forEach(classData => {
+          addRowsToTable(table, classData);
+      });
+
+      const downloadButton = document.createElement('button');
+      downloadButton.textContent = 'Down';
+      downloadButton.className = "save-button";
+      downloadButton.style.position = 'relative !important';
+      downloadButton.style.left = '90% !important';
+      downloadButton.onclick = downloadTableAsExcel;
+      container.appendChild(downloadButton);
+      container.appendChild(table);
+  }
+</script>
 <script src="https://cdn.lordicon.com/lordicon-1.2.0.js"></script>
 </body>
 

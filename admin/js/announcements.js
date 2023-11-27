@@ -108,13 +108,16 @@ announcementsList.announcements.forEach((data, index) => {
         .then(responseData => {
      
             if(responseData.message){
-                alert("Announcement added!");
-                console.log(responseData);
-                location.reload();
-            }else{
-                console.log(responseData)
-                responseData.errorMessage ?  alert(responseData.errorMessage) : alert("Something gone wrong :) ");
-            }
+                announcementPopup.style.display = 'none';
+                document.getElementById('successpopup').style.display = "block";
+                document.getElementById('successResponse').innerHTML = "Announcement added successfully";
+                setTimeout(() => { document.getElementById('successpopup').style.display = "none", location.reload(true) },5000);
+                } else {
+                    announcementPopup.style.display = 'none';
+                    document.getElementById('falsepopup').style.display = "block";
+                    document.getElementById('falseResponse').innerHTML = "Failed to add announcement";
+                    setTimeout(() =>   document.getElementById('falsepopup').style.display = "none" ,5000) ;
+                }
         })
         .catch(error => {
             console.error('Error sending data to the backend:', error);
@@ -161,7 +164,7 @@ async function editData(index){
 
     document.getElementById('editAnnouncementForm').addEventListener('submit', async (e)=>{
         e.preventDefault();
-        const confirmEdit=confirm("Confirm to save changes?");
+        const confirmEdit=true;
         if(confirmEdit){
         const title = editannouncementTitle.value;
         const message = editannouncementMessage.value;
@@ -191,16 +194,22 @@ async function editData(index){
         .then(responseData => {
      
             if(responseData.message){
-                alert("Announcement edited!");
-                console.log(responseData);
-                location.reload();
-            }else{
-                console.log(responseData)
-                responseData.errorMessage ?  alert(responseData.errorMessage) : alert("Something gone wrong :) ");
-            }
+                document.getElementById('editAnnouncement').innerHTML= '';
+                document.getElementById('successpopup').style.display = "block";
+                document.getElementById('successResponse').innerHTML = "Announcement saved successfully";
+                setTimeout(() => { document.getElementById('successpopup').style.display = "none", location.reload(true) },5000);
+                } else {
+                   // document.getElementById('editAnnouncement').innerHTML= '';
+                    document.getElementById('falsepopup').style.display = "block";
+                    document.getElementById('falseResponse').innerHTML = "Failed to save announcement";
+                    setTimeout(() =>   document.getElementById('falsepopup').style.display = "none" ,5000) ;
+                }
         })
         .catch(error => {
             console.error('Error sending data to the backend:', error);
+            document.getElementById('falsepopup').style.display = "block";
+            document.getElementById('falseResponse').innerHTML = "Failed to save announcement";
+            setTimeout(() => document.getElementById('falsepopup').style.display = "none",5000);
         });
     }
     })
@@ -210,7 +219,7 @@ async function editData(index){
 
 async function deleteData(index){
     console.log(index);
-    const confirmDelete = confirm("Are you sure want to delete?");
+    const confirmDelete = true;
     if(confirmDelete){
     const result = await fetch(`/api/delete?id=${index}`, {
         method: 'GET',
@@ -220,7 +229,16 @@ async function deleteData(index){
     }).then((res) => res.json())
     console.log(result);
     if(result.message){
-        location.reload();
-    }
+       // location.reload();
+        document.getElementById('editAnnouncement').innerHTML= '';
+        document.getElementById('successpopup').style.display = "block";
+        document.getElementById('successResponse').innerHTML = "Announcement Deleted Successfully";
+        setTimeout(() => { document.getElementById('successpopup').style.display = "none", location.reload(true) },5000);
+        } else {
+           // document.getElementById('editAnnouncement').innerHTML= '';
+            document.getElementById('falsepopup').style.display = "block";
+            document.getElementById('falseResponse').innerHTML = "Failed to delete announcement";
+            setTimeout(() => document.getElementById('falsepopup').style.display = "none",5000);
+        }
 }
 }

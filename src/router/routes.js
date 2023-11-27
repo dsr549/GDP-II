@@ -36,12 +36,12 @@ const uploadFile = multer({ storage: storage });
 
 // GET REQUESTS
 router.get("/fetchAnnouncements", controller.fetchAnnouncements);
+router.get("/getRandomizedData", controller.getRandomizer);
 router.get("/edit", controller.editAnnouncement);
 router.get("/delete", controller.deleteAnnouncement);
 router.get("/getData", controller.getData);
 router.get("/sendOTP", controller.sendOTP);
 router.get("/checkOTP", controller.checkOTP);
-router.get("/getRandomizedData", controller.getRandomizer);
 router.get("/getAdmins", controller.getAdmins);
 router.get("/getFolders", controller.getFolders)
 
