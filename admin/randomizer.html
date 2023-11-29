@@ -600,7 +600,7 @@ document.getElementById("randomize").addEventListener("click", () => {
 
 document.getElementById("save-combinations").addEventListener("click", async() => {
         const allTables = document.querySelectorAll(".class-table");
-      //  tablesToExcel(Array.from(allTables).map(table => table.outerHTML), "ihsa-randomizer-data");
+        tablesToExcel(Array.from(allTables).map(table => table.outerHTML), "ihsa-randomizer-data");
       const tableData = [];
 
       allTables.forEach(table => {
@@ -704,7 +704,7 @@ function tablesToExcel(tables, sheetName) {
     link.href = uri + base64(format(template, ctx));
    // console.log(uri + base64(format(template, ctx)))
     link.download = `${sheetName}.xls`;
-   // link.click();
+    link.click();
   
   
   }
