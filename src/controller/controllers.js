@@ -9,6 +9,7 @@ var savedOTPS = {
 
 };
 
+
 const getAdmins = async (req,res) => {
   try {
     const sqlQuery = "SELECT * FROM admins";
